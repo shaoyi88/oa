@@ -51,15 +51,15 @@ class OA_Controller extends CI_Controller
 		header('Cache-Control: post-check=0, pre-check=0', FALSE);
 		header('Pragma: no-cache');
 		
-		$this->load->library(array('Smarty_ext'));
-		$this->load->helper(array('url'));			
-		$this->checkLogin();
+		$this->load->library(array('Smarty_ext', 'session'));
+		$this->load->helper(array('url'));	
+
+		$this->_getUserInfo();
 	}
 	
-	private function checkLogin()
+	private function _getUserInfo()
 	{
-		//$this->load->library('session');
-		//$this->userId = $this->session->userdata('uid');
+		$this->userId = $this->session->userdata('uid');
 	}
 	
 	/**

@@ -67,7 +67,9 @@ class Smarty_ext extends Smarty
 		$this->assign('COMMON_JS_PATH', base_url().'public/common/js/');
 		$this->assign('COMMON_CSS_PATH', base_url().'public/common/css/');
 		$this->assign('COMMON_IMG_PATH', base_url().'public/common/images/');
-
+		
+		$this->assign('VERSION', VERSION);
+		
 		$this->registerFilter('pre', array($this, 'addStrip'));
 		$this->loadFilter('output', 'trimwhitespace'); // 去掉空格
 

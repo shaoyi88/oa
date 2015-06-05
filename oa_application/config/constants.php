@@ -55,5 +55,12 @@ define('VIEW_EXT',	'tpl');
 */
 define('DEBUG_MODE', TRUE);
 
+
+/*
+|--------------------------------------------------------------------------
+| 资源版本
+|--------------------------------------------------------------------------
+*/
+define('VERSION', '1.0.0');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
