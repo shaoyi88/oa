@@ -7,12 +7,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <link href="{$COMMON_CSS_PATH}lib.css" rel="stylesheet" type="text/css" />
-<link href="{$COMMON_CSS_PATH}iconfont.css" rel="stylesheet" type="text/css" />
+<link href="{$COMMON_CSS_PATH}iconfont/iconfont.css" rel="stylesheet" type="text/css" />
+<link href="{$COMMON_CSS_PATH}font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="{$CSS_PATH}login.css?v={$VERSION}" rel="stylesheet" type="text/css" />
 <title>系统登录</title>
 </head>
 <body>
-<div class="header"></div>
+{if isset($msg)}
+<div class="header">
+	<div class="Huialert Huialert-danger"><i class="icon-remove"></i>{$msg}</div>
+</div>
+{/if}
 <div class="loginWraper">
   <div class="loginBox">
     <form id="loginForm" class="form form-horizontal" action="{formatUrl('login/actionLogin')}" method="post">
