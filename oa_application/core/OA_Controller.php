@@ -10,6 +10,9 @@ class OA_Controller extends CI_Controller
 	const EXT              = VIEW_EXT;    // 模板后缀名     
 	
 	public $userId = '';                  // 用户id
+	public $userName = '';                // 用户名
+	public $userRights = '';              // 用户权限
+	
 	public $rtrClass;                     // 当前控制器class
 	public $rtrMethod;                    // 当前控制器method
 	public $rtrDir;                       // 当前控制器directory
@@ -53,13 +56,16 @@ class OA_Controller extends CI_Controller
 		
 		$this->load->library(array('Smarty_ext', 'session'));
 		$this->load->helper(array('url'));	
+		$this->config->load('oa_config');
 
 		$this->_getUserInfo();
 	}
 	
 	private function _getUserInfo()
 	{
-		$this->userId = $this->session->userdata('uid');
+		$this->userId = $this->session->userdata('admin_id');
+		$this->userName = $this->session->userdata('admin_name');
+		$this->userRights = $this->session->userdata('admin_rights');
 	}
 	
 	/**

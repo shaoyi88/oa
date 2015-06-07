@@ -14,6 +14,28 @@ class Home extends OA_Controller
 	 */
 	public function index()
 	{
-		echo $this->userId;
+		$data = array();
+		$data['userName'] = $this->userName;
+		$data['menus'] = $this->config->item('menus');
+		$this->showView('index', $data);
+	}
+	
+	/**
+	 * 
+	 * 退出
+	 */
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect(formatUrl('login/index'));
+	}
+	
+	/**
+	 * 
+	 * 欢迎页面
+	 */
+	public function welcome()
+	{
+		echo '欢迎';
 	}
 }

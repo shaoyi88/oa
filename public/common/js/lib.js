@@ -406,3 +406,31 @@ function displayimg(){
 	});
 }
 setTimeout("displayimg()",4000);
+
+/**
+ * ajax封装
+ * @param {Object} url
+ * @param {Object} data
+ * @param {Object} callback
+ */
+var oaAjax = function(url, data, successcb, errorcb, timeout, method){
+	if(typeof timeout == 'undefined' || '' == timeout){
+		timeout = 10000;
+	}
+	var params = {
+        type: 'GET',
+        url: url,
+        dataType: 'json',
+        timeout: timeout,
+        cache: false,
+        success: successcb,
+        data: data
+    }
+	if(typeof errorcb == 'function'){
+		params.error = errorcb;
+	}
+	if(typeof method != 'undefined' && '' != method){
+		params['type'] = method;
+	}
+    $.ajax(params);
+};

@@ -11,6 +11,7 @@ require SMARTY_DIR.'Smarty.class.php';
  */
 class Smarty_ext extends Smarty
 {
+	protected $ext = VIEW_EXT; //后缀名
 	/**
 	 * 为模板文件添加strip过滤模版空格，回车
 	 *
@@ -72,8 +73,15 @@ class Smarty_ext extends Smarty
 		
 		$this->registerFilter('pre', array($this, 'addStrip'));
 		$this->loadFilter('output', 'trimwhitespace'); // 去掉空格
-
-		$this->display($template);
+		$has_layout = isset($data['layout']) ? $data['layout'] : TRUE;
+		if($has_layout){
+			$layout_path = VIEW_DIR.$dir.'layout.'.$this->ext;
+			$this->assignByRef('LAYOUT_CONTENT', $this->fetch($template), TRUE);
+			$this->display($layout_path);
+		}else{
+			$this->display($template);
+		}
+		
 	}	
 	
 	/**

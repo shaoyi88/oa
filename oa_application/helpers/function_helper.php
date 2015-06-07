@@ -38,3 +38,22 @@ function checkLogin()
 		}
 	}
 }
+
+/**
+ * 
+ * 检测权限
+ * @param unknown_type $key
+ */
+function checkRight($key)
+{
+	$ci =& get_instance();
+	if($ci->userRights == 'all'){
+		return TRUE;
+	}else{
+		$rightsArr = explode(',', $ci->userRights); 
+		if(in_array($key, $rightsArr)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
