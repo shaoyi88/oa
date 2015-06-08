@@ -36,4 +36,20 @@ class Admin extends CI_Model
 		}
 		return FALSE;
 	}
+	
+	/**
+	 * 
+	 * 通过部门查询用户
+	 * @param unknown_type $dids
+	 */
+	public function queryAdminByDepartment($dids)
+	{
+		$this->db->where_in('admin_department', $dids);
+		$info = array();
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }

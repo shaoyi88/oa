@@ -38,7 +38,18 @@ class Login extends OA_Controller
 		if(($adminInfo = $this->Admin->checkAdmin($userAccount, $userPassword)) === FALSE){
 			redirect(formatUrl('login/index?msg='.urlencode('账户或密码错误')));
 		}
-		$this->session->set_userdata($adminInfo);
+		$info = array(
+			'admin_id' => $adminInfo['admin_id'],
+			'admin_name' => $adminInfo['admin_name']
+		);
+		if($adminInfo['admin_role'] == 0){
+			$info['admin_rights'] = 'all';
+		}else{
+			$this->load->model('Role');
+			$roleInfo = $this->Role->getRoleInfo($adminInfo['admin_role']);
+			$info['admin_rights'] = $roleInfo['role_rights'];
+		}
+		$this->session->set_userdata($info);
 		redirect(formatUrl('home/index'));
 	}
 }

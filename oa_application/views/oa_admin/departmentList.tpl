@@ -5,6 +5,7 @@
 </div>
 {/if}
 <div class="pd-20 text-c">
+  {if checkRight('department_add')}
   <form class="Huiform" action="{formatUrl('department/doAdd')}" method="post">
     上级组织部门： <span class="select-box" style="width:150px">
     <select class="select" id="pid" name="pid">
@@ -23,6 +24,7 @@
     &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i> 添加</button>
   </form>
+  {/if}
   <div class="article-class-list cl mt-20">
     <table class="table table-border table-bordered table-hover table-bg">
       <thead>
@@ -35,7 +37,10 @@
       	{foreach $dataList as $item}
       		<tr class="text-c">
           		<td class="text-l">{if $item['level'] > 0}{str_repeat('&nbsp', $item['level']*2)}├ {/if}{$item['department_name']}</td>
-          		<td class="f-14" did="{$item['id']}" dname="{$item['department_name']}"><a class="edit" title="编辑" href="javascript:;" style="text-decoration:none"><i class="icon-edit"></i></a> <a title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a></td>
+          		<td class="f-14" did="{$item['id']}" dname="{$item['department_name']}">
+          			{if checkRight('department_edit')}<a class="edit" title="编辑" href="javascript:;" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
+          			{if checkRight('department_del')}<a title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+          		</td>
         	</tr>
       	{/foreach}
       </tbody>

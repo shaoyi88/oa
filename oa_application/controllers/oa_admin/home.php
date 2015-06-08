@@ -36,6 +36,7 @@ class Home extends OA_Controller
 	 */
 	public function welcome()
 	{
-		echo '欢迎';
+		$data = array();
+		$this->showView('welcome', $data);
 	}
 }

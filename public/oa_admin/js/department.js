@@ -26,9 +26,9 @@ var department = function(){
 	};
 	
 	var del = function(event){
-		var id = $(event.currentTarget).parent().attr('did');
+		var did = $(event.currentTarget).parent().attr('did');
 		layer.confirm('确定删除吗？',function(index){
-		    window.location.href = $('#delUrl').val()+'?id='+id;
+		    window.location.href = $('#delUrl').val()+'?did='+did;
 		});
 
 	};

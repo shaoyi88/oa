@@ -40,20 +40,6 @@ class OA_Department extends CI_Model
 	
 	/**
 	 * 
-	 * 获取部门数据
-	 */
-	public function getAll()
-	{
-		$info = array();
-		$query = $this->db->get($this->_table);
-		if($query){
-			$info = $query->result_array();
-		}
-		return $info;
-	}
-	
-	/**
-	 * 
 	 * 更新
 	 * @param unknown_type $id
 	 * @param unknown_type $name
@@ -65,5 +51,62 @@ class OA_Department extends CI_Model
         );
 		$this->db->where('id', $id);
 		$this->db->update($this->_table, $data); 
+	}
+	
+	/**
+	 * 
+	 * 删除
+	 * @param unknown_type $ids
+	 */
+	public function del($dids)
+	{
+		$this->db->where_in('id', $dids);
+		$this->db->delete($this->_table); 
+	}
+	
+	/**
+	 * 
+	 * 获取树
+	 * @param unknown_type $pid
+	 */
+	public function getListTree($pid)
+	{
+		$allList = $this->_getAll();
+		$reuslt = array();
+		$this->_getSubList($reuslt, $allList, $pid, 0);
+		return $reuslt;
+	}
+	
+	/**
+	 * 
+	 * 获取子树
+	 * @param unknown_type $result
+	 * @param unknown_type $allList
+	 * @param unknown_type $pid
+	 * @param unknown_type $level
+	 */
+	private function _getSubList(&$result, $allList, $pid, $level)
+	{
+		foreach($allList as $item){
+			if($item['pid'] == $pid){
+				$item['level'] = $level;
+				$result[] = $item;
+				$this->_getSubList($result,$allList,$item['id'],$level+1);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * 获取全部部门数据
+	 */
+	private function _getAll()
+	{
+		$info = array();
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
 	}
 }

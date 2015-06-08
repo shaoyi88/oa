@@ -14,40 +14,18 @@ class Department extends OA_Controller
 	 */
 	public function index()
 	{
+		$data = array();
 		if(checkRight('department_list') === FALSE){
-			echo '没有权限';
+			$this->showView('denied', $data);
 			exit;
 		}
-		$data = array();
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
 		$this->load->model('OA_Department');
-		$allList = $this->OA_Department->getAll();
-		$dataList = array();
-		$this->_formatList($dataList, $allList, 0, 0);
-		$data['dataList'] = $dataList;
+		$data['dataList'] = $this->OA_Department->getListTree(0);
 		$this->showView('departmentList', $data);
 	} 	
-	
-	/**
-	 * 
-	 * 格式化树
-	 * @param unknown_type $result
-	 * @param unknown_type $allList
-	 * @param unknown_type $pid
-	 * @param unknown_type $level
-	 */
-	private function _formatList(&$result, $allList, $pid, $level)
-	{
-		foreach($allList as $item){
-			if($item['pid'] == $pid){
-				$item['level'] = $level;
-				$result[] = $item;
-				$this->_formatList($result,$allList,$item['id'],$level+1);
-			}
-		}
-	}
 	
 	/**
 	 * 
@@ -55,8 +33,9 @@ class Department extends OA_Controller
 	 */
 	public function doAdd()
 	{
+		$data = array();
 		if(checkRight('department_add') === FALSE){
-			echo '没有权限';
+			$this->showView('denied', $data);
 			exit;
 		}
 		$pid = 0;
@@ -67,11 +46,11 @@ class Department extends OA_Controller
 			redirect(formatUrl('department/index?msg='.urlencode('组织部门名称不可为空')));
 		}
 		$this->load->model('OA_Department');
-		$msg = '创建成功';
+		$msg = '';
 		if($this->OA_Department->add($pid, $department_name) === FALSE){
-			$msg = '创建失败';
+			$msg = '?msg='.urlencode('创建失败');
 		}
-		redirect(formatUrl('department/index?msg='.urlencode($msg)));
+		redirect(formatUrl('department/index'.$msg));
 	}
 	
 	/**
@@ -80,14 +59,44 @@ class Department extends OA_Controller
 	 */
 	public function doEdit()
 	{
+		$data = array();
 		if(checkRight('department_edit') === FALSE){
-			echo '没有权限';
+			$this->showView('denied', $data);
 			exit;
 		}
 		$id = $this->input->post('did');
 		$department_name = $this->input->post('department_name');
 		$this->load->model('OA_Department');
 		$this->OA_Department->update($id, $department_name);
-		redirect(formatUrl('department/index?msg='.urlencode('修改成功')));
+		redirect(formatUrl('department/index'));
+	}
+	
+	/**
+	 * 
+	 * 删除
+	 */
+	public function doDel()
+	{
+		$data = array();
+		if(checkRight('department_del') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$id = $this->input->get('did');
+		$this->load->model('OA_Department');
+		$subList = $this->OA_Department->getListTree($id);
+		$idList = array();
+		$idList[] = $id;
+		foreach($subList as $item){
+			$idList[] = $item['id'];
+		}
+		$this->load->model('Admin');
+		$adminList = $this->Admin->queryAdminByDepartment($idList);
+		if(empty($adminList)){
+			$this->OA_Department->del($idList);
+			redirect(formatUrl('department/index'));
+		}else{
+			redirect(formatUrl('department/index?msg='.urlencode('该组织部门下存在'.count($adminList).'个用户，暂时不可删除')));
+		}
 	}
 }
