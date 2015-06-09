@@ -19,7 +19,41 @@ class OA_Role extends CI_Model
 		$this->load->database();
 	}
 	
+	/**
+	 * 
+	 * 增加
+	 * @param unknown_type $roleName
+	 * @param unknown_type $rights
+	 */
+	public function add($roleName, $rights)
+	{
+		$data = array(
+            'role_name' => $roleName,
+            'role_rights' => $rights
+        );
+		$this->db->insert($this->_table, $data); 
+		if($this->db->affected_rows() <= 0){
+			return FALSE;
+		}
+		return TRUE;
+	}
 	
+	/**
+	 * 
+	 * 编辑
+	 * @param unknown_type $id
+	 * @param unknown_type $roleName
+	 * @param unknown_type $rights
+	 */
+	public function update($id, $roleName, $rights)
+	{
+		$data = array(
+            'role_name' => $roleName,
+            'role_rights' => $rights
+        );
+        $this->db->where('id', $id);
+		$this->db->update($this->_table, $data); 
+	}
 	
 	/**
 	 * 获取权限
@@ -48,4 +82,15 @@ class OA_Role extends CI_Model
 		}
 		return $info;
 	}
+	
+	/**
+	 * 
+	 * 删除
+	 * @param unknown_type $ids
+	 */
+	public function del($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete($this->_table); 
+	} 
 }

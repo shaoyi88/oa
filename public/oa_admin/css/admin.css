@@ -134,5 +134,14 @@ h4{line-height:30px}
 
 /*==============以下是业务相关的样式====================*/
 /*权限*/
-.permission-list .item{ display:inline-block; float:left;white-space:nowrap; width:100px; padding:5px 0}
+.permission-list .item{ display:inline-block; float:left;white-space:nowrap; width:150px; padding:5px 0}
 .permission-list b.item{ width:50px}
+.dTree{
+	padding-right:10px;
+}
+.dTree tr{
+	cursor:pointer;
+}
+.dTree b{
+	float:right;
+}

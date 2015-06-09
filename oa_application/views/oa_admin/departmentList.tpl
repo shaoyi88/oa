@@ -1,4 +1,4 @@
-<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i> <a>首页</a> <span class="c-gray en">&gt;</span> 系统管理 <span class="c-gray en">&gt;</span> 组织部门管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="icon-refresh"></i></a></nav>
+<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i> 系统管理 <span class="c-gray en">&gt;</span> 组织部门管理 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="icon-refresh"></i></a></nav>
 {if isset($msg)}
 <div class="header">
 	<div class="Huialert Huialert-danger"><i class="icon-remove"></i>{$msg}</div>
@@ -25,6 +25,11 @@
     <button type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i> 添加</button>
   </form>
   {/if}
+  {if empty($dataList)}
+  <div class="cl pd-5 bg-1 bk-gray mt-20">
+  	  <h2 class="text-c">暂无组织部门</h2>
+  </div>
+  {else}
   <div class="article-class-list cl mt-20">
     <table class="table table-border table-bordered table-hover table-bg">
       <thead>
@@ -46,6 +51,7 @@
       </tbody>
     </table>
   </div>
+  {/if}
 </div>
 <div class="pd-20 text-c" style="display:none" id="editWindow">
 	<form class="Huiform" action="{formatUrl('department/doEdit')}" method="post">
@@ -55,5 +61,5 @@
 		<button style="margin-top:10px" type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i>更新</button>
 	</form>
 </div>
-<input type="hidden" id="delUrl" value="{formatUrl('department/dodel')}"></input>
-<script type="text/javascript" src="{$JS_PATH}department.js"></script>
+<input type="hidden" id="delUrl" value="{formatUrl('department/doDel')}"></input>
+<script type="text/javascript" src="{$JS_PATH}department.js?v={$VERSION}"></script>

@@ -65,7 +65,9 @@ class Department extends OA_Controller
 			exit;
 		}
 		$id = $this->input->post('did');
-		$department_name = $this->input->post('department_name');
+		if(($department_name = $this->input->post('department_name')) === FALSE){
+			redirect(formatUrl('department/index?msg='.urlencode('组织部门名称不可为空')));
+		}
 		$this->load->model('OA_Department');
 		$this->OA_Department->update($id, $department_name);
 		redirect(formatUrl('department/index'));
@@ -90,8 +92,8 @@ class Department extends OA_Controller
 		foreach($subList as $item){
 			$idList[] = $item['id'];
 		}
-		$this->load->model('Admin');
-		$adminList = $this->Admin->queryAdminByDepartment($idList);
+		$this->load->model('OA_Admin');
+		$adminList = $this->OA_Admin->queryAdminByDepartment($idList);
 		if(empty($adminList)){
 			$this->OA_Department->del($idList);
 			redirect(formatUrl('department/index'));

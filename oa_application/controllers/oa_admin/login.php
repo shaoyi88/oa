@@ -34,8 +34,8 @@ class Login extends OA_Controller
 		if(($userPassword = $this->input->post('userPassword', TRUE)) === FALSE){
 			redirect(formatUrl('login/index?msg='.urlencode('请填写密码')));
 		}
-		$this->load->model('Admin');
-		if(($adminInfo = $this->Admin->checkAdmin($userAccount, $userPassword)) === FALSE){
+		$this->load->model('OA_Admin');
+		if(($adminInfo = $this->OA_Admin->checkAdmin($userAccount, $userPassword)) === FALSE){
 			redirect(formatUrl('login/index?msg='.urlencode('账户或密码错误')));
 		}
 		$info = array(

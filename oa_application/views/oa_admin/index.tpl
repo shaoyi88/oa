@@ -44,4 +44,4 @@
     </div>
   </div>
 </section>
-<script type="text/javascript" src="{$JS_PATH}admin.js"></script>
+<script type="text/javascript" src="{$JS_PATH}index.js?v={$VERSION}"></script>

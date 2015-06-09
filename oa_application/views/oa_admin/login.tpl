@@ -45,6 +45,6 @@
 <script type="text/javascript" src="{$COMMON_JS_PATH}jquery.min.js"></script> 
 <script type="text/javascript" src="{$COMMON_JS_PATH}lib.js"></script> 
 <script type="text/javascript" src="{$COMMON_JS_PATH}Validform_v5.3.2.js"></script>
-<script type="text/javascript" src="{$JS_PATH}login.js"></script> 
+<script type="text/javascript" src="{$JS_PATH}login.js?v={$VERSION}"></script> 
 </body>
 </html>

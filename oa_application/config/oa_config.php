@@ -4,8 +4,8 @@ $config['menus'] = array(
 		'module' => '系统管理',
 		'menu' => array(
 			array('组织部门管理', formatUrl('department/index'), 'department_list'),
-			array('系统用户管理', formatUrl('admin/index'), 'admin_list'),
-			array('分组权限管理', formatUrl('role/index'), 'role_list')
+			array('分组权限管理', formatUrl('role/index'), 'role_list'),
+			array('系统用户管理', formatUrl('admin/index'), 'admin_list')
 		),
 		'right' => 'sys'
 	),
@@ -81,5 +81,99 @@ $config['menus'] = array(
 );
 
 $config['rights'] = array(
-	'sys' => '系统管理'
+	array(
+		'module' => '系统管理',
+		'roles' => array(
+			array('组织部门列表', 'department_list'),
+			array('组织部门增加', 'department_add'),
+			array('组织部门编辑', 'department_edit'),
+			array('组织部门删除', 'department_del', TRUE),
+			array('分组权限列表', 'role_list'),
+			array('分组权限增加', 'role_add'),
+			array('分组权限编辑', 'role_edit'),
+			array('分组权限删除', 'role_del', TRUE),
+			array('系统用户列表', 'admin_list'),
+			array('系统用户增加', 'admin_add'),
+			array('系统用户编辑', 'admin_edit'),
+			array('系统用户删除', 'admin_del')
+		),
+		'right' => 'sys'
+	),
+	array(
+		'module' => '资料管理',
+		'roles' => array(
+			array('用户信息列表', 'user_list'),
+			array('用户信息增加', 'user_add'),
+			array('用户信息编辑', 'user_edit'),
+			array('用户信息删除', 'user_del', TRUE),
+			array('客户健康列表', 'customer_list'),
+			array('客户健康增加', 'customer_add'),
+			array('客户健康编辑', 'customer_edit'),
+			array('客户健康删除', 'customer_del', TRUE),
+			array('客户统计分析',  'customer_stat')
+		),
+		'right' => 'record'
+	),
+	
+	array(
+		'module' => '护工管理',
+		'roles' => array(
+			array('护工资料列表', 'worker_list'),
+			array('护工资料增加', 'worker_add'),
+			array('护工资料编辑', 'worker_edit'),
+			array('护工资料删除', 'worker_del', TRUE),
+			array('护工服务统计', 'worker_stat', TRUE),
+			array('服务评价管理', 'worker_comment')
+		),
+		'right' => 'worker'
+	),
+	
+	array(
+		'module' => '签约管理',
+		'roles' => array(
+			array('预约管理', 'subscribe_list'),
+			array('订单管理', 'order_list')
+		),
+		'right' => 'sign'
+	),
+	
+	array(
+		'module' => '服务跟踪管理',
+		'roles' => array(
+			array('护理计划管理', 'nursing_plan'),
+			array('回访管理', 'nursing_return')
+		),
+		'right' => 'service_trace'
+	),
+	
+	array(
+		'module' => '培训管理',
+		'roles' => array(
+			array('培训科目管理', 'train_list'),
+			array('培训流程管理', 'train_flow'),
+			array('新晋员工管理', 'rookie_list'),
+			array('培训成绩管理', 'train_score')
+		),
+		'right' => 'train'
+	),
+	
+	array(
+		'module' => '咨客管理',
+		'roles' => array(
+			array('客服人员管理', 'customer_service_list'),
+			array('工单记录管理', 'customer_service_record'),
+			array('工单跟踪管理', 'customer_service_trace'),
+			array('问题统计分析', 'customer_service_stat')
+		),
+		'right' => 'customer_service'
+	),
+	
+	array(
+		'module' => '财务管理',
+		'roles' => array(
+			array('收款管理', 'finance_collect'),
+			array('对账管理', 'finance_balance')
+		),
+		'right' => 'finance'
+	)
 );
