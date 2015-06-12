@@ -35,6 +35,7 @@
       </tr>
       {/foreach}
     </tbody>
+    </table>
     {/if}
 </div>
 <script type="text/javascript" src="{$JS_PATH}role.js?v={$VERSION}"></script>

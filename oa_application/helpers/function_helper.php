@@ -57,3 +57,38 @@ function checkRight($key)
 	}
 	return FALSE;
 }
+
+/**
+ * 
+ * 分页帮助类
+ * @param unknown_type $baseUrl
+ * @param unknown_type $totalNum
+ * @param unknown_type $perNum
+ * @param unknown_type $offset
+ * @param unknown_type $pageUrl
+ */
+function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
+{
+	$ci =& get_instance();
+	$ci->load->library('pagination');
+	$config['base_url'] = $baseUrl;
+	$config['total_rows'] = $totalNum;
+	$config['per_page'] = $perNum;
+	$config['page_query_string'] = TRUE;
+	$config['use_page_numbers'] = TRUE;
+	$config['num_links'] = 5;
+	$config['full_tag_open'] = '<div class="page">';
+	$config['full_tag_close'] = '</div>';
+	$config['prev_link'] = '上一页';
+	$config['next_link'] = '下一页';
+	$config['first_link'] = '首页';
+	$config['last_link'] = '末页';
+	$ci->pagination->initialize($config);
+	$pageUrl = $ci->pagination->create_links();
+	
+	$curPage = 1;
+	if($ci->input->get('per_page')){
+		$curPage = $ci->input->get('per_page');
+	}
+	$offset = ($curPage-1)*$perNum;
+}
