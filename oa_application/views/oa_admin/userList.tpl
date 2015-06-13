@@ -7,7 +7,7 @@
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('user/index')}" method="post">
   		<div class="text-c"> 
-   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入微信号/姓名/手机" id="keyword" name="keyword">
+   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入微信号/昵称/手机" id="keyword" name="keyword">
     		&nbsp;&nbsp;&nbsp;&nbsp;
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜用户</button>
   		</div>
@@ -33,27 +33,29 @@
         <th>性别</th>
         <th>地区</th>
         <th>最近访问时间</th>
-        <th width="70">操作</th>
+        <th width="105">操作</th>
       </tr>
     </thead>
     <tbody>
       {foreach $dataList as $item}
       <tr class="text-c">
-        <td>{$item['user_nickname']}</td>
-        <td>{$item['user_weixin']}</td>
+        <td>{if $item['user_nickname'] != ''}{$item['user_nickname']}{else}暂无{/if}</td>
+        <td>{if $item['user_weixin'] != ''}{$item['user_weixin']}{else}暂无{/if}</td>
         <td>{$item['user_phone']}</td>
+        <td>{$sexInfo[$item['user_sex']]}</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td>{if $item['user_last_visit_time'] != ''}{date('Y-m-d H:i:s',$item['user_last_visit_time'])}{else}暂无{/if}</td>
         <td class="f-14">
-        	 {if checkRight('user_edit')}<a title="编辑" href="{formatUrl('user/add?id=')}{$item['user_id']}" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
+        	 <a title="详情" href="{formatUrl('user/detail?uid=')}{$item['user_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
+        	 {if checkRight('user_edit')}<a title="编辑" href="{formatUrl('user/add?uid=')}{$item['user_id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
         	 {if checkRight('user_del')}<a uid="{$item['user_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
         </td>
       </tr>
       {/foreach}
     </tbody>
     </table>
-    {$pageUrl}
+    {if isset($pageUrl)}{$pageUrl}{/if}
   	{/if}
 </div>
-<script type="text/javascript" src="{$JS_PATH}user.js?v={$VERSION}"></script>
+<input type="hidden" id="delUrl" value="{formatUrl('user/doDel')}"></input>
+<script type="text/javascript" src="/public/oa_admin/js/user.js"></script>

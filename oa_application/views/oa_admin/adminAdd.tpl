@@ -50,4 +50,4 @@
 		</table>
 	</form>
 </div>
-<script type="text/javascript" src="{$JS_PATH}admin.js?v={$VERSION}"></script>
+<script type="text/javascript" src="/public/oa_admin/js/admin.js"></script>

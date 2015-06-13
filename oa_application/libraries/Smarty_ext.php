@@ -57,20 +57,6 @@ class Smarty_ext extends Smarty
 	 */
 	private function _renderLayout($template, $dir, &$data = array())
 	{
-		/*
-		 * ----------------------------------
-		 * 设置js,css,img等的路径变量
-		 * ----------------------------------
-		 */
-		$this->assign('JS_PATH', base_url().'public/'.$dir.'js/');
-		$this->assign('CSS_PATH', base_url().'public/'.$dir.'css/');
-		$this->assign('IMG_PATH', base_url().'public/'.$dir.'images/');
-		$this->assign('COMMON_JS_PATH', base_url().'public/common/js/');
-		$this->assign('COMMON_CSS_PATH', base_url().'public/common/css/');
-		$this->assign('COMMON_IMG_PATH', base_url().'public/common/images/');
-		
-		$this->assign('VERSION', VERSION);
-		
 		$this->registerFilter('pre', array($this, 'addStrip'));
 		$this->loadFilter('output', 'trimwhitespace'); // 去掉空格
 		$has_layout = isset($data['layout']) ? $data['layout'] : TRUE;

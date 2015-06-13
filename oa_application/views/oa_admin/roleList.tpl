@@ -38,5 +38,5 @@
     </table>
     {/if}
 </div>
-<script type="text/javascript" src="{$JS_PATH}role.js?v={$VERSION}"></script>
+<script type="text/javascript" src="/public/oa_admin/js/role.js"></script>
 <input type="hidden" id="delUrl" value="{formatUrl('role/doDel')}"></input>

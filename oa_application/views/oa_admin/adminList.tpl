@@ -53,6 +53,6 @@
 	</div>
 	{/if}
 </div>
-<script type="text/javascript" src="{$JS_PATH}admin.js?v={$VERSION}"></script>
+<script type="text/javascript" src="/public/oa_admin/js/admin.js"></script>
 <input type="hidden" id="indexUrl" value="{formatUrl('admin/index')}"></input>
 <input type="hidden" id="delUrl" value="{formatUrl('admin/doDel')}"></input>

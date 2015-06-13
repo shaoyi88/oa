@@ -79,8 +79,8 @@ function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
 	$config['num_links'] = 5;
 	$config['full_tag_open'] = '<div class="page">';
 	$config['full_tag_close'] = '</div>';
-	$config['prev_link'] = '上一页';
-	$config['next_link'] = '下一页';
+	$config['prev_link'] = '&lt;上一页';
+	$config['next_link'] = '下一页&gt;';
 	$config['first_link'] = '首页';
 	$config['last_link'] = '末页';
 	$ci->pagination->initialize($config);

@@ -22,19 +22,122 @@ class User extends OA_Controller
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
-		
+		$this->load->model('OA_User');
 		if($this->input->post('keyword')){
-			
+			$dataList = $this->OA_User->searchUser($this->input->post('keyword'));
 		}else{
-			$this->load->model('OA_User');
 			$offset = 0;
 			$pageUrl = '';
 			page(formatUrl('user/index').'?', $this->OA_User->getUserCount(), PER_COUNT, $offset, $pageUrl);
 			$dataList = $this->OA_User->getUser($offset, PER_COUNT);
 			$data['pageUrl'] = $pageUrl;
-			
 		}
 		$data['dataList'] = $dataList;		
+		$data['sexInfo'] = $this->config->item('sex');
 		$this->showView('userList', $data);
+	}
+	
+	/**
+	 * 
+	 * 增加/编辑用户页面
+	 */
+	public function add()
+	{
+		$data = array();
+		if($this->input->get('uid')){
+			if(checkRight('user_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$uid = $this->input->get('uid');
+			$data['typeMsg'] = '编辑';
+			$this->load->model('OA_User');
+			$data['info'] = $this->OA_User->getUserInfo($uid);
+		}else{
+			if(checkRight('user_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data['typeMsg'] = '新增';
+		}
+		$data['sexInfo'] = $this->config->item('sex');
+		$this->showView('userAdd', $data);
+	}
+	
+	/**
+	 * 
+	 * 增加/编辑逻辑
+	 */
+	public function doAdd()
+	{
+		$data = array();
+		if($this->input->post('user_id')){
+			if(checkRight('user_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$user_id = $this->input->post('user_id');
+			$user_phone = $this->input->post('user_phone');
+			$user_sex = $this->input->post('user_sex');
+			$user_province = 1;
+			$user_city = 1;
+			$this->load->model('OA_User');
+			$this->OA_User->update($user_id, $user_phone, $user_sex, $user_province, $user_city);
+			redirect(formatUrl('user/index'));
+		}else{
+			if(checkRight('user_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$user_phone = $this->input->post('user_phone');
+			$user_sex = $this->input->post('user_sex');
+			$user_province = 1;
+			$user_city = 1;
+			$msg = '';
+			$this->load->model('OA_User');
+			if($this->OA_User->add($user_phone, $user_sex, $user_province, $user_city) === FALSE){
+				$msg = '?msg='.urlencode('创建失败');
+			}
+			redirect(formatUrl('user/index'.$msg));
+		}
+	}
+	
+	/**
+	 * 
+	 * 删除
+	 */
+	public function doDel()
+	{
+		$data = array();
+		if(checkRight('user_del') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$uid = $this->input->get('uid');
+		//删除用户信息
+		$this->load->model('OA_User');
+		$this->OA_User->del($uid);
+		//删除红包信息
+		//删除地址信息
+		//删除关注人信息
+		redirect(formatUrl('user/index'));
+	}
+	
+	/**
+	 * 
+	 * 详情页面
+	 */
+	public function detail()
+	{
+		$data = array();
+		if(checkRight('user_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$uid = $this->input->get('uid');
+		$this->load->model('OA_User');
+		$data['userInfo'] = $this->OA_User->getUserInfo($uid);
+		$data['sexInfo'] = $this->config->item('sex');
+		$this->showView('userDetail', $data);
 	}
 }

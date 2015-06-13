@@ -62,4 +62,4 @@
 	</form>
 </div>
 <input type="hidden" id="delUrl" value="{formatUrl('department/doDel')}"></input>
-<script type="text/javascript" src="{$JS_PATH}department.js?v={$VERSION}"></script>
+<script type="text/javascript" src="/public/oa_admin/js/department.js"></script>
