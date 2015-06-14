@@ -1,7 +1,8 @@
 var admin = function(){
 	var init = function(){
 		$(".Huiform").Validform({
-			tiptype : 4
+			tiptype : 4,
+			tipSweep : true
 		});
 		$('.dTree tr').click(changeDepartment);
 		$('.del').click(del);

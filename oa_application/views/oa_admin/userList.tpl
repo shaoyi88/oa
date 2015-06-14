@@ -43,7 +43,11 @@
         <td>{if $item['user_weixin'] != ''}{$item['user_weixin']}{else}暂无{/if}</td>
         <td>{$item['user_phone']}</td>
         <td>{$sexInfo[$item['user_sex']]}</td>
-        <td></td>
+        <td>
+        {if $item['user_province'] != ''}{$areasInfo[$item['user_province']]}{/if}
+        &nbsp;&nbsp;
+        {if $item['user_city'] != ''}{$areasInfo[$item['user_city']]}{/if}
+        </td>
         <td>{if $item['user_last_visit_time'] != ''}{date('Y-m-d H:i:s',$item['user_last_visit_time'])}{else}暂无{/if}</td>
         <td class="f-14">
         	 <a title="详情" href="{formatUrl('user/detail?uid=')}{$item['user_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>

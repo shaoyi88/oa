@@ -32,6 +32,8 @@ class User extends OA_Controller
 			$dataList = $this->OA_User->getUser($offset, PER_COUNT);
 			$data['pageUrl'] = $pageUrl;
 		}
+		$this->load->model('OA_Areas');
+		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();	
 		$data['dataList'] = $dataList;		
 		$data['sexInfo'] = $this->config->item('sex');
 		$this->showView('userList', $data);
@@ -44,6 +46,9 @@ class User extends OA_Controller
 	public function add()
 	{
 		$data = array();
+		$this->load->model('OA_Areas');
+		$provinceInfo = $cityInfo = array();
+		$provinceInfo = $this->OA_Areas->queryAreasByPid(0);		
 		if($this->input->get('uid')){
 			if(checkRight('user_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -53,6 +58,9 @@ class User extends OA_Controller
 			$data['typeMsg'] = '编辑';
 			$this->load->model('OA_User');
 			$data['info'] = $this->OA_User->getUserInfo($uid);
+			if($data['info']['user_province']){
+				$cityInfo = $this->OA_Areas->queryAreasByPid($data['info']['user_province']);	
+			}
 		}else{
 			if(checkRight('user_add') === FALSE){
 				$this->showView('denied', $data);
@@ -60,6 +68,8 @@ class User extends OA_Controller
 			}
 			$data['typeMsg'] = '新增';
 		}
+		$data['provinceInfo'] = $provinceInfo;
+		$data['cityInfo'] = $cityInfo;
 		$data['sexInfo'] = $this->config->item('sex');
 		$this->showView('userAdd', $data);
 	}
@@ -79,8 +89,8 @@ class User extends OA_Controller
 			$user_id = $this->input->post('user_id');
 			$user_phone = $this->input->post('user_phone');
 			$user_sex = $this->input->post('user_sex');
-			$user_province = 1;
-			$user_city = 1;
+			$user_province = $this->input->post('user_province');
+			$user_city = $this->input->post('user_city');
 			$this->load->model('OA_User');
 			$this->OA_User->update($user_id, $user_phone, $user_sex, $user_province, $user_city);
 			redirect(formatUrl('user/index'));
@@ -91,8 +101,8 @@ class User extends OA_Controller
 			}
 			$user_phone = $this->input->post('user_phone');
 			$user_sex = $this->input->post('user_sex');
-			$user_province = 1;
-			$user_city = 1;
+			$user_province = $this->input->post('user_province');
+			$user_city = $this->input->post('user_city');
 			$msg = '';
 			$this->load->model('OA_User');
 			if($this->OA_User->add($user_phone, $user_sex, $user_province, $user_city) === FALSE){
@@ -134,10 +144,23 @@ class User extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
 		$uid = $this->input->get('uid');
+		$data['uid'] = $uid;
 		$this->load->model('OA_User');
 		$data['userInfo'] = $this->OA_User->getUserInfo($uid);
 		$data['sexInfo'] = $this->config->item('sex');
+		$this->load->model('OA_Address');
+		$data['addressInfo'] = $this->OA_Address->queryAddressByUid($uid);
+		$this->load->model('OA_Coupon');
+		$data['couponInfo'] = $this->OA_Coupon->queryCouponByUid($uid);
+		$this->load->model('OA_Follow');
+		$data['followInfo'] = $this->OA_Follow->queryFollowByUid($uid);
+		$this->load->model('OA_Areas');
+		$data['provinceInfo'] = $this->OA_Areas->queryAreasByPid(0);	
+		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();	
 		$this->showView('userDetail', $data);
 	}
 }

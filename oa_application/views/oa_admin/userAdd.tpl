@@ -26,7 +26,22 @@
         		<tr>
           		     <th class="text-r" width="80">地区：</th>
           			 <td>
-          			 	
+          			 	<select target="user_city" style="width:30%" class="select" id="user_province" name="user_province" nullmsg="省份不能为空！" datatype="*">
+          			 		<option value="">请选择</option>	
+          			 		{foreach $provinceInfo as $item}
+      							<option value="{$item['area_id']}" {if isset($info) && $info['user_province'] == $item['area_id']}selected{/if}>
+      								{$item['area_name']}
+      							</option>
+      						{/foreach}
+          			 	</select>
+          			 	<select style="width:30%" class="select" id="user_city" name="user_city" nullmsg="市区不能为空！" datatype="*">
+          			 		<option value="">请选择</option>	
+          			 		{foreach $cityInfo as $item}
+      							<option value="{$item['area_id']}" {if isset($info) && $info['user_city'] == $item['area_id']}selected{/if}>
+      								{$item['area_name']}
+      							</option>
+      						{/foreach}
+          			 	</select>
           			 </td>
         		</tr>
           		<tr>
@@ -39,4 +54,14 @@
       	</table>
 	</form>
 </div>
+<script type="text/template" id="areaTpl">
+<option value="">请选择</option>	
+<%#areaList%>
+	<option value="<%area_id%>">
+	<%area_name%>
+	</option>
+<%/areaList%>
+</script>
+<input type="hidden" id="getAreasUrl" value="{formatUrl('areas/getAreas')}"></input>
+<script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/user.js"></script>

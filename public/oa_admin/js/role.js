@@ -1,7 +1,8 @@
 var role = function(){
 	var init = function(){
 		$(".Huiform").Validform({
-			tiptype : 1
+			tiptype : 1,
+			tipSweep : true
 		});
 		$('.del').click(del);
 		$('.allSelect').click(allSelect);
