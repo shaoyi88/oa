@@ -21,16 +21,17 @@ class OA_Customer extends CI_Model
 	
 	/**
 	 * 
-	 * 通过id查找客户
-	 * @param unknown_type $id
+	 * 通过id或名字查找客户
+	 * @param unknown_type $key
 	 */
-	public function queryCustomerByid($id)
+	public function queryCustomerByKey($key)
 	{
-		$this->db->where('customer_id', $id);
+		$this->db->where('customer_id', $key);
+		$this->db->or_where('customer_name', $key);
 		$info = array();
 		$query = $this->db->get($this->_table);
 		if($query){
-			$info = $query->row_array();
+			$info = $query->result_array();
 		}
 		return $info;
 	}

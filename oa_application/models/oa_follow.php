@@ -20,13 +20,14 @@ class OA_Follow extends CI_Model
 		$this->load->database();
 	}
 	
-	public function add($user_id, $customer_id)
+	public function add($user_id, $customer_id, $relationship)
 	{
 		$info = $this->queryFollowByCid($user_id, $customer_id);
 		if(empty($info)){
 			$data = array(
             	'user_id' => $user_id,
-            	'customer_id' => $customer_id
+            	'customer_id' => $customer_id,
+				'relationship' => $relationship
        	 	);
        	 	$this->db->insert($this->_table, $data); 
        	 	if($this->db->affected_rows() <= 0){

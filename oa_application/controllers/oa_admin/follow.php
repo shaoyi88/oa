@@ -21,14 +21,9 @@ class Follow extends OA_Controller
 		}
 		$user_id = $this->input->post('user_id');
 		$customer_id = $this->input->post('customer_id');
-		$this->load->model('OA_Customer');
-		$customerInfo = $this->OA_Customer->queryCustomerByid($customer_id);
-		if(empty($customerInfo)){
-			redirect(formatUrl('user/detail?uid='.$user_id.'&msg='.urlencode('没有此病人信息，请确认ID无误')));
-			exit;
-		}
+		$relationship = $this->input->post('relationship');
 		$this->load->model('OA_Follow');
-		$this->OA_Follow->add($user_id, $customer_id);
+		$this->OA_Follow->add($user_id, $customer_id, $relationship);
 		redirect(formatUrl('user/detail?uid='.$user_id));
 	}
 	

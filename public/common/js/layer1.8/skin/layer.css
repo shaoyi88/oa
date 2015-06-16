@@ -17,7 +17,7 @@
 .xubox_border{border-radius: 5px;}
 .xubox_title{left:0; top:0;}
 .xubox_main{position:relative; height:100%; _float:left;}
-.xubox_page{top:0; left:0;width:100%}
+.xubox_page{top:0; left:0;width:100%;}
 .xubox_load{background:url(default/xubox_loading0.gif) #fff center center no-repeat;}
 .xubox_loading{display:block; float:left; text-decoration:none; color:#FFF; _float:none; }
 .xulayer_png32{background:url(default/xubox_ico0.png) no-repeat;}

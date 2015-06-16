@@ -1,6 +1,8 @@
 var user = function(){
+	var form;
+	
 	var init = function(){
-		$(".Huiform").Validform({
+		form = $(".Huiform").Validform({
 			tiptype : 4,
 			tipSweep : true
 		});
@@ -18,6 +20,40 @@ var user = function(){
 		});
 		$('#addFollow').click(addFollow);
 		$('.delFollow').click(delFollow);
+		$('#customer_key').keyup(customerChange);
+	};
+	
+	var customerChange = function(event){		
+		var customerKey = $(event.currentTarget).val();
+		var getCustomerUrl = $('#getCustomerUrl').val()+'?key='+customerKey;
+		$('.auto-complete-result').html('').hide();
+		$('#customer_id').val('');
+		$('#submitAddFollow').addClass('disabled');
+		if(customerKey == ''){
+			return;
+		}
+		$.ajax({
+            type: "GET",
+            url: getCustomerUrl,
+            dataType: "json",
+            success: function(data){
+            	if(data.status == 1){
+            		var template = Hogan.compile($('#customerTpl').html(),{delimiters:'<% %>'});
+            		$('.auto-complete-result').html(template.render({customerList:data.customerList})).show();
+            		$('.auto-complete-result').find('li').hover(function(event){
+            			$(event.currentTarget).addClass('focus');
+            		},function(event){
+            			$(event.currentTarget).removeClass('focus');
+            		}).click(function(event){
+            			$('#customer_id').val($(event.currentTarget).attr('cid'));
+            			$('#customer_key').val($(event.currentTarget).html());
+            			$('.auto-complete-result').hide();
+            			$('#submitAddFollow').removeClass('disabled');
+            		});
+            	}
+            }
+        });
+		
 	};
 	
 	var delFollow = function(event){
@@ -77,12 +113,14 @@ var user = function(){
 	};
 	
 	var addAddress = function(){
+		form.resetForm();
+		$('.Validform_checktip').html('');
 		$('#province').val('').change();
 		$('#address').val('');
 		$('#is_default').attr('checked', false);
 		$.layer({
 		    type: 1,
-		    area: ['600px', 'auto'],
+		    area: ['600px', '350px'],
 		    title: [
 		        '增加地址',
 		        'border:none; background:#61BA7A; color:#fff;' 
@@ -93,12 +131,14 @@ var user = function(){
 	};
 	
 	var addCoupon = function(){
+		form.resetForm();
+		$('.Validform_checktip').html('');
 		$('#coupon_amount').val('');
 		$('#coupon_condition').val('');
 		$('#coupon_expire').val('');
 		$.layer({
 		    type: 1,
-		    area: ['600px', 'auto'],
+		    area: ['600px', '330px'],
 		    title: [
 		        '增加红包',
 		        'border:none; background:#61BA7A; color:#fff;' 
@@ -109,10 +149,15 @@ var user = function(){
 	};
 	
 	var addFollow = function(){
+		form.resetForm();
+		$('.Validform_checktip').html('');
+		$('#submitAddFollow').addClass('disabled');
+		$('#relationship').val('');
+		$('#customer_key').val('');
 		$('#customer_id').val('');
 		$.layer({
 		    type: 1,
-		    area: ['600px', 'auto'],
+		    area: ['600px', '280px'],
 		    title: [
 		        '增加关注病人',
 		        'border:none; background:#61BA7A; color:#fff;' 

@@ -1,6 +1,8 @@
 var department = function(){
+	var form;
+	
 	var init = function(){
-		$(".Huiform").Validform({
+		form = $(".Huiform").Validform({
 			tiptype : 4,
 			tipSweep : true
 		});
@@ -10,13 +12,15 @@ var department = function(){
 	};
 	
 	var edit = function(event){
+		form.resetForm();
+		$('.Validform_checktip').html('');
 		var id = $(event.currentTarget).parent().attr('did');
 		var name = $(event.currentTarget).parent().attr('dname');
 		$('#editId').val(id);
 		$('#editName').val(name);
 		$.layer({
 		    type: 1,
-		    area: ['600px', 'auto'],
+		    area: ['600px', '150px'],
 		    title: [
 		        '编辑',
 		        'border:none; background:#61BA7A; color:#fff;' 

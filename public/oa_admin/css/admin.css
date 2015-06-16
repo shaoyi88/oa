@@ -142,3 +142,35 @@ h4{line-height:30px}
 .dTree b{
 	float:right;
 }
+.auto-complete-result{
+	background: #fff none repeat scroll 0 0;
+    border: 1px solid #c1c1c1;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    font-size: 13px;
+    list-style: outside none none;
+    max-height: 20em;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 99;
+	left;10px;
+	top:40px;
+	width:315px;
+	max-height:150px;
+	display:none;
+}
+.auto-complete-result li{
+	cursor: pointer;
+    display: block;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 5px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	color: #666;
+}
+.auto-complete-result li.focus{
+	background-color:#4078c0;
+	color:#fff
+}

@@ -27,6 +27,7 @@
   		<table class="table table-border table-bordered table-hover table-bg">
     <thead>
       <tr class="text-c">
+      	<th>用户ID</th>
         <th>昵称</th>
         <th>微信</th>
         <th>手机</th>
@@ -39,6 +40,7 @@
     <tbody>
       {foreach $dataList as $item}
       <tr class="text-c">
+      	<td>{$item['user_id']}</td>
         <td>{if $item['user_nickname'] != ''}{$item['user_nickname']}{else}暂无{/if}</td>
         <td>{if $item['user_weixin'] != ''}{$item['user_weixin']}{else}暂无{/if}</td>
         <td>{$item['user_phone']}</td>

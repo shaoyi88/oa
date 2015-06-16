@@ -92,7 +92,7 @@
         			{foreach $followInfo as $item}
         				<tr>
         					<td width="70%">
-        						{$item['customer_name']}
+        						{$item['customer_name']}({$item['relationship']})
         					</td>
         					<td>
         					{if checkRight('user_follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注病人" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
@@ -110,14 +110,22 @@
 <div class="pd-20 text-c" style="display:none" id="addFollowWindow">
 	<form class="Huiform" action="{formatUrl('follow/doAdd')}" method="post">
 		<input type="hidden" name="user_id" value="{$uid}" />
+		<input type="hidden" name="customer_id" id="customer_id" value="" />
 		<table class="table table-bg table-border table-bordered">
 			<tr>
-      			<td>关注病人ID：</td>
-      			<td><input name="customer_id" type="text" class="input-text" id="customer_id" value="" nullmsg="关注病人ID不能为空！" datatype="n"></td>
+      			<td>关注病人ID/姓名：</td>
+      			<td style="position:relative;">
+      				<input type="text" class="input-text" id="customer_key" value="" nullmsg="关注病人不能为空！" datatype="*" autocomplete="off">
+      				<div class="auto-complete-result"></div>
+      			</td>
+      		</tr>
+      		<tr>
+      			<td>关系：</td>
+      			<td><input name="relationship" type="text" class="input-text" id="relationship" value="" nullmsg="关系不能为空！" datatype="s"></td>
       		</tr>
       		<tr>
       			<td colspan="2">
-      				<button style="margin-top:10px" type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i>增加关注病人</button>
+      				<button style="margin-top:10px" type="submit" class="btn btn-success" id="submitAddFollow" name=""><i class="icon-plus"></i>增加关注病人</button>
       			</td>
       		</tr>
       	</table>
@@ -195,11 +203,19 @@
 	</option>
 <%/areaList%>
 </script>
+<script type="text/template" id="customerTpl">
+<ul>
+<%#customerList%>
+<li cid="<%customer_id%>"><%customer_name%>(<%customer_age%>岁)</li>
+<%/customerList%>
+</ul>
+</script>
 <input type="hidden" id="delFollowUrl" value="{formatUrl('follow/doDel?uid=')}{$uid}"></input>
 <input type="hidden" id="delCouponUrl" value="{formatUrl('coupon/doDel?uid=')}{$uid}"></input>
 <input type="hidden" id="setAddressIsDefaultUrl" value="{formatUrl('address/setAddressIsDefault?uid=')}{$uid}"></input>
 <input type="hidden" id="delAddressUrl" value="{formatUrl('address/doDel?uid=')}{$uid}"></input>
 <input type="hidden" id="getAreasUrl" value="{formatUrl('areas/getAreas')}"></input>
+<input type="hidden" id="getCustomerUrl" value="{formatUrl('customer/getCustomer')}"></input>
 <script type="text/javascript" src="/public/common/js/date/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/user.js"></script>
