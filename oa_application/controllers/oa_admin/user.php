@@ -86,26 +86,19 @@ class User extends OA_Controller
 				$this->showView('denied', $data);
 				exit;
 			}
-			$user_id = $this->input->post('user_id');
-			$user_phone = $this->input->post('user_phone');
-			$user_sex = $this->input->post('user_sex');
-			$user_province = $this->input->post('user_province');
-			$user_city = $this->input->post('user_city');
+			$data = $this->input->post();
 			$this->load->model('OA_User');
-			$this->OA_User->update($user_id, $user_phone, $user_sex, $user_province, $user_city);
+			$this->OA_User->update($data);
 			redirect(formatUrl('user/index'));
 		}else{
 			if(checkRight('user_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
-			$user_phone = $this->input->post('user_phone');
-			$user_sex = $this->input->post('user_sex');
-			$user_province = $this->input->post('user_province');
-			$user_city = $this->input->post('user_city');
+			$data = $this->input->post();
 			$msg = '';
 			$this->load->model('OA_User');
-			if($this->OA_User->add($user_phone, $user_sex, $user_province, $user_city) === FALSE){
+			if($this->OA_User->add($data) === FALSE){
 				$msg = '?msg='.urlencode('创建失败');
 			}
 			redirect(formatUrl('user/index'.$msg));
@@ -128,8 +121,14 @@ class User extends OA_Controller
 		$this->load->model('OA_User');
 		$this->OA_User->del($uid);
 		//删除红包信息
+		$this->load->model('OA_Coupon');
+		$this->OA_Coupon->delByUid($uid);
 		//删除地址信息
+		$this->load->model('OA_Address');
+		$this->OA_Address->delByUid($uid);
 		//删除关注人信息
+		$this->load->model('OA_Follow');
+		$this->OA_Follow->delByUid($uid);
 		redirect(formatUrl('user/index'));
 	}
 	

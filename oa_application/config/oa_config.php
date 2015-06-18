@@ -188,3 +188,54 @@ $config['sex'] = array(
 	'1' => '男',
 	'2' => '女'
 );
+
+$config['language'] = array(
+	'广东话',
+	'普通话',
+	'英语',
+	'其他'
+);
+
+$config['customer_group'] = array(
+	'1' => '居家',
+	'2' => '住院'
+);
+
+$config['customer_service_type'] = array(
+	'1' => '家护',
+	'2' => '医护',
+	'3' => '陪诊',
+	'4' => '月嫂'
+);
+
+$config['hobby_type'] = array(
+	'烟',
+	'酒',
+	'其他'
+);
+
+$config['state_type'] = array(
+	'清晰',
+	'嗜睡',
+	'烦躁',
+	'昏迷',
+	'其他'
+);
+
+$config['selfcare_ability'] = array(
+	'独立完成',
+	'部分协助',
+	'完全依赖'
+);
+
+$config['service_level_1'] = array(
+	'1' => '特技护理',
+	'2' => '一级护理',
+	'3' => '二级护理',
+	'4' => '三级护理'
+);
+
+$config['service_level_2'] = array(
+	'1' => '专业护士',
+	'2' => '母婴护理员'
+);

@@ -38,16 +38,11 @@ class Department extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$pid = 0;
-		if($this->input->post('pid')){
-			$pid = $this->input->post('pid');
-		}
-		if(($department_name = $this->input->post('department_name')) === FALSE){
-			redirect(formatUrl('department/index?msg='.urlencode('组织部门名称不可为空')));
-		}
+		$data = $this->input->post();
+		$data['pid'] = $data['pid'] ? $data['pid'] : 0;
 		$this->load->model('OA_Department');
 		$msg = '';
-		if($this->OA_Department->add($pid, $department_name) === FALSE){
+		if($this->OA_Department->add($data) === FALSE){
 			$msg = '?msg='.urlencode('创建失败');
 		}
 		redirect(formatUrl('department/index'.$msg));
@@ -64,12 +59,9 @@ class Department extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$id = $this->input->post('did');
-		if(($department_name = $this->input->post('department_name')) === FALSE){
-			redirect(formatUrl('department/index?msg='.urlencode('组织部门名称不可为空')));
-		}
+		$data = $this->input->post();
 		$this->load->model('OA_Department');
-		$this->OA_Department->update($id, $department_name);
+		$this->OA_Department->update($data);
 		redirect(formatUrl('department/index'));
 	}
 	

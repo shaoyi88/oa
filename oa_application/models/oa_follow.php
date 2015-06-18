@@ -20,15 +20,10 @@ class OA_Follow extends CI_Model
 		$this->load->database();
 	}
 	
-	public function add($user_id, $customer_id, $relationship)
+	public function add($data)
 	{
-		$info = $this->queryFollowByCid($user_id, $customer_id);
+		$info = $this->queryFollowByCid($data['user_id'], $data['customer_id']);
 		if(empty($info)){
-			$data = array(
-            	'user_id' => $user_id,
-            	'customer_id' => $customer_id,
-				'relationship' => $relationship
-       	 	);
        	 	$this->db->insert($this->_table, $data); 
        	 	if($this->db->affected_rows() <= 0){
 				return FALSE;
@@ -76,6 +71,28 @@ class OA_Follow extends CI_Model
 	public function del($id)
 	{
 		$this->db->where('id', $id);
+		$this->db->delete($this->_table); 
+	} 
+	
+	/**
+	 * 
+	 * 通过uid删除
+	 * @param unknown_type $id
+	 */
+	public function delByUid($uid)
+	{
+		$this->db->where('user_id', $uid);
+		$this->db->delete($this->_table); 
+	} 
+	
+	/**
+	 * 
+	 * 通过客户id删除
+	 * @param unknown_type $cid
+	 */
+	public function delByCid($cid)
+	{
+		$this->db->where('customer_id', $cid);
 		$this->db->delete($this->_table); 
 	} 
 }

@@ -48,20 +48,8 @@ class OA_Admin extends CI_Model
 	 * @param unknown_type $admin_phone
 	 * @param unknown_type $admin_role
 	 */
-	public function add($admin_account, $admin_department, $admin_name, $admin_no, $admin_password, $admin_phone, $admin_role)
+	public function add($data)
 	{
-		$data = array(
-            'admin_account' => $admin_account,
-            'admin_department' => $admin_department,
-			'admin_name' => $admin_name,
-			'admin_no' => $admin_no,
-			'admin_password' => md5($admin_password),
-			'admin_phone' => $admin_phone,
-			'admin_role' => $admin_role,
-			'admin_department' => $admin_department,
-			'admin_department' => $admin_department,
-			'reg_time' => time()
-        );
 		$this->db->insert($this->_table, $data); 
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
@@ -81,22 +69,9 @@ class OA_Admin extends CI_Model
 	 * @param unknown_type $admin_phone
 	 * @param unknown_type $admin_role
 	 */
-	public function update($admin_id, $admin_account, $admin_department, $admin_name, $admin_no, $admin_password, $admin_phone, $admin_role)
+	public function update($data)
 	{
-		$data = array(
-            'admin_department' => $admin_department,
-			'admin_name' => $admin_name,
-			'admin_no' => $admin_no,
-			'admin_phone' => $admin_phone,
-			'admin_role' => $admin_role,
-			'admin_department' => $admin_department,
-			'admin_department' => $admin_department,
-			'reg_time' => time()
-        );
-        if($admin_password){
-        	$data['admin_password'] = md5($admin_password);
-        }
-        $this->db->where('admin_id', $admin_id);
+        $this->db->where('admin_id', $data['admin_id']);
 		$this->db->update($this->_table, $data); 
 	}
 	

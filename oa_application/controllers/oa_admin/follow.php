@@ -19,12 +19,10 @@ class Follow extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$user_id = $this->input->post('user_id');
-		$customer_id = $this->input->post('customer_id');
-		$relationship = $this->input->post('relationship');
+		$data = $this->input->post();
 		$this->load->model('OA_Follow');
-		$this->OA_Follow->add($user_id, $customer_id, $relationship);
-		redirect(formatUrl('user/detail?uid='.$user_id));
+		$this->OA_Follow->add($data);
+		redirect(formatUrl('user/detail?uid='.$data['user_id']));
 	}
 	
 	/**

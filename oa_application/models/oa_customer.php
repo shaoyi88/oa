@@ -21,6 +21,29 @@ class OA_Customer extends CI_Model
 	
 	/**
 	 * 
+	 * 获取客户
+	 */
+	public function getCustomer($offset, $limit)
+	{
+		$info = array();
+		$query = $this->db->get($this->_table, $limit, $offset);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
+	
+	/**
+	 * 
+	 * 获取客户数
+	 */
+	public function getCustomerCount()
+	{
+		return $this->db->count_all_results($this->_table);
+	}
+	
+	/**
+	 * 
 	 * 通过id或名字查找客户
 	 * @param unknown_type $key
 	 */
@@ -34,5 +57,46 @@ class OA_Customer extends CI_Model
 			$info = $query->result_array();
 		}
 		return $info;
+	}
+	
+	/**
+	 * 
+	 * 获取客户信息
+	 * @param unknown_type $user_id
+	 */
+	public function getCustomerInfo($customer_id)
+	{
+		$query = $this->db->get_where($this->_table, array('customer_id' => $customer_id));
+		$info = array();
+		if($query){
+			$info = $query->row_array();
+		}
+		return $info;
+	}
+	
+	/**
+	 * 
+	 * 增加
+	 * @param unknown_type $data
+	 */
+	public function add($data)
+	{
+		$this->db->insert($this->_table, $data); 
+		if($this->db->affected_rows() <= 0){
+			return FALSE;
+		}
+		return TRUE;
+	}
+	
+	/**
+	 * 
+	 * 编辑
+	 * @param unknown_type $data
+	 */
+	public function update($data)
+	{
+		
+        $this->db->where('customer_id', $data['customer_id']);
+		$this->db->update($this->_table, $data); 
 	}
 }

@@ -21,7 +21,7 @@
                   					<td class="permission-list">
                   						
                   						{foreach $item['roles'] as $roleItem}                  					
-                    						<label class="item"><input datatype="*" nullmsg="请至少选择一个权限！" name="roles[]" type="checkbox" value="{$roleItem[1]}" {if isset($roles) && in_array($roleItem[1], $roles)}checked{/if}>{$roleItem[0]}</label>
+                    						<label class="item"><input datatype="*" nullmsg="请至少选择一个权限！" name="role_rights[]" type="checkbox" value="{$roleItem[1]}" {if isset($roles) && in_array($roleItem[1], $roles)}checked{/if}>{$roleItem[0]}</label>
                     						{if isset($roleItem[2])} <div class="cl"></div>{/if}
                     					{/foreach}
 									</td>

@@ -19,17 +19,17 @@ class Coupon extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$user_id = $this->input->post('user_id');
-		$coupon_amount = $this->input->post('coupon_amount');
-		$coupon_condition = $this->input->post('coupon_condition') ? $this->input->post('coupon_condition') : 0;
-		if(0 !== $coupon_condition && $coupon_amount > $coupon_condition){
-			redirect(formatUrl('user/detail?uid='.$user_id.'&msg='.urlencode('优惠金额不可大于使用条件')));
+		$data = $this->input->post();
+		$data['coupon_condition'] = $data['coupon_condition'] ? $data['coupon_condition'] : 0;
+		$data['has_used'] = 0;
+		if(0 !== $data['coupon_condition'] && $data['coupon_amount'] > $data['coupon_condition']){
+			redirect(formatUrl('user/detail?uid='.$data['user_id'].'&msg='.urlencode('优惠金额不可大于使用条件')));
 			exit;
 		}
-		$coupon_expire = strtotime($this->input->post('coupon_expire'));
+		$data['coupon_expire'] = strtotime($data['coupon_expire']);
 		$this->load->model('OA_Coupon');
-		$this->OA_Coupon->add($user_id, $coupon_amount, $coupon_condition, $coupon_expire);
-		redirect(formatUrl('user/detail?uid='.$user_id));
+		$this->OA_Coupon->add($data);
+		redirect(formatUrl('user/detail?uid='.$data['user_id']));
 	}
 	
 	/**

@@ -19,15 +19,11 @@ class Address extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$user_id = $this->input->post('user_id');
-		$province = $this->input->post('province');
-		$city = $this->input->post('city');
-		$area = $this->input->post('area');
-		$address = $this->input->post('address');
-		$is_default = $this->input->post('is_default') ? 1 : 0;
+		$data = $this->input->post();
+		$data['is_default'] = isset($data['is_default']) ? 1 : 0;
 		$this->load->model('OA_Address');
-		$this->OA_Address->add($user_id, $province, $city, $area, $address, $is_default);
-		redirect(formatUrl('user/detail?uid='.$user_id));
+		$this->OA_Address->add($data);
+		redirect(formatUrl('user/detail?uid='.$data['user_id']));
 	}
 	
 	/**

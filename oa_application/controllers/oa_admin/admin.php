@@ -79,36 +79,29 @@ class Admin extends OA_Controller
 				$this->showView('denied', $data);
 				exit;
 			}
-			$admin_id = $this->input->post('admin_id');
-			$admin_account = $this->input->post('admin_account');
-			$admin_department = $this->input->post('admin_department');			
-			$admin_name = $this->input->post('admin_name');
-			$admin_no = $this->input->post('admin_no');
-			$admin_password = $this->input->post('admin_password');			
-			$admin_phone = $this->input->post('admin_phone');
-			$admin_role = $this->input->post('admin_role');			
+			$data = $this->input->post();
+			if($data['admin_password']){
+        		$data['admin_password'] = md5($admin_password);
+        	}else{
+        		unset($data['admin_password']);
+        	}
 			$this->load->model('OA_Admin');
-			$this->OA_Admin->update($admin_id, $admin_account, $admin_department, $admin_name, $admin_no, $admin_password, $admin_phone, $admin_role);
-			redirect(formatUrl('admin/index?pid='.$admin_department));
+			$this->OA_Admin->update($data);
+			redirect(formatUrl('admin/index?pid='.$data['admin_department']));
 		}else{
 			if(checkRight('admin_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
-			$admin_account = $this->input->post('admin_account');
-			$admin_department = $this->input->post('admin_department');			
-			$admin_name = $this->input->post('admin_name');
-			$admin_no = $this->input->post('admin_no');
-			$admin_password = $this->input->post('admin_password');			
-			$admin_phone = $this->input->post('admin_phone');
-			$admin_role = $this->input->post('admin_role');	
-			
+			$data = $this->input->post();
+			$data['admin_password'] = md5($data['admin_password']);
+			$data['reg_time'] = time();
 			$this->load->model('OA_Admin');
 			$msg = '';
-			if($this->OA_Admin->add($admin_account, $admin_department, $admin_name, $admin_no, $admin_password, $admin_phone, $admin_role) === FALSE){
+			if($this->OA_Admin->add($data) === FALSE){
 				$msg = '&msg='.urlencode('创建失败');
 			}
-			redirect(formatUrl('admin/index?pid='.$admin_department.$msg));
+			redirect(formatUrl('admin/index?pid='.$data['admin_department'].$msg));
 		}
 	}
 	

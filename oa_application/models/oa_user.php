@@ -49,7 +49,8 @@ class OA_User extends CI_Model
 	 */
 	public function searchUser($keyword)
 	{
-		$this->db->where('user_weixin', $keyword);
+		$this->db->where('user_id', $keyword);
+		$this->db->or_where('user_weixin', $keyword);
 		$this->db->or_where('user_nickname', $keyword); 
 		$this->db->or_where('user_phone', $keyword); 
 		$query = $this->db->get($this->_table);
@@ -67,14 +68,8 @@ class OA_User extends CI_Model
 	 * @param unknown_type $user_province
 	 * @param unknown_type $user_city
 	 */
-	public function add($user_phone, $user_sex, $user_province, $user_city)
+	public function add($data)
 	{
-		$data = array(
-            'user_phone' => $user_phone,
-            'user_sex' => $user_sex,
-			'user_province' => $user_province,
-			'user_city' => $user_city,
-        );
 		$this->db->insert($this->_table, $data); 
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
@@ -91,15 +86,10 @@ class OA_User extends CI_Model
 	 * @param unknown_type $user_province
 	 * @param unknown_type $user_city
 	 */
-	public function update($user_id, $user_phone, $user_sex, $user_province, $user_city)
+	public function update($data)
 	{
-		$data = array(
-            'user_phone' => $user_phone,
-            'user_sex' => $user_sex,
-			'user_province' => $user_province,
-			'user_city' => $user_city,
-        );
-        $this->db->where('user_id', $user_id);
+		
+        $this->db->where('user_id', $data['user_id']);
 		$this->db->update($this->_table, $data); 
 	}
 	

@@ -44,19 +44,11 @@ class OA_Address extends CI_Model
 	 * @param unknown_type $area
 	 * @param unknown_type $is_default
 	 */
-	public function add($user_id, $province, $city, $area, $address, $is_default)
+	public function add($data)
 	{
-		$data = array(
-            'user_id' => $user_id,
-            'province' => $province,
-			'city' => $city,
-			'area' => $area,
-			'address' => $address,
-			'is_default' => $is_default,
-        );
-        if($is_default == 1){
+        if($data['is_default'] == 1){
         	//去掉其他地址的默认
-        	$this->db->where('user_id', $user_id);
+        	$this->db->where('user_id', $data['user_id']);
         	$this->db->update($this->_table, array('is_default' => 0)); 
         }
 		$this->db->insert($this->_table, $data); 
@@ -89,6 +81,17 @@ class OA_Address extends CI_Model
 	public function del($id)
 	{
 		$this->db->where('address_id', $id);
+		$this->db->delete($this->_table); 
+	} 
+	
+	/**
+	 * 
+	 * 通过uid删除
+	 * @param unknown_type $uid
+	 */
+	public function delByUid($uid)
+	{
+		$this->db->where('user_id', $uid);
 		$this->db->delete($this->_table); 
 	} 
 }

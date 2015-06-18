@@ -55,7 +55,7 @@
 </div>
 <div class="pd-20 text-c" style="display:none" id="editWindow">
 	<form class="Huiform" action="{formatUrl('department/doEdit')}" method="post">
-		<input id="editId" type="hidden" value="" name="did"></input>
+		<input id="editId" type="hidden" value="" name="id"></input>
 		<span><input id="editName" nullmsg="请输入组织部门！" datatype="s" class="input-text" style="width:250px" name="department_name" type="text" value="" placeholder="输入组织部门"></span>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<button style="margin-top:10px" type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i>更新</button>

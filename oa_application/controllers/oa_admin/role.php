@@ -67,22 +67,21 @@ class Role extends OA_Controller
 				$this->showView('denied', $data);
 				exit;
 			}
-			$id = $this->input->post('id');
-			$roleName = $this->input->post('role_name');
-			$roles = $this->input->post('roles');
+			$data = $this->input->post();
+			$data['role_rights'] = $this->_formatRoles($data['role_rights']);
 			$this->load->model('OA_Role');
-			$this->OA_Role->update($id, $roleName, $this->_formatRoles($roles));
+			$this->OA_Role->update($data);
 			redirect(formatUrl('role/index'));
 		}else{
 			if(checkRight('role_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
-			$roleName = $this->input->post('role_name');
-			$roles = $this->input->post('roles');
+			$data = $this->input->post();
+			$data['role_rights'] = $this->_formatRoles($data['role_rights']);
 			$this->load->model('OA_Role');
 			$msg = '';
-			if($this->OA_Role->add($roleName, $this->_formatRoles($roles)) === FALSE){
+			if($this->OA_Role->add($data) === FALSE){
 				$msg = '?msg='.urlencode('创建失败');
 			}
 			redirect(formatUrl('role/index'.$msg));

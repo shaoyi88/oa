@@ -25,12 +25,8 @@ class OA_Department extends CI_Model
 	 * @param unknown_type $pid
 	 * @param unknown_type $departmentName
 	 */
-	public function add($pid, $departmentName)
+	public function add($data)
 	{
-		$data = array(
-            'pid' => $pid,
-            'department_name' => $departmentName
-        );
 		$this->db->insert($this->_table, $data); 
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
@@ -44,12 +40,9 @@ class OA_Department extends CI_Model
 	 * @param unknown_type $id
 	 * @param unknown_type $name
 	 */
-	public function update($id, $name)
+	public function update($data)
 	{
-		$data = array(
-            'department_name' => $name
-        );
-		$this->db->where('id', $id);
+		$this->db->where('id', $data['id']);
 		$this->db->update($this->_table, $data); 
 	}
 	

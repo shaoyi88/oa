@@ -25,12 +25,8 @@ class OA_Role extends CI_Model
 	 * @param unknown_type $roleName
 	 * @param unknown_type $rights
 	 */
-	public function add($roleName, $rights)
+	public function add($data)
 	{
-		$data = array(
-            'role_name' => $roleName,
-            'role_rights' => $rights
-        );
 		$this->db->insert($this->_table, $data); 
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
@@ -45,13 +41,9 @@ class OA_Role extends CI_Model
 	 * @param unknown_type $roleName
 	 * @param unknown_type $rights
 	 */
-	public function update($id, $roleName, $rights)
+	public function update($data)
 	{
-		$data = array(
-            'role_name' => $roleName,
-            'role_rights' => $rights
-        );
-        $this->db->where('id', $id);
+        $this->db->where('id', $data['id']);
 		$this->db->update($this->_table, $data); 
 	}
 	

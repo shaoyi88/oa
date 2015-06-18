@@ -43,15 +43,8 @@ class OA_Coupon extends CI_Model
 	 * @param unknown_type $coupon_condition
 	 * @param unknown_type $coupon_expire
 	 */
-	public function add($user_id, $coupon_amount, $coupon_condition, $coupon_expire)
+	public function add($data)
 	{
-		$data = array(
-            'user_id' => $user_id,
-            'coupon_amount' => $coupon_amount,
-			'coupon_condition' => $coupon_condition,
-			'coupon_expire' => $coupon_expire,		
-			'has_used' => 0
-        );
 		$this->db->insert($this->_table, $data); 
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
@@ -67,6 +60,17 @@ class OA_Coupon extends CI_Model
 	public function del($id)
 	{
 		$this->db->where('coupon_id', $id);
+		$this->db->delete($this->_table); 
+	} 
+	
+	/**
+	 * 
+	 * 通过uid删除
+	 * @param unknown_type $uid
+	 */
+	public function delByUid($uid)
+	{
+		$this->db->where('user_id', $uid);
 		$this->db->delete($this->_table); 
 	} 
 }
