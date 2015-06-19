@@ -60,8 +60,9 @@ class Smarty_ext extends Smarty
 		$this->registerFilter('pre', array($this, 'addStrip'));
 		$this->loadFilter('output', 'trimwhitespace'); // 去掉空格
 		$has_layout = isset($data['layout']) ? $data['layout'] : TRUE;
+		$layoutName = isset($data['layoutName']) && !empty($data['layoutName']) ? $data['layoutName'] : 'layout';
 		if($has_layout){
-			$layout_path = VIEW_DIR.$dir.'layout.'.$this->ext;
+			$layout_path = VIEW_DIR.$dir.$layoutName.'.'.$this->ext;
 			$this->assignByRef('LAYOUT_CONTENT', $this->fetch($template), TRUE);
 			$this->display($layout_path);
 		}else{

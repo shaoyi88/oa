@@ -9,7 +9,7 @@ class Home extends OA_Controller {
 	public function index()
 	{
 		$data = array();
-		$data['layout'] = FAlSE;
+		$data['layoutName'] = 'test';
 		$this->showView('index', $data);
 	}
 }
