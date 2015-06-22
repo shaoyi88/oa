@@ -162,4 +162,23 @@ class User extends OA_Controller
 		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();	
 		$this->showView('userDetail', $data);
 	}
+	
+	/**
+	 * 
+	 * 获取用户
+	 */
+	public function getUser()
+	{
+		if($this->input->get('key')){
+			$key = $this->input->get('key');
+		}
+		$this->load->model('OA_User');
+		$userList = $this->OA_User->searchUser($key);	
+		if(empty($userList)){			
+			$this->send_json(array('status'=>0));
+		}else{
+			$this->send_json(array('status'=>1,'userList'=>$userList));
+		}
+	}
+	
 }

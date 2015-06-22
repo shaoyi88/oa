@@ -34,6 +34,10 @@ class Customer extends OA_Controller
 		}
 		$data['dataList'] = $dataList;		
 		$data['sexInfo'] = $this->config->item('sex');
+		$data['groupInfo'] = $this->config->item('customer_group');
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['serviceLevel1'] = $this->config->item('service_level_1');
+		$data['serviceLevel2'] = $this->config->item('service_level_2');
 		$this->showView('customerList', $data);
 	}
 	
@@ -92,6 +96,13 @@ class Customer extends OA_Controller
 			if(isset($data['customer_state'])){
 				$data['customer_state'] = $data['customer_state'] == '其他' ? $data['other_state'] : $data['customer_state'];
 			}
+			if($data['customer_service_type'] == 4){
+				$data['customer_service_level'] = $data['customer_service_level2'];
+			}else{
+				$data['customer_service_level'] = $data['customer_service_level1'];
+			}
+			unset($data['customer_service_level1']);
+			unset($data['customer_service_level2']);
 			unset($data['other_language']);
 			unset($data['other_hobby']);
 			unset($data['other_state']);
@@ -111,6 +122,13 @@ class Customer extends OA_Controller
 			if(isset($data['customer_state'])){
 				$data['customer_state'] = $data['customer_state'] == '其他' ? $data['other_state'] : $data['customer_state'];
 			}
+			if($data['customer_service_type'] == 4){
+				$data['customer_service_level'] = $data['customer_service_level2'];
+			}else{
+				$data['customer_service_level'] = $data['customer_service_level1'];
+			}
+			unset($data['customer_service_level1']);
+			unset($data['customer_service_level2']);
 			unset($data['other_language']);
 			unset($data['other_hobby']);
 			unset($data['other_state']);
@@ -139,5 +157,108 @@ class Customer extends OA_Controller
 		}else{
 			$this->send_json(array('status'=>1,'customerList'=>$customerList));
 		}
+	}
+	
+	/**
+	 * 
+	 * 删除
+	 */
+	public function doDel()
+	{
+		$data = array();
+		if(checkRight('customer_del') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$cid = $this->input->get('cid');
+		//删除客户信息
+		$this->load->model('OA_Customer');
+		$this->OA_Customer->del($cid);
+		//删除关注人信息
+		$this->load->model('OA_Follow');
+		$this->OA_Follow->delByCid($cid);
+		redirect(formatUrl('customer/index'));
+	}
+	
+	/**
+	 * 
+	 * 详情页面
+	 */
+	public function detail()
+	{
+		$data = array();
+		if(checkRight('customer_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
+		$cid = $this->input->get('cid');
+		$data['cid'] = $cid;
+		$this->load->model('OA_Customer');
+		$data['customerInfo'] = $this->OA_Customer->getCustomerInfo($cid);
+		$data['sexInfo'] = $this->config->item('sex');
+		$this->load->model('OA_Follow');
+		$data['followInfo'] = $this->OA_Follow->queryFollowByCid($cid);
+		$data['groupInfo'] = $this->config->item('customer_group');
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['serviceLevel1'] = $this->config->item('service_level_1');
+		$data['serviceLevel2'] = $this->config->item('service_level_2');
+		$this->showView('customerDetail', $data);
+	}
+	
+	/**
+	 * 
+	 * 统计
+	 */
+	public function stat()
+	{
+		$data = array();
+		if(checkRight('customer_stat') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$this->load->model('OA_User');
+		$data['userCount'] = $this->OA_User->getUserCount();
+		if($this->input->post('dayNum')){
+			$dayNum = $this->input->post('dayNum');
+			$data['dayNum'] = $dayNum;
+			$data['userCountDayNum'] = $this->OA_User->getUserCountByTime(strtotime("-".$dayNum." day"));
+		}
+		$this->load->model('OA_Customer');
+		$data['customerCount'] = $this->OA_Customer->getCustomerCount();
+		$data['tabType'] = 0;
+		$data['groupInfo'] = $this->config->item('customer_group');
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		if($this->input->post('tabType')){
+			$data['tabType'] = $this->input->post('tabType');
+			$queryData = $this->input->post();
+			unset($queryData['tabType']);
+			if(!$queryData['customer_type']){
+				unset($queryData['customer_type']);
+			}else{
+				$data['customer_type'] = $queryData['customer_type'];
+			}
+			if(!$queryData['customer_service_type']){
+				unset($queryData['customer_service_type']);
+			}else{
+				$data['customer_service_type'] = $queryData['customer_service_type'];
+			}
+			if(!$queryData['customer_hospital']){
+				unset($queryData['customer_hospital']);
+			}else{
+				$data['customer_hospital'] = $queryData['customer_hospital'];
+			}
+			if(!$queryData['customer_hospital_department']){
+				unset($queryData['customer_hospital_department']);
+			}else{
+				$data['customer_hospital_department'] = $queryData['customer_hospital_department'];
+			}
+			if(!empty($queryData)){
+				$data['queryCustomerCount'] = $this->OA_Customer->getCustomerCountByKey($queryData);
+			}
+		}
+		$this->showView('customerStat', $data);
 	}
 }

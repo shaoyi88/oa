@@ -41,6 +41,16 @@ class OA_User extends CI_Model
 	{
 		return $this->db->count_all_results($this->_table);
 	}
+	/**
+	 * 
+	 * 获取几天前活跃用户
+	 * @param unknown_type $time
+	 */
+	public function getUserCountByTime($time)
+	{
+		$this->db->where('user_last_visit_time >', $time);
+		return $this->db->count_all_results($this->_table);
+	}
 	
 	/**
 	 * 

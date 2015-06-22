@@ -47,10 +47,10 @@
       	<td>{$sexInfo[$item['customer_sex']]}</td>
         <td>{$item['customer_age']}</td>
         <td>{if $item['customer_card'] != ''}{$item['customer_card']}{else}暂无{/if}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{$item['customer_language']}</td>
+        <td>{$groupInfo[$item['customer_type']]}</td>
+        <td>{$serviceTypeInfo[$item['customer_service_type']]}</td>
+        <td>{if $item['customer_service_type'] == 4}{$serviceLevel2[$item['customer_service_level']]}{else}{$serviceLevel1[$item['customer_service_level']]}{/if}</td>
         <td class="f-14">
         	 <a title="详情" href="{formatUrl('customer/detail?cid=')}{$item['customer_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
         	 {if checkRight('customer_edit')}<a title="编辑" href="{formatUrl('customer/add?cid=')}{$item['customer_id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}

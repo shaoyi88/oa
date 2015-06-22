@@ -127,8 +127,8 @@ jQuery.Huitab =function(tabBar,tabCon,class_name,tabEvent,i){
 	$tab_menu.removeClass(class_name);
 	$(tabBar).eq(i).addClass(class_name);
 	$(tabCon).hide();
-	$(tabCon).eq(i).show();
-	
+	$(tabCon).eq(i).css('display','block');
+
 	$tab_menu.on(tabEvent,function(){
 		$tab_menu.removeClass(class_name);
 		$(this).addClass(class_name);

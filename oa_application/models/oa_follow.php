@@ -9,7 +9,8 @@
 class OA_Follow extends CI_Model
 {
 	private $_table = 'oa_follow';
-	private $_infoTable = 'oa_customer';
+	private $_customerInfoTable = 'oa_customer';
+	private $_userInfoTable = 'oa_user';
 	
 	/**
 	 * 初始化
@@ -22,7 +23,7 @@ class OA_Follow extends CI_Model
 	
 	public function add($data)
 	{
-		$info = $this->queryFollowByCid($data['user_id'], $data['customer_id']);
+		$info = $this->queryFollowByUidCid($data['user_id'], $data['customer_id']);
 		if(empty($info)){
        	 	$this->db->insert($this->_table, $data); 
        	 	if($this->db->affected_rows() <= 0){
@@ -34,10 +35,10 @@ class OA_Follow extends CI_Model
 	
 	/**
 	 * 
-	 * 通过customer_id查找关注病人
+	 * 通过uid和customer_id查找关注病人
 	 * @param unknown_type $cid
 	 */
-	public function queryFollowByCid($uid, $cid)
+	public function queryFollowByUidCid($uid, $cid)
 	{
 		$this->db->where('user_id', $uid);
 		$this->db->where('customer_id', $cid);
@@ -51,12 +52,26 @@ class OA_Follow extends CI_Model
 	
 	/**
 	 * 
-	 * 通过id查找关注病人
+	 * 通过customer_id查找关注用户
+	 * @param unknown_type $cid
+	 */
+	public function queryFollowByCid($cid)
+	{
+		$query = $this->db->query("select * from $this->_table as a left join $this->_userInfoTable as b on a.user_id = b.user_id where a.customer_id=".$cid);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
+	
+	/**
+	 * 
+	 * 通过uid查找关注病人
 	 * @param unknown_type $id
 	 */
 	public function queryFollowByUid($uid)
 	{
-		$query = $this->db->query("select * from $this->_table as a left join $this->_infoTable as b on a.customer_id = b.customer_id where a.user_id=".$uid);
+		$query = $this->db->query("select * from $this->_table as a left join $this->_customerInfoTable as b on a.customer_id = b.customer_id where a.user_id=".$uid);
 		if($query){
 			$info = $query->result_array();
 		}

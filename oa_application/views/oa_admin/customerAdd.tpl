@@ -56,28 +56,28 @@
     					</select>
           			 </td>
         		</tr>
-        		<tr id="tr_customer_address" {if isset($info)&&$info['customer_type']==1}style="display:block"{else}style="display:none"{/if}>
+        		<tr id="tr_customer_address" {if isset($info)&&$info['customer_type']==1}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">家庭地址：</th>
-          			 <td><input name="customer_address" type="text" class="input-text" id="customer_address" value="{if isset($info)}{$info['customer_address']}{/if}" nullmsg="家庭地址不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_type']==1}{else}ignore="ignore"{/if} name="customer_address" type="text" class="input-text" id="customer_address" value="{if isset($info)}{$info['customer_address']}{/if}" nullmsg="家庭地址不能为空！" datatype="s"></td>
         		</tr>
-        		<tr id="tr_customer_hospital" {if isset($info)&&$info['customer_type']==2}style="display:block"{else}style="display:none"{/if}>
+        		<tr id="tr_customer_hospital" {if isset($info)&&$info['customer_type']==2}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">医院信息：</th>
           			 <td>
           			 	<p>
           			 		<strong>医院:&nbsp;&nbsp;</strong>
-          			 		<select style="width:50%" class="select" id="customer_hospital" name="customer_hospital" nullmsg="医院不能为空！" datatype="*">
+          			 		<select {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} style="width:50%" class="select" id="customer_hospital" name="customer_hospital" nullmsg="医院不能为空！" datatype="*">
       							<option value="">请选择医院</option>
     						</select>
     					</p>
     					<p>
     						<strong>科室:&nbsp;&nbsp;</strong>
-    						<select style="width:50%" class="select" id="customer_hospital_department" name="customer_hospital_department" nullmsg="科室不能为空！" datatype="s">
+    						<select {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} style="width:50%" class="select" id="customer_hospital_department" name="customer_hospital_department" nullmsg="科室不能为空！" datatype="s">
       							<option value="">请选择科室</option>
     						</select>
     					</p>
     					<p>
     						<strong>床位:&nbsp;&nbsp;</strong>
-    						<input nullmsg="床位不能为空！" datatype="s" style="width:50%" name="customer_bed_no" type="text" class="input-text" id="customer_bed_no" value="{if isset($info)}{$info['customer_bed_no']}{/if}">
+    						<input {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} nullmsg="床位不能为空！" datatype="s" style="width:50%" name="customer_bed_no" type="text" class="input-text" id="customer_bed_no" value="{if isset($info)}{$info['customer_bed_no']}{/if}">
     					</p>
           			 </td>
         		</tr>
@@ -94,15 +94,15 @@
     					</select>
           			 </td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">病情：</th>
-          			 <td><input name="customer_illness" type="text" class="input-text" id="customer_illness" value="{if isset($info)}{$info['customer_illness']}{/if}" nullmsg="病情不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} name="customer_illness" type="text" class="input-text" id="customer_illness" value="{if isset($info)}{$info['customer_illness']}{/if}" nullmsg="病情不能为空！" datatype="s"></td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">过敏药物或食品：</th>
-          			 <td><input name="customer_allergy" type="text" class="input-text" id="customer_allergy" value="{if isset($info)}{$info['customer_allergy']}{/if}" nullmsg="过敏药物或食品不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} name="customer_allergy" type="text" class="input-text" id="customer_allergy" value="{if isset($info)}{$info['customer_allergy']}{/if}" nullmsg="过敏药物或食品不能为空！" datatype="s"></td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">个人特殊嗜好：</th>
           			 <td>
           			 	{foreach $hobbyTypeInfo as $item}
@@ -114,15 +114,15 @@
           			 	{/foreach}
           			 </td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">家庭遗传病史：</th>
-          			 <td><input name="customer_genetic" type="text" class="input-text" id="customer_genetic" value="{if isset($info)}{$info['customer_genetic']}{/if}" nullmsg="家庭遗传病史不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} name="customer_genetic" type="text" class="input-text" id="customer_genetic" value="{if isset($info)}{$info['customer_genetic']}{/if}" nullmsg="家庭遗传病史不能为空！" datatype="s"></td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">大小便情况：</th>
-          			 <td><input name="customer_defecate_piss" type="text" class="input-text" id="customer_defecate_piss" value="{if isset($info)}{$info['customer_defecate_piss']}{/if}" nullmsg="大小便情况不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} name="customer_defecate_piss" type="text" class="input-text" id="customer_defecate_piss" value="{if isset($info)}{$info['customer_defecate_piss']}{/if}" nullmsg="大小便情况不能为空！" datatype="s"></td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">意识状态：</th>
           			 <td>
           			 	{foreach $stateType as $item}
@@ -134,10 +134,10 @@
           			 	{/foreach}
           			 </td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">自理能力：</th>
           			 <td>
-          			 	<select class="select" name="customer_selfcare_ability" nullmsg="自理能力不能为空！" datatype="*">
+          			 	<select {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} class="select" name="customer_selfcare_ability" nullmsg="自理能力不能为空！" datatype="*">
       						<option value="">请选择自理能力</option>
       						{foreach $selfcareAbilityType as $item}
       						<option value="{$item}" {if isset($info) && $info['customer_selfcare_ability'] == $item}selected{/if}>
@@ -147,7 +147,7 @@
     					</select>
           			 </td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">风险因素：</th>
           			 <td>
           			 	<p>
@@ -172,10 +172,10 @@
     					</p>
           			 </td>
         		</tr>
-        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">服务级别：</th>
           			 <td>
-          			 	<select class="select" name="customer_service_level" nullmsg="服务级别不能为空！" datatype="*">
+          			 	<select {if isset($info)&&$info['customer_service_type']!=4}{else}ignore="ignore"{/if} class="select" name="customer_service_level1" nullmsg="服务级别不能为空！" datatype="*">
       						<option value="">请选择服务级别</option>
       						{foreach $serviceLevel1 as $key => $item}
       						<option value="{$key}" {if isset($info) && $info['customer_service_type'] != 4 && $info['customer_service_level'] == $key}selected{/if}>
@@ -185,18 +185,18 @@
     					</select>
           			 </td>
         		</tr>	
-        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">怀孕周数：</th>
-          			 <td><input name="customer_pregnant_week" type="text" class="input-text" id="customer_pregnant_week" value="{if isset($info)}{$info['customer_pregnant_week']}{/if}" nullmsg="怀孕周数不能为空！" datatype="n"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']==4}{else}ignore="ignore"{/if} name="customer_pregnant_week" type="text" class="input-text" id="customer_pregnant_week" value="{if isset($info)}{$info['customer_pregnant_week']}{/if}" nullmsg="怀孕周数不能为空！" datatype="n"></td>
         		</tr>
-        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">分娩方式：</th>
-          			 <td><input name="customer_delivery_mode" type="text" class="input-text" id="customer_delivery_mode" value="{if isset($info)}{$info['customer_delivery_mode']}{/if}" nullmsg="分娩方式不能为空！" datatype="s"></td>
+          			 <td><input {if isset($info)&&$info['customer_service_type']==4}{else}ignore="ignore"{/if} name="customer_delivery_mode" type="text" class="input-text" id="customer_delivery_mode" value="{if isset($info)}{$info['customer_delivery_mode']}{/if}" nullmsg="分娩方式不能为空！" datatype="s"></td>
         		</tr>
-        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}style="display:block"{else}style="display:none"{/if}>
+        		<tr class="tr_service_info_2" {if isset($info)&&$info['customer_service_type']==4}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">服务级别：</th>
           			 <td>
-          			 	<select class="select" name="customer_service_level" nullmsg="服务级别不能为空！" datatype="*">
+          			 	<select {if isset($info)&&$info['customer_service_type']==4}{else}ignore="ignore"{/if} class="select" name="customer_service_level2" nullmsg="服务级别不能为空！" datatype="*">
       						<option value="">请选择服务级别</option>
       						{foreach $serviceLevel2 as $key => $item}
       						<option value="{$key}" {if isset($info) && $info['customer_service_type'] == 4 && $info['customer_service_level'] == $key}selected{/if}>

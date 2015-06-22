@@ -116,6 +116,8 @@ $config['rights'] = array(
 			array('客户健康增加', 'customer_add'),
 			array('客户健康编辑', 'customer_edit'),
 			array('客户健康删除', 'customer_del', TRUE),
+			array('客户被关注增加', 'customer_follow_add'),
+			array('客户被关注删除', 'customer_follow_del', TRUE),
 			array('客户统计分析',  'customer_stat')
 		),
 		'right' => 'record'

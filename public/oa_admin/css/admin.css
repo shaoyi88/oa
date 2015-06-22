@@ -154,7 +154,7 @@ h4{line-height:30px}
     position: absolute;
     z-index: 99;
 	left;10px;
-	top:40px;
+	top:0px;
 	width:315px;
 	max-height:150px;
 	display:none;

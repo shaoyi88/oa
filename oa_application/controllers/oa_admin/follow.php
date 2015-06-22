@@ -22,7 +22,11 @@ class Follow extends OA_Controller
 		$data = $this->input->post();
 		$this->load->model('OA_Follow');
 		$this->OA_Follow->add($data);
-		redirect(formatUrl('user/detail?uid='.$data['user_id']));
+		if($this->input->get('type') == 1){
+			redirect(formatUrl('user/detail?uid='.$data['user_id']));
+		}else{
+			redirect(formatUrl('customer/detail?cid='.$data['customer_id']));
+		}
 	}
 	
 	/**
@@ -36,10 +40,15 @@ class Follow extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$uid = $this->input->get('uid');
+		$uid = $this->input->get('uid') ? $this->input->get('uid') : NULL;
+		$cid = $this->input->get('cid') ? $this->input->get('cid') : NULL;
 		$fid = $this->input->get('fid');
 		$this->load->model('OA_Follow');
 		$this->OA_Follow->del($fid);
-		redirect(formatUrl('user/detail?uid='.$uid));
+		if(!is_null($uid)){
+			redirect(formatUrl('user/detail?uid='.$uid));
+		}else if(!is_null($cid)){
+			redirect(formatUrl('customer/detail?cid='.$cid));
+		}
 	}
 }

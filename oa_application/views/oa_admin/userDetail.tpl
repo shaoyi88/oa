@@ -108,15 +108,17 @@
   </table>
 </div>
 <div class="pd-20 text-c" style="display:none" id="addFollowWindow">
-	<form class="Huiform" action="{formatUrl('follow/doAdd')}" method="post">
+	<form class="Huiform" action="{formatUrl('follow/doAdd?type=1')}" method="post">
 		<input type="hidden" name="user_id" value="{$uid}" />
 		<input type="hidden" name="customer_id" id="customer_id" value="" />
 		<table class="table table-bg table-border table-bordered">
 			<tr>
       			<td>关注病人ID/姓名：</td>
-      			<td style="position:relative;">
+      			<td>
       				<input type="text" class="input-text" id="customer_key" value="" nullmsg="关注病人不能为空！" datatype="*" autocomplete="off">
-      				<div class="auto-complete-result"></div>
+      				<div style="position:relative;">
+      					<div class="auto-complete-result"></div>
+      				</div>
       			</td>
       		</tr>
       		<tr>

@@ -44,6 +44,16 @@ class OA_Customer extends CI_Model
 	
 	/**
 	 * 
+	 * 通过条件获取用户数
+	 */
+	public function getCustomerCountByKey($query)
+	{
+		$this->db->where($query);
+		return $this->db->count_all_results($this->_table);
+	}
+	
+	/**
+	 * 
 	 * 通过id或名字查找客户
 	 * @param unknown_type $key
 	 */
@@ -99,4 +109,15 @@ class OA_Customer extends CI_Model
         $this->db->where('customer_id', $data['customer_id']);
 		$this->db->update($this->_table, $data); 
 	}
+	
+	/**
+	 * 
+	 * 删除
+	 * @param unknown_type $customer_id
+	 */
+	public function del($customer_id)
+	{
+		$this->db->where('customer_id', $customer_id);
+		$this->db->delete($this->_table); 
+	} 
 }
