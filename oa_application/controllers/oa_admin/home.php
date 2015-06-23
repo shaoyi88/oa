@@ -17,6 +17,7 @@ class Home extends OA_Controller
 		$data = array();
 		$data['userName'] = $this->userName;
 		$data['menus'] = $this->config->item('menus');
+		$data['admin_id'] = $this->userId;
 		$this->showView('index', $data);
 	}
 	

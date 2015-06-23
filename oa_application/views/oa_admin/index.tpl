@@ -2,6 +2,7 @@
 	<a class="Hui-logo l" title="XXX管理系统" href="javascript:;">XXX管理系统</a> 
 	<span class="Hui-userbox">
 		<span class="c-white">{$userName}</span> 
+		<a class="btn radius ml-10 changePassword" href="javascript:;" title="修改密码"><i class="icon-key"></i>修改密码</a>
 		<a class="btn btn-danger radius ml-10" href="{formatUrl('home/logout')}" title="退出"><i class="icon-off"></i> 退出</a>
 	</span> 
 	<a aria-hidden="false" class="Hui-nav-toggle" href="#"></a> 
@@ -44,4 +45,24 @@
     </div>
   </div>
 </section>
+<div class="pd-20 text-c" style="display:none" id="changePasswordWindow">
+	<form class="Huiform" action="{formatUrl('admin/changePassword')}" method="post">
+		<input type="hidden" name="admin_id" value="{$admin_id}" />
+		<table class="table table-bg table-border table-bordered">
+			<tr>
+      			<td>新密码：</td>
+      			<td><input type="password" class="input-text" autocomplete="off" placeholder="密码" name="admin_password" id="admin_password" datatype="*6-18" nullmsg="请输入密码！"></td>
+      		</tr>
+      		<tr>
+      			<td>确认密码：</td>
+      			<td><input type="password" class="input-text" autocomplete="off" placeholder="密码" id="admin_password2" recheck="admin_password" datatype="*6-18" nullmsg="请再输入一次密码！" errormsg="您两次输入的密码不一致！"></td>
+      		</tr>
+      		<tr>
+      			<td colspan="2">
+      				<button style="margin-top:10px" type="submit" class="btn btn-success" id="" name=""><i class="icon-plus"></i>提交</button>
+      			</td>
+      		</tr>
+		</table>
+	</form>
+</div>
 <script type="text/javascript" src="/public/oa_admin/js/index.js"></script>

@@ -123,4 +123,17 @@ class Admin extends OA_Controller
 		redirect(formatUrl('admin/index?pid='.$pid));
 	}
 	
+	/**
+	 * 
+	 * 修改密码
+	 */
+	public function changePassword()
+	{
+		$data = $this->input->post();
+		$data['admin_password'] = md5($data['admin_password']);
+		$this->load->model('OA_Admin');
+		$data['info'] = $this->OA_Admin->update($data);
+		$this->session->sess_destroy();
+		redirect(formatUrl('login/index?msg='.urlencode('请使用新密码重新登录')));
+	}
 }

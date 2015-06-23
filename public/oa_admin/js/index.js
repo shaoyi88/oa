@@ -180,5 +180,28 @@ $(function(){
 	function toNavPos(){
 		oUl.stop().animate({'left':-num*100},100)
 	}
- 
+	
+	var changePassword = function(){
+		form.resetForm();
+		$('.Validform_checktip').html('');
+		$('#admin_password').val('');
+		$('#admin_password').val('');
+		$.layer({
+		    type: 1,
+		    area: ['600px', '300px'],
+		    title: [
+		        '修改密码',
+		        'border:none; background:#61BA7A; color:#fff;' 
+		    ],
+		    bgcolor: '#eee', //设置层背景色
+		    page: {dom : '#changePasswordWindow'}
+		});
+	};
+	
+	$('.changePassword').click(changePassword);
+	
+	var form = $(".Huiform").Validform({
+		tiptype : 4,
+		tipSweep : true
+	});
 }); 

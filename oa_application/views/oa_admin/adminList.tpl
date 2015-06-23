@@ -26,7 +26,7 @@
       		</tbody>
     	</table>
 	</div>
-	<div class="col-9">
+	<div class="col-9" style="padding-left:10px;">
 		{if empty($adminList)}
 			<div class="cl pd-5 bg-1 bk-gray"><h2 class="text-c">该部门下暂无用户</h2></div>
 		{else}
