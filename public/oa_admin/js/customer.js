@@ -50,6 +50,7 @@ var user = function(){
 		$('#addFollow').click(addFollow);
 		$('.delFollow').click(delFollow);
 		$('#user_key').keyup(userChange);
+		$('#customer_hospital').change(hospitalChange);
 	};
 	
 	var addFollow = function(){
@@ -76,6 +77,26 @@ var user = function(){
 		layer.confirm('确定删除该关注病人吗？',function(index){
 		    window.location.href = $('#delFollowUrl').val()+'&fid='+fid;
 		});
+	};
+	
+	var hospitalChange = function(event){
+		var changeTarget = $(event.currentTarget).attr('target');
+		var pid = $(event.currentTarget).val();
+		if(pid == ''){
+			var template = Hogan.compile($('#departmentTpl').html(),{delimiters:'<% %>'});
+			$('#'+changeTarget).html(template.render({departmentList:[]}));
+		}else{
+			var getDepartmentUrl = $('#getDepartmentUrl').val()+'?pid='+$(event.currentTarget).val();
+			$.ajax({
+	            type: "GET",
+	            url: getDepartmentUrl,
+	            dataType: "json",
+	            success: function(data){
+	            	 var template = Hogan.compile($('#departmentTpl').html(),{delimiters:'<% %>'});
+	            	 $('#'+changeTarget).html(template.render({departmentList:data}));
+	            }
+	        });
+		}
 	};
 	
 	var userChange = function(event){		

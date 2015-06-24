@@ -25,6 +25,7 @@ class OA_Controller extends CI_Controller
 	 */
 	public function _remap($method, $params = array())
 	{
+		register_shutdown_function(array($this, 'handleFatalError'));
 		declare(encoding='UTF-8');
 		mb_internal_encoding("UTF-8");
 		
@@ -32,12 +33,21 @@ class OA_Controller extends CI_Controller
 		$this->rtrClass = $rtr->fetch_class();
 		$this->rtrMethod = $rtr->fetch_method();
 		$this->rtrDir = $rtr->fetch_directory();
-		
 		if(method_exists($this, $method)){
 			$this->initialize();
 			return call_user_func_array(array($this, $method), $params);
 		}else{
 			show_404();
+		}
+	}
+	
+	/**
+	 * 处理致命错误
+	 */
+	function handleFatalError(){
+		if ($e = error_get_last()){       
+          $msg = $e['message'] . " in " . $e['file'] . ' line ' . $e['line'];
+          log_message('error', 'PHP Fatal error: '.$msg);
 		}
 	}
 	
@@ -57,6 +67,7 @@ class OA_Controller extends CI_Controller
 		$this->load->library(array('Smarty_ext', 'session'));
 		$this->load->helper(array('url'));	
 		$this->config->load('oa_config');
+		$this->load->database();
 
 		$this->_getUserInfo();
 	}

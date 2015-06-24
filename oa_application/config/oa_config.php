@@ -191,7 +191,7 @@ $config['sex'] = array(
 	'2' => '女'
 );
 
-$config['language'] = array(
+$config['customer_language'] = array(
 	'广东话',
 	'普通话',
 	'英语',

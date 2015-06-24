@@ -49,12 +49,22 @@
     				</select>
     				&nbsp;&nbsp;&nbsp;&nbsp;
     				<span id="hospitalInfo" {if isset($customer_type) && $customer_type == 2}{else}style="display:none"{/if}>
-    				<select style="width:15%;height:30px" class="select" id="customer_hospital" name="customer_hospital">
+    				<select target="customer_hospital_department"  style="width:15%;height:30px" class="select" id="customer_hospital" name="customer_hospital">
       					<option value="">请选择医院</option>
+      					{foreach $hospitalInfo as $item}
+      					<option value="{$item['wb_id']}" {if isset($customer_hospital) && $customer_hospital == $item['wb_id']}selected{/if}>
+      					{$item['stationary_name']}
+      					</option>
+      					{/foreach}
     				</select>
     				&nbsp;&nbsp;&nbsp;&nbsp;
     				<select style="width:15%;height:30px" class="select" id="customer_hospital_department" name="customer_hospital_department">
       					<option value="">请选择科室</option>
+      					{foreach $departmentInfo as $item}
+      					<option value="{$item['wb_id']}" {if isset($customer_hospital_department) && $customer_hospital_department == $item['wb_id']}selected{/if}>
+      					{$item['stationary_name']}
+      					</option>
+      					{/foreach}
     				</select>
     				&nbsp;&nbsp;&nbsp;&nbsp;
     				</span>
@@ -83,7 +93,12 @@
       				</tr>
       				{if isset($queryCustomerCount)}
       				<tr class="text-c">
-        				<td><font style="color:red">{if isset($customer_type)}{$groupInfo[$customer_type]}{/if}{if isset($customer_service_type)}&nbsp;&nbsp;{$serviceTypeInfo[$customer_service_type]}{/if}</font>客户总数</td>
+        				<td><font style="color:red">
+        				{if isset($customer_type)}{$groupInfo[$customer_type]}{/if}
+        				{if isset($customer_hospital)}_{$hospitalNameInfo[$customer_hospital]}{/if}
+        				{if isset($customer_hospital_department)}_{$hospitalNameInfo[$customer_hospital_department]}{/if}
+        				{if isset($customer_service_type)}&nbsp;&nbsp;{$serviceTypeInfo[$customer_service_type]}{/if}
+        				</font>客户总数</td>
         				<td>{$queryCustomerCount}</td>
       				</tr>
       				{/if}
@@ -92,5 +107,15 @@
     	</div>
 	</div>
 </div>
+<script type="text/template" id="departmentTpl">
+<option value="">请选择科室</option>	
+<%#departmentList%>
+	<option value="<%wb_id%>">
+	<%stationary_name%>
+	</option>
+<%/departmentList%>
+</script>
+<input type="hidden" id="getDepartmentUrl" value="{formatUrl('hospital/getDepartment')}"></input>
 <input type="hidden" id="tabType" value="{$tabType}">
+<script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/customerStat.js"></script>

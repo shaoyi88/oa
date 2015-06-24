@@ -65,14 +65,24 @@
           			 <td>
           			 	<p>
           			 		<strong>医院:&nbsp;&nbsp;</strong>
-          			 		<select {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} style="width:50%" class="select" id="customer_hospital" name="customer_hospital" nullmsg="医院不能为空！" datatype="*">
+          			 		<select  target="customer_hospital_department" {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} style="width:50%" class="select" id="customer_hospital" name="customer_hospital" nullmsg="医院不能为空！" datatype="*">
       							<option value="">请选择医院</option>
+      							{foreach $hospitalInfo as $item}
+      							<option value="{$item['wb_id']}" {if isset($info) && $info['customer_hospital'] == $item['wb_id']}selected{/if}>
+      							{$item['stationary_name']}
+      							</option>
+      							{/foreach}
     						</select>
     					</p>
     					<p>
     						<strong>科室:&nbsp;&nbsp;</strong>
     						<select {if isset($info)&&$info['customer_type']==2}{else}ignore="ignore"{/if} style="width:50%" class="select" id="customer_hospital_department" name="customer_hospital_department" nullmsg="科室不能为空！" datatype="s">
       							<option value="">请选择科室</option>
+      							{foreach $departmentInfo as $item}
+      							<option value="{$item['wb_id']}" {if isset($info) && $info['customer_hospital_department'] == $item['wb_id']}selected{/if}>
+      							{$item['stationary_name']}
+      							</option>
+      							{/foreach}
     						</select>
     					</p>
     					<p>
@@ -216,5 +226,14 @@
       	</table>
 	</form>
 </div>
+<script type="text/template" id="departmentTpl">
+<option value="">请选择科室</option>	
+<%#departmentList%>
+	<option value="<%wb_id%>">
+	<%stationary_name%>
+	</option>
+<%/departmentList%>
+</script>
+<input type="hidden" id="getDepartmentUrl" value="{formatUrl('hospital/getDepartment')}"></input>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/customer.js"></script>

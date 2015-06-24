@@ -34,14 +34,14 @@
       {else}
       <tr>
         <th class="text-r" width="120">医院：</th>
-        <td>{$customerInfo['customer_hospital']}</td>
+        <td>{$hospitalInfo[$customerInfo['customer_hospital']]}</td>
       </tr>
        <tr>
         <th class="text-r" width="120">科室：</th>
-        <td>{$customerInfo['customer_hospital_department']}</td>
+        <td>{$hospitalInfo[$customerInfo['customer_hospital_department']]}</td>
       </tr>
        <tr>
-        <th class="text-r" width="120">医院：</th>
+        <th class="text-r" width="120">床位：</th>
         <td>{$customerInfo['customer_bed_no']}</td>
       </tr>
       {/if}

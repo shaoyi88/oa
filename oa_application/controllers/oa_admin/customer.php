@@ -47,7 +47,10 @@ class Customer extends OA_Controller
 	 */
 	public function add()
 	{
-		$data = array();	
+		$data = array();
+		$this->load->model('OA_Hospital');	
+		$hospitalInfo = $departmentInfo = array();
+		$hospitalInfo = $this->OA_Hospital->queryByPid(0);	
 		if($this->input->get('cid')){
 			if(checkRight('customer_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -57,6 +60,9 @@ class Customer extends OA_Controller
 			$data['typeMsg'] = '编辑';
 			$this->load->model('OA_Customer');
 			$data['info'] = $this->OA_Customer->getCustomerInfo($cid);
+			if($data['info']['customer_hospital']){
+				$departmentInfo = $this->OA_Hospital->queryByPid($data['info']['customer_hospital']);	
+			}
 		}else{
 			if(checkRight('customer_add') === FALSE){
 				$this->showView('denied', $data);
@@ -64,8 +70,10 @@ class Customer extends OA_Controller
 			}
 			$data['typeMsg'] = '新增';
 		}
+		$data['hospitalInfo'] = $hospitalInfo;
+		$data['departmentInfo'] = $departmentInfo;
 		$data['sexInfo'] = $this->config->item('sex');
-		$data['languageInfo'] = $this->config->item('language');
+		$data['languageInfo'] = $this->config->item('customer_language');
 		$data['groupInfo'] = $this->config->item('customer_group');
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
 		$data['hobbyTypeInfo'] = $this->config->item('hobby_type');
@@ -205,6 +213,8 @@ class Customer extends OA_Controller
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
 		$data['serviceLevel1'] = $this->config->item('service_level_1');
 		$data['serviceLevel2'] = $this->config->item('service_level_2');
+		$this->load->model('OA_Hospital');	
+		$data['hospitalInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('customerDetail', $data);
 	}
 	
@@ -231,6 +241,9 @@ class Customer extends OA_Controller
 		$data['tabType'] = 0;
 		$data['groupInfo'] = $this->config->item('customer_group');
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$this->load->model('OA_Hospital');	
+		$hospitalInfo = $departmentInfo = array();
+		$hospitalInfo = $this->OA_Hospital->queryByPid(0);	
 		if($this->input->post('tabType')){
 			$data['tabType'] = $this->input->post('tabType');
 			$queryData = $this->input->post();
@@ -249,6 +262,7 @@ class Customer extends OA_Controller
 				unset($queryData['customer_hospital']);
 			}else{
 				$data['customer_hospital'] = $queryData['customer_hospital'];
+				$departmentInfo = $this->OA_Hospital->queryByPid($data['customer_hospital']);	
 			}
 			if(!$queryData['customer_hospital_department']){
 				unset($queryData['customer_hospital_department']);
@@ -259,6 +273,9 @@ class Customer extends OA_Controller
 				$data['queryCustomerCount'] = $this->OA_Customer->getCustomerCountByKey($queryData);
 			}
 		}
+		$data['hospitalNameInfo'] = $this->OA_Hospital->getNameList();
+		$data['hospitalInfo'] = $hospitalInfo;
+		$data['departmentInfo'] = $departmentInfo;
 		$this->showView('customerStat', $data);
 	}
 }
