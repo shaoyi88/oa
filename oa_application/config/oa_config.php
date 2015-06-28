@@ -69,7 +69,7 @@ $config['menus'] = array(
 		),
 		'right' => 'customer_service'
 	),
-	
+
 	array(
 		'module' => '财务管理',
 		'menu' => array(
@@ -77,7 +77,16 @@ $config['menus'] = array(
 			array('对账管理', formatUrl('finance/balance'), 'finance_balance')
 		),
 		'right' => 'finance'
-	)
+	),
+
+    array(
+        'module' => '预约服务管理',
+        'menu' => array(
+            array('预约单管理', formatUrl('service/appointment_management'), 'service_appointment_manager'),
+            array('用户管理', formatUrl('service/user_management'), 'service_user_management')
+        ),
+        'right' => 'service'
+    )
 );
 
 $config['rights'] = array(
@@ -183,7 +192,15 @@ $config['rights'] = array(
 			array('对账管理', 'finance_balance')
 		),
 		'right' => 'finance'
-	)
+	),
+    array(
+        'module' => '预约服务管理',
+        'roles' => array(
+            array('预约单管理', 'service_appointment_management'),
+            array('用户管理', 'service_user_management')
+        ),
+        'right' => 'service'
+    )
 );
 
 $config['sex'] = array(

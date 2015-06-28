@@ -1,4 +1,6 @@
 <script type="text/javascript" src="/public/common/js/angular.min.js"></script>
+<script type="text/javascript" src="/public/common/js/angular-resource.min.js"></script>
+<script type="text/javascript" src="/public/common/js/app.js"></script>
 <link rel="stylesheet" href="/public/oa_admin/css/service.css"/>
 
 {*刷新按钮*}
