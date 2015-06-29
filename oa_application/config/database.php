@@ -61,7 +61,7 @@ $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
 $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = FALSE;
+$db['default']['autoinit'] = TRUE; //解决了更新时间的字段出现的错误，Message: mysql_escape_string(): This function is deprecated; use mysql_real_escape_string() instead. Filename: mysql/mysql_driver.php
 $db['default']['stricton'] = FALSE;
 
 
