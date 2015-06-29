@@ -26,7 +26,7 @@ class OA_Controller extends CI_Controller
 	public function _remap($method, $params = array())
 	{
 		register_shutdown_function(array($this, 'handleFatalError'));
-		declare(encoding='UTF-8');
+//		declare(encoding='UTF-8');
 		mb_internal_encoding("UTF-8");
 		
 		$rtr =& load_class('Router', 'core');
@@ -96,7 +96,7 @@ class OA_Controller extends CI_Controller
 		}
 	}
 	
-	function send_json($params)
+	function  send_json($params)
 	{
 		$json = json_encode((array)$params);
 		header('Status: 200 OK');

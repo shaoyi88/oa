@@ -40,11 +40,11 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
             change.id = $scope.appointments[index].id;
             console.log(change.id);
             var result = change.get({id: $scope.appointments[index].id},function(){
-                console.log(result.status);
                 if(result.status == 200){
-
                     $scope.appointments[index].button = '已处理';
                     $scope.appointments[index].btnClass = 'disabled';
+                }else{
+                    console.log(result);
                 }
             });
         }

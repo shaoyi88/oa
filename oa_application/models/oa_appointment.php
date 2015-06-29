@@ -30,6 +30,8 @@ class OA_Appointment extends CI_Model
         $this->db->order_by('s.id desc');
 //        $this->db->limit(10);
 
+
+        //TODO：此处应该再优化一点，这样写没有扩展性
         switch($type){
             case 'unprocessed':
                 $this->db->where('state', 1000);
@@ -56,11 +58,18 @@ class OA_Appointment extends CI_Model
 
     public function update_to_processed($id){
         if(!empty($id)){
-            $data = array(
-                'state' => 2000
-            );
-            $this->db->where('id', $id);
-            $this->db->update($this->_table, $data);
+            try{
+                $data = array(
+                    'state' => 2000
+                );
+                $this->db->where('id', $id);
+                $this->db->update($this->_table, $data);
+//                $this->db->set('contact_time' , date('Y-m-d H:i:s'), false);
+                return true;
+            }catch(Exception $e){
+                return $e->getMessage();
+            }
+
         }else{
             return false;
         }

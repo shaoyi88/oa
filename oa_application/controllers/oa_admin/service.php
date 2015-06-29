@@ -30,17 +30,24 @@ class service extends OA_Controller
         $this->send_json($this->OA_Appointment->getAppointment($params['type']));
     }
 
+    /*
+     *改变订单的状态为已处理，这里是临时开发阶段，下一阶段需完善
+     * */
     public function change_to_processed(){
-//        $params = file_get_contents('php://input', true);
+
         $params = $this->input->get();
         $this->load->model('OA_Appointment');
         $result =  $this->OA_Appointment->update_to_processed($params['id']);
         $status = array();
-        if(!$result){
+        if($result == true){
             $status['status'] = 200;
         }else{
-            $status['status'] = 500;
-            $status['error_msg'] = '无法找到相应的条目';
+            $status = array(
+                'status' => 500,
+                'error_msg' => $result
+            );
+//            $status['status'] = 500;
+//            $status['error_msg'] = $result.getMessage();
         }
         $this->send_json($status);
     }
