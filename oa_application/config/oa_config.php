@@ -9,7 +9,7 @@ $config['menus'] = array(
 		),
 		'right' => 'sys'
 	),
-	
+
 	array(
 		'module' => '资料管理',
 		'menu' => array(
@@ -19,17 +19,18 @@ $config['menus'] = array(
 		),
 		'right' => 'record'
 	),
-	
+
 	array(
 		'module' => '护工管理',
 		'menu' => array(
 			array('护工资料管理', formatUrl('worker/index'), 'worker_list'),
 			array('护工服务统计', formatUrl('worker/stat'), 'worker_stat'),
-			array('服务评价管理', formatUrl('worker/comment'), 'worker_comment')
+			array('服务评价管理', formatUrl('worker/comment'), 'worker_comment'),
+			array('驻点医院管理', formatUrl('hospital/index'), 'hospital_list'),
 		),
 		'right' => 'worker'
 	),
-	
+
 	array(
 		'module' => '签约管理',
 		'menu' => array(
@@ -38,7 +39,7 @@ $config['menus'] = array(
 		),
 		'right' => 'sign'
 	),
-	
+
 	array(
 		'module' => '服务跟踪管理',
 		'menu' => array(
@@ -47,7 +48,7 @@ $config['menus'] = array(
 		),
 		'right' => 'service_trace'
 	),
-	
+
 	array(
 		'module' => '培训管理',
 		'menu' => array(
@@ -58,7 +59,7 @@ $config['menus'] = array(
 		),
 		'right' => 'train'
 	),
-	
+
 	array(
 		'module' => '咨客管理',
 		'menu' => array(
@@ -131,7 +132,7 @@ $config['rights'] = array(
 		),
 		'right' => 'record'
 	),
-	
+
 	array(
 		'module' => '护工管理',
 		'roles' => array(
@@ -144,7 +145,7 @@ $config['rights'] = array(
 		),
 		'right' => 'worker'
 	),
-	
+
 	array(
 		'module' => '签约管理',
 		'roles' => array(
@@ -153,7 +154,7 @@ $config['rights'] = array(
 		),
 		'right' => 'sign'
 	),
-	
+
 	array(
 		'module' => '服务跟踪管理',
 		'roles' => array(
@@ -162,7 +163,7 @@ $config['rights'] = array(
 		),
 		'right' => 'service_trace'
 	),
-	
+
 	array(
 		'module' => '培训管理',
 		'roles' => array(
@@ -173,7 +174,7 @@ $config['rights'] = array(
 		),
 		'right' => 'train'
 	),
-	
+
 	array(
 		'module' => '咨客管理',
 		'roles' => array(
@@ -184,7 +185,7 @@ $config['rights'] = array(
 		),
 		'right' => 'customer_service'
 	),
-	
+
 	array(
 		'module' => '财务管理',
 		'roles' => array(
@@ -248,7 +249,7 @@ $config['selfcare_ability'] = array(
 );
 
 $config['service_level_1'] = array(
-	'1' => '特技护理',
+	'1' => '特级护理',
 	'2' => '一级护理',
 	'3' => '二级护理',
 	'4' => '三级护理'
@@ -257,4 +258,28 @@ $config['service_level_1'] = array(
 $config['service_level_2'] = array(
 	'1' => '专业护士',
 	'2' => '母婴护理员'
+);
+
+$config['marriage'] = array(
+	'1' => '未婚',
+	'2' => '已婚'
+);
+
+$config['education'] = array(
+	'1' => '博士',
+	'2' => '硕士',
+	'3' => '本科',
+	'4' => '大专',
+	'5' => '中专',
+	'6' => '高中',
+	'7' => '初中',
+	'8' => '小学',
+	'9' => '不识字',
+);
+
+$config['worker_status'] = array(
+	'1' => '上岗',
+	'2' => '待工',
+	'3' => '休假',
+	'4' => '离职',
 );
