@@ -60,7 +60,8 @@ class OA_Appointment extends CI_Model
         if(!empty($id)){
             try{
                 $data = array(
-                    'state' => 2000
+                    'state' => 2000,
+                    'contact_time' => date('Y-m-d H:i:s')
                 );
                 $this->db->where('id', $id);
                 $this->db->update($this->_table, $data);

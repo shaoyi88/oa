@@ -5,8 +5,8 @@
         <ul class="cl">
             <li class="current"><a href="#" ng-click="loadAppointment('all')">全部</a></li>
             <li><a href="#" ng-click="loadAppointment('unprocessed')">未处理</a></li>
-            <li><a href="#">准备派遣</a></li>
-            <li><a href="#">服务中</a></li>
+            {*<li><a href="#">准备派遣</a></li>*}
+            {*<li><a href="#">服务中</a></li>*}
             <li><a href="#" ng-click="loadAppointment('processed')">完成</a></li>
         </ul>
     </nav>
@@ -20,6 +20,8 @@
             <th class="text-align-center">与被服务者的关系</th>
             <th class="text-align-center">方便联系的时间段</th>
             <th class="text-align-center">服务地址</th>
+            <th class="text-align-center">创建时间</th>
+            <th class="text-align-center">联系时间</th>
             <th class="text-align-center">订单状态</th>
             <th class="text-align-center">处理</th>
         </tr>
@@ -33,6 +35,8 @@
                 <td>{{appointment.relationship}}</td>
                 <td>{{appointment.easy_time}}</td>
                 <td>{{appointment.address}}</td>
+                <td>{{appointment.confirm_time}}</td>
+                <td>{{appointment.contact_time}}</td>
                 <td>{{appointment.state}}</td>
                 <td><div class="btn  radius" ng-click="changeStatus($index)" ng-class="appointment.btnClass">{{appointment.button}}</div></td>
             </tr>
@@ -41,7 +45,6 @@
 
     </table>
 
-    <div id="page1">sdafdsa</div>
 </body>
 
 
