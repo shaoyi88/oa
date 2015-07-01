@@ -41,6 +41,7 @@ class service extends OA_Controller
         $status = array();
         if($result == true){
             $status['status'] = 200;
+            $status['contact_time'] = date('Y-m-d H:i:s');
         }else{
             $status = array(
                 'status' => 500,

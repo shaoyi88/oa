@@ -41,6 +41,8 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
             console.log(change.id);
             var result = change.get({id: $scope.appointments[index].id},function(){
                 if(result.status == 200){
+                    $scope.appointments[index].state = 2000;
+                    $scope.appointments[index]['contact_time'] = result.contact_time;
                     $scope.appointments[index].button = '已处理';
                     $scope.appointments[index].btnClass = 'disabled';
                 }else{

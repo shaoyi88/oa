@@ -40,6 +40,8 @@
 
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
+//$route['wor/detail/(:num)'] = "oa_admin/worker/detail/$1";
+//$route['wor/detail/(:any)/'] = "oa_admin/worker/detail/$1/$2/$3";
 
 
 /* End of file routes.php */
