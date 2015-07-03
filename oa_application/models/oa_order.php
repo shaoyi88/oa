@@ -57,4 +57,42 @@ class OA_Order extends CI_Model
 		}
 		return TRUE;
 	}
+	
+	/**
+	 * 
+	 * 获取订单信息
+	 * @param unknown_type $order_id
+	 */
+	public function getOrderInfo($order_id)
+	{
+		$query = $this->db->get_where($this->_table, array('order_id' => $order_id));
+		$info = array();
+		if($query){
+			$info = $query->row_array();
+		}
+		return $info;
+	}
+	
+	/**
+	 * 
+	 * 更新订单
+	 * @param unknown_type $data
+	 */
+	public function update($data)
+	{
+		
+        $this->db->where('order_id', $data['order_id']);
+		$this->db->update($this->_table, $data); 
+	}
+	
+	/**
+	 * 
+	 * 删除
+	 * @param unknown_type $ids
+	 */
+	public function del($order_id)
+	{
+		$this->db->where('order_id', $order_id);
+		$this->db->delete($this->_table); 
+	} 
 }

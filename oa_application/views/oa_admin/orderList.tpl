@@ -42,7 +42,7 @@
     <tbody>
       {foreach $dataList as $item}
       <tr class="text-c">
-      	<td>{$item['order_no']}</td>
+      	<td><a class="c-primary" title="详情" href="{formatUrl('order/detail?oid=')}{$item['order_id']}"><u class="c-primar">{$item['order_no']}</u></a></td>
         <td>{$serviceTypeInfo[$item['service_type']]}</td>
         <td>{$order_service_mode[$item['service_mode']][0]}</td>
         <td>{$item['order_fee']}元/{$order_fee_unit[$item['order_fee_unit']]}</td>
@@ -52,12 +52,13 @@
         <td>{if $item['order_total_cost']}{$item['order_total_cost']}元{else}未结算{/if}</td>
         <td>{$order_status[$item['order_status']]}</td>
         <td>
-        	 <a class="btn btn-primary radius" title="详情" href="{formatUrl('order/detail?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">详情</a>
-        	 {if checkRight('order_set_worker') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" title="指派护工" href="{formatUrl('order/setWorker?oid=')}{$item['order_id']}" class="ml-5" style="text-decoration:none;margin-bottom:10px">指派护工</a>{/if}
-        	 {if checkRight('order_change_worker') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="更换护工" href="{formatUrl('order/changeWorker?oid=')}{$item['order_id']}" class="ml-5" style="text-decoration:none;margin-bottom:10px">更换护工</a>{/if}
-        	 {if checkRight('order_edit') && ($item['order_status'] == 1 || $item['order_status'] == 2)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="编辑" href="{formatUrl('order/edit?oid=')}{$item['order_id']}" class="ml-5" style="text-decoration:none;margin-bottom:10px">编辑</a>{/if}
-        	 {if checkRight('order_cancel') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" oid="{$item['order_id']}" title="取消" href="javascript:;" class="ml-5 del" style="text-decoration:none;margin-bottom:10px">取消</a>{/if}
-        	 {if checkRight('order_del') && ($item['order_status'] == 1 || $item['order_status'] == 4)}&nbsp;&nbsp;<a class="btn btn-primary radius" oid="{$item['order_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none;margin-bottom:10px">删除</a>{/if}
+        	 {if checkRight('order_set_worker') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" title="指派护工" href="{formatUrl('order/setWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">指派护工</a>{/if}
+        	 {if checkRight('order_change_worker') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="更换护工" href="{formatUrl('order/changeWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">更换护工</a>{/if}
+        	 {if checkRight('order_advance_payment') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="预付款" href="{formatUrl('order/advancePayment?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">预付款</a>{/if}
+        	 {if checkRight('order_balance') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="结算" href="{formatUrl('order/balance?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">结算</a>{/if}
+        	 {if checkRight('order_edit') && ($item['order_status'] == 1 || $item['order_status'] == 2)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="编辑" href="{formatUrl('order/edit?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">编辑</a>{/if}
+        	 {if checkRight('order_cancel') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius cancel" oid="{$item['order_id']}" title="取消" href="javascript:;" style="text-decoration:none;margin-bottom:10px">取消</a>{/if}
+        	 {if checkRight('order_del') && $item['order_status'] == 4}&nbsp;&nbsp;<a class="btn btn-primary radius del" oid="{$item['order_id']}" title="删除" href="javascript:;" style="text-decoration:none;margin-bottom:10px">删除</a>{/if}
         </td>
       </tr>
       {/foreach}
@@ -67,4 +68,5 @@
   	{/if}
 </div>
 <input type="hidden" id="delUrl" value="{formatUrl('order/doDel')}"></input>
+<input type="hidden" id="cancelUrl" value="{formatUrl('order/doCancel')}"></input>
 <script type="text/javascript" src="/public/oa_admin/js/order.js"></script>

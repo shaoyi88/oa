@@ -156,14 +156,15 @@ $config['rights'] = array(
 	array(
 		'module' => '签约管理',
 		'roles' => array(
-			array('预约管理', 'subscribe_list'),
 			array('订单管理', 'order_list'),
 			array('订单增加', 'order_add'),
 			array('订单编辑', 'order_edit'),
 			array('订单删除', 'order_del'),
-			array('订单取消', 'order_cancel'),
+			array('订单取消', 'order_cancel', TRUE),
 			array('订单指派护工', 'order_set_worker'),
-			array('订单更换护工', 'order_change_worker')
+			array('订单更换护工', 'order_change_worker'),
+			array('订单预付款', 'order_advance_payment'),
+			array('订单结算', 'order_balance')
 		),
 		'right' => 'sign'
 	),
@@ -323,8 +324,8 @@ $config['order_fee_unit'] = array(
 );
 
 $config['order_status'] = array(
-	'1' => '未确认', //支持查看，指派护工，取消，删除，编辑
-	'2' => '进行中', //支持查看，编辑，更换护工
+	'1' => '未确认', //支持查看，指派护工，取消，编辑
+	'2' => '进行中', //支持查看，编辑，更换护工，预付款，结算
 	'3' => '已完成', //支持查看
 	'4' => '已取消'  //支持查看，删除
 );

@@ -13,6 +13,22 @@ var order = function(){
 			var mytime=myDate.toLocaleDateString();  
 			WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:mytime});
 		});
+		$('.cancel').click(cancelOrder);
+		$('.del').click(delOrder);
+	};
+	
+	var delOrder = function(event){
+		var oid = $(event.currentTarget).attr('oid');
+		layer.confirm('确定删除该订单吗？',function(index){
+		    window.location.href = $('#delUrl').val()+'?oid='+oid;
+		});
+	};
+	
+	var cancelOrder = function(event){
+		var oid = $(event.currentTarget).attr('oid');
+		layer.confirm('确定取消该订单吗？',function(index){
+		    window.location.href = $('#cancelUrl').val()+'?oid='+oid;
+		});
 	};
 	
 	var customerChange = function(event){

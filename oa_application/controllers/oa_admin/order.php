@@ -80,4 +80,52 @@ class Order extends OA_Controller
 		}
 		redirect(formatUrl('order/index'.$msg));
 	}
+	
+	/**
+	 * 
+	 * 取消订单
+	 */
+	public function doCancel()
+	{
+		if(checkRight('order_cancel') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($oid);
+		if(empty($orderInfo)){
+			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
+		}else if($orderInfo['order_status'] != 1){
+			redirect(formatUrl('order/index?msg='.urlencode('该订单不可取消')));
+		}else{
+			$data['order_id'] = $oid;
+			$data['order_status'] = 4;
+			$this->OA_Order->update($data);
+			redirect(formatUrl('order/index?msg='.urlencode('取消订单成功')));
+		}
+	}
+	
+	/**
+	 * 
+	 * 删除订单
+	 */
+	public function doDel()
+	{
+		if(checkRight('order_del') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($oid);
+		if(empty($orderInfo)){
+			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
+		}else if($orderInfo['order_status'] != 4){
+			redirect(formatUrl('order/index?msg='.urlencode('该订单不可删除')));
+		}else{
+			$this->OA_Order->del($oid);
+			redirect(formatUrl('order/index?msg='.urlencode('删除订单成功')));
+		}
+	}
 }
