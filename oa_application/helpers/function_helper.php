@@ -18,7 +18,7 @@ function redirect($uri = '')
 function formatUrl($uri = '')
 {
 	$ci =& get_instance();
-	return base_url().config_item('index_page').'/'.$ci->rtrDir.$uri;
+	return base_url().config_item('index_page').$ci->rtrDir.$uri;
 }
 
 /**

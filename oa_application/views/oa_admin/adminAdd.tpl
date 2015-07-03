@@ -4,9 +4,20 @@
 		{if isset($info)}
 		<input name="admin_id" type="hidden" value="{$info['admin_id']}">
 		{/if}
-		<input name="admin_department" type="hidden" value="{$did}">
 		<table class="table table-border table-bordered table-bg">
 			<tbody>
+				<tr>
+          		     <th class="text-r" width="80">部门：</th>
+          			 <td>
+          			 	<select class="select" id="admin_department" name="admin_department" nullmsg="部门不能为空！" datatype="*">
+      						{foreach $departmentTree as $item}
+      						<option value="{$item['id']}" {if $did == $item['id']}selected{/if}>
+      						{if $item['level'] > 0}{str_repeat('&nbsp', $item['level']*2)}├ {/if}{$item['department_name']}
+      						</option>
+      						{/foreach}
+    					</select>
+          			 </td>
+        		</tr>
 				<tr>
           		     <th class="text-r" width="80">账户：</th>
           			 <td><input name="admin_account" type="text" {if isset($info)}disabled{/if} class="input-text" id="admin_account" value="{if isset($info)}{$info['admin_account']}{/if}" nullmsg="账户不能为空！" datatype="s"></td>

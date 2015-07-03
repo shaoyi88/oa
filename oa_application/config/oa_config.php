@@ -34,7 +34,6 @@ $config['menus'] = array(
 	array(
 		'module' => '签约管理',
 		'menu' => array(
-			array('预约管理', formatUrl('subscribe/index'), 'subscribe_list'),
 			array('订单管理', formatUrl('order/index'), 'order_list')
 		),
 		'right' => 'sign'
@@ -150,7 +149,13 @@ $config['rights'] = array(
 		'module' => '签约管理',
 		'roles' => array(
 			array('预约管理', 'subscribe_list'),
-			array('订单管理', 'order_list')
+			array('订单管理', 'order_list'),
+			array('订单增加', 'order_add'),
+			array('订单编辑', 'order_edit'),
+			array('订单删除', 'order_del'),
+			array('订单取消', 'order_cancel'),
+			array('订单指派护工', 'order_set_worker'),
+			array('订单更换护工', 'order_change_worker')
 		),
 		'right' => 'sign'
 	),
@@ -222,8 +227,8 @@ $config['customer_group'] = array(
 );
 
 $config['customer_service_type'] = array(
-	'1' => '家护',
-	'2' => '医护',
+	'1' => '居家照护',
+	'2' => '医疗陪护',
 	'3' => '陪诊',
 	'4' => '月嫂'
 );
@@ -282,4 +287,28 @@ $config['worker_status'] = array(
 	'2' => '待工',
 	'3' => '休假',
 	'4' => '离职',
+);
+
+$config['order_service_mode'] = array(
+	'1' => array('一对一', 1),
+	'2' => array('一对多', 2),
+	'3' => array('多对一', 1),
+);
+
+$config['worker_service_mode'] = array(
+	'1' => '一对一',
+	'2' => '一对多',
+);
+
+$config['order_fee_unit'] = array(
+	'1' => '月',
+	'2' => '天',
+	'3' => '小时',
+);
+
+$config['order_status'] = array(
+	'1' => '未确认', //支持查看，指派护工，取消，删除，编辑
+	'2' => '进行中', //支持查看，编辑，更换护工
+	'3' => '已完成', //支持查看
+	'4' => '已取消'  //支持查看，删除
 );

@@ -7,7 +7,7 @@
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('user/index')}" method="post">
   		<div class="text-c"> 
-   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入用户ID/微信号/昵称/手机" id="keyword" name="keyword">
+   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入用户ID/姓名/微信号/昵称/手机" id="keyword" name="keyword">
     		&nbsp;&nbsp;&nbsp;&nbsp;
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜用户</button>
   		</div>
@@ -28,6 +28,7 @@
     <thead>
       <tr class="text-c">
       	<th>ID</th>
+      	<th>姓名</th>
         <th>昵称</th>
         <th>微信</th>
         <th>手机</th>
@@ -41,6 +42,7 @@
       {foreach $dataList as $item}
       <tr class="text-c">
       	<td>{$item['user_id']}</td>
+      	<td>{$item['user_name']}</td>
         <td>{if $item['user_nickname'] != ''}{$item['user_nickname']}{else}暂无{/if}</td>
         <td>{if $item['user_weixin'] != ''}{$item['user_weixin']}{else}暂无{/if}</td>
         <td>{$item['user_phone']}</td>

@@ -61,9 +61,11 @@ class OA_Department extends CI_Model
 	 * 获取树
 	 * @param unknown_type $pid
 	 */
-	public function getListTree($pid)
+	public function getListTree($pid, $allList = NULL)
 	{
-		$allList = $this->_getAll();
+		if($allList === NULL){
+			$allList = $this->_getAll();
+		}
 		$reuslt = array();
 		$this->_getSubList($reuslt, $allList, $pid, 0);
 		return $reuslt;

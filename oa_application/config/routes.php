@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "welcome";
+$route['default_controller'] = "oa_admin/home";
 $route['404_override'] = '';
 //$route['wor/detail/(:num)'] = "oa_admin/worker/detail/$1";
 //$route['wor/detail/(:any)/'] = "oa_admin/worker/detail/$1/$2/$3";

@@ -62,6 +62,7 @@ class OA_User extends CI_Model
 		$this->db->or_where('user_weixin', $keyword);
 		$this->db->or_where('user_nickname', $keyword); 
 		$this->db->or_where('user_phone', $keyword); 
+		$this->db->or_where('user_name', $keyword); 
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();

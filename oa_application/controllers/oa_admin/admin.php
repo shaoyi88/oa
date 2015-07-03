@@ -30,8 +30,14 @@ class Admin extends OA_Controller
 			if($this->input->get('pid', TRUE)){
 				$pid = $this->input->get('pid', TRUE);
 			}
+			$subList = $this->OA_Department->getListTree($pid, $data['departmentTree']);
+			$idList = array();
+			$idList[] = $pid;
+			foreach($subList as $item){
+				$idList[] = $item['id'];
+			}
 			$this->load->model('OA_Admin');
-			$adminList = $this->OA_Admin->queryAdminByDepartment($pid);
+			$adminList = $this->OA_Admin->queryAdminByDepartment($idList);
 			$data['pid'] = $pid;
 		}
 		$data['adminList'] = $adminList;
@@ -45,9 +51,10 @@ class Admin extends OA_Controller
 	public function add()
 	{
 		$data = array();
-		$data['did'] = $this->input->get('did');
 		$this->load->model('OA_Role');
 		$data['roleList'] = $this->OA_Role->getAll();
+		$this->load->model('OA_Department');
+		$data['departmentTree'] = $this->OA_Department->getListTree(0);
 		if($this->input->get('id')){
 			if(checkRight('admin_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -56,12 +63,14 @@ class Admin extends OA_Controller
 			$id = $this->input->get('id');
 			$this->load->model('OA_Admin');
 			$data['info'] = $this->OA_Admin->queryAdminByid($id);
+			$data['did'] = $data['info']['admin_department'];
 			$data['typeMsg'] = '编辑';
 		}else{
 			if(checkRight('admin_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
+			$data['did'] = $this->input->get('did');
 			$data['typeMsg'] = '新增';
 		}
 		$this->showView('adminAdd', $data);

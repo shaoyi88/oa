@@ -10,6 +10,25 @@ class Follow extends OA_Controller
 	
 	/**
 	 * 
+	 * 获取关注客户
+	 */
+	public function getFollowCustomer()
+	{
+		if($this->input->get('uid')){
+			$uid = $this->input->get('uid');
+		}
+		$this->load->model('OA_Follow');
+		$customerList = $this->OA_Follow->queryFollowByUid($uid);	
+		if(empty($customerList)){			
+			$this->send_json(array('status'=>0));
+		}else{
+			$this->send_json(array('status'=>1,'customerList'=>$customerList));
+		}
+	}
+	
+	
+	/**
+	 * 
 	 * 增加关注病人逻辑
 	 */
 	public function doAdd()

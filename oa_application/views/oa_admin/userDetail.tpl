@@ -19,6 +19,10 @@
   <table class="table table-bg table-border table-bordered">
     <tbody>
       <tr>
+        <th class="text-r" width="120">姓名：</th>
+        <td>{$userInfo['user_name']}</td>
+      </tr>
+      <tr>
         <th class="text-r" width="120">性别：</th>
         <td>{$sexInfo[$userInfo['user_sex']]}</td>
       </tr>
@@ -35,10 +39,10 @@
         <td>{if $userInfo['user_last_visit_time'] != ''}{date('Y-m-d H:i:s',$userInfo['user_last_visit_time'])}{else}暂无{/if}</td>
       </tr>
       <tr>
-        <th class="text-r">{if checkRight('user_address_add')}<a id="addAddress" title="增加地址" href="javascript:;" style="text-decoration:none"><i class="icon-plus"></i></a>{/if}地址：</th>
+        <th class="text-r">地址：</th>
         <td>
         	{if empty($addressInfo)}
-        		暂无地址
+        		<p style="font-weight:bolder;margin-bottom:0;">暂无地址</p>
         	{else}
         		<table class="table table-bg table-border table-bordered">
         			<tbody>
@@ -56,13 +60,16 @@
         			</tbody>
         		</table>
         	{/if}
+        	{if checkRight('user_address_add')}
+        		<a class="btn btn-primary radius" id="addAddress" title="增加地址" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
+        	{/if}
         </td>
       </tr>
       <tr>
-        <th class="text-r">{if checkRight('user_coupon_add')}<a id="addCoupon" title="增加红包" href="javascript:;" style="text-decoration:none"><i class="icon-plus"></i></a>{/if}红包：</th>
+        <th class="text-r">红包：</th>
         <td>
         	{if empty($couponInfo)}
-        		暂无红包
+        		<p style="font-weight:bolder;margin-bottom:0;">暂无红包</p>
         	{else}
         		<table class="table table-bg table-border table-bordered">
         			<tbody>
@@ -79,13 +86,16 @@
         			</tbody>
         		</table>
         	{/if}
+        	{if checkRight('user_coupon_add')}
+        		<a class="btn btn-primary radius" id="addCoupon" title="增加红包" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
+        	{/if}
         </td>
       </tr>
       <tr>
-        <th class="text-r">{if checkRight('user_follow_add')}<a id="addFollow" title="增加关注病人" href="javascript:;" style="text-decoration:none"><i class="icon-plus"></i></a>{/if}关注的病人：</th>
+        <th class="text-r">关注的病人：</th>
         <td>
         	{if empty($followInfo)}
-        		暂无关注病人
+        		<p style="font-weight:bolder;margin-bottom:0;">暂无关注病人</p>
         	{else}
         		<table class="table table-bg table-border table-bordered">
         			<tbody>
@@ -101,6 +111,9 @@
         			{/foreach}
         			</tbody>
         		</table>
+        	{/if}
+        	{if checkRight('user_follow_add')}
+        		<a class="btn btn-primary radius" id="addFollow" title="增加关注病人" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
         	{/if}
         </td>
       </tr>

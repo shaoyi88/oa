@@ -7,6 +7,10 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
+          		     <th class="text-r" width="80">姓名：</th>
+          			 <td><input name="user_name" type="text" class="input-text" id="user_name" value="{if isset($info)}{$info['user_name']}{/if}" nullmsg="姓名不能为空！" datatype="s"></td>
+        		</tr>
+      			<tr>
           		     <th class="text-r" width="80">手机：</th>
           			 <td><input name="user_phone" type="text" class="input-text" id="user_phone" value="{if isset($info)}{$info['user_phone']}{/if}" errormsg="请输入正确的手机号码！" nullmsg="手机不能为空！" datatype="m"></td>
         		</tr>
