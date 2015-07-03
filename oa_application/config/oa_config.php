@@ -86,7 +86,15 @@ $config['menus'] = array(
             array('用户管理', formatUrl('service/user_management'), 'service_user_management')
         ),
         'right' => 'service'
-    )
+    ),
+	array(
+		'module' => '知识库管理',
+		'menu' => array(
+			array('管理知识库', formatUrl('knowledge/index'), 'knowledge_management'),
+			array('添加类目', formatUrl('knowledge/add_title'), 'knowledge_add_title')
+		),
+		'right' => 'knowledge'
+	)
 );
 
 $config['rights'] = array(
@@ -206,7 +214,15 @@ $config['rights'] = array(
             array('用户管理', 'service_user_management')
         ),
         'right' => 'service'
-    )
+    ),
+	array(
+		'module' => '知识库管理',
+		'roles' => array(
+			array('管理知识库', 'knowledge_management'),
+			array('添加类目', 'knowledge_add_title')
+		),
+		'right' => 'finance'
+	)
 );
 
 $config['sex'] = array(
