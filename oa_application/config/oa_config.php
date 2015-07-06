@@ -65,7 +65,7 @@ $config['menus'] = array(
 			array('客服人员管理', formatUrl('customerService/index'), 'customer_service_list'),
 			array('工单记录管理', formatUrl('customerService/record'), 'customer_service_record'),
 			array('工单跟踪管理', formatUrl('customerService/trace'), 'customer_service_trace'),
-			array('问题统计分析', formatUrl('customerService/stat'), 'customer_service_stat')
+			array('问题统计分析', formatUrl('customerService/statistical'), 'customer_service_stat')
 		),
 		'right' => 'customer_service'
 	),
