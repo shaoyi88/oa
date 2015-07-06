@@ -329,3 +329,20 @@ $config['order_status'] = array(
 	'3' => '已完成', //支持查看
 	'4' => '已取消'  //支持查看，删除
 );
+
+$config['customerservice_status'] = array(
+	'1' => '未指派',
+	'2' => '已指派',
+	'3' => '处理中',
+	'4' => '已解决',
+	'5' => '已取消',
+);
+
+$config['customerservice_type'] = array(
+	'1' => '服务投诉',
+	'2' => '服务预约',
+	'3' => '服务续签',
+	'4' => '发票问题',
+);
+
+$config['customerservice_role'] = 2;

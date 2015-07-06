@@ -1,15 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Login extends OA_Controller 
+class Login extends OA_Controller
 {
 	protected function initialize()
 	{
 		parent::initialize();
 		checkLogin();
-	}	
-	
+	}
+
 	/**
-	 * 
+	 *
 	 * 登录页面
 	 */
 	public function index()
@@ -21,9 +21,9 @@ class Login extends OA_Controller
 		$data['layout'] = FALSE; //不使用layout文件
 		$this->showView('login', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 登录处理
 	 */
 	public function actionLogin()
@@ -45,8 +45,8 @@ class Login extends OA_Controller
 		if($adminInfo['admin_role'] == 0){
 			$info['admin_rights'] = 'all';
 		}else{
-			$this->load->model('Role');
-			$roleInfo = $this->Role->getRoleInfo($adminInfo['admin_role']);
+			$this->load->model('OA_Role');
+			$roleInfo = $this->OA_Role->getRoleInfo($adminInfo['admin_role']);
 			$info['admin_rights'] = $roleInfo['role_rights'];
 		}
 		$this->session->set_userdata($info);

@@ -1,0 +1,293 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+class Customerservice extends OA_Controller
+{
+	protected function initialize()
+	{
+		parent::initialize();
+		checkLogin();
+	}
+
+	/**
+	 *
+	 * 咨客首页
+	 */
+	public function index()
+	{
+		$data = $undeal = array();
+		$this->load->model('OA_Admin');
+		$role = $this->config->item('customerservice_role');
+		$dataList = $this->OA_Admin->queryAdminByRole($role);
+		$this->load->model('OA_Department');
+		$dpname = $this->OA_Department->getDepartmentName();
+		$data['dataList'] = $dataList;
+		$data['dpname'] = $dpname;
+		$this->load->model('OA_Customerservice');
+		$key['cs_status'] = 2;
+		$csList = $this->OA_Customerservice->searchCs($key);
+		foreach($csList as $val){
+			if(!empty($val['appointed'])){
+				if(!isset($undeal[$val['appointed']])){
+				    $undeal[$val['appointed']] = 1;
+			    }else{
+				    $undeal[$val['appointed']]++;
+			    }
+			}
+		}
+		$data['undeal'] = $undeal;
+		$this->showView('customerserviceAdmin', $data);
+	}
+
+	/**
+	 *
+	 * 客服问题
+	 */
+	public function record()
+	{
+		$data = array();
+		if(checkRight('customer_service_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
+		$this->load->model('OA_Customerservice');
+		if($this->input->post()){
+			$dataList = $this->OA_Customerservice->searchCs($this->input->post());
+		}else{
+			$offset = 0;
+			$pageUrl = '';
+			page(formatUrl('customerservice/record').'?', $this->OA_Customerservice->getCsCount(), PER_COUNT, $offset, $pageUrl);
+			$dataList = $this->OA_Customerservice->getCs($offset, PER_COUNT);
+			$data['pageUrl'] = $pageUrl;
+		}
+		$data['dataList'] = $dataList;
+		$data['cstype'] = $this->config->item('customerservice_type');
+		$data['csstatus'] = $this->config->item('customerservice_status');
+		$data['admin'] = $this->session->userdata('admin_name');
+		$this->load->model('OA_Admin');
+		$role = $this->config->item('customerservice_role');
+		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
+		$this->showView('customerserviceList', $data);
+	}
+
+	/**
+	 *
+	 * 增加/编辑客服问题
+	 */
+	public function add()
+	{
+		$data = array();
+		if($this->input->get('id')){
+			if(checkRight('customer_service_record') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$id = $this->input->get('id');
+			$data['typeMsg'] = '处理';
+			$this->load->model('OA_Customerservice');
+			$data['info'] = $this->OA_Customerservice->getCsInfo($id);
+			$data['csstatus'] = $this->config->item('customerservice_status');
+		}else{
+			if(checkRight('customer_service_record') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data['typeMsg'] = '新增';
+		}
+		$this->load->model('OA_Admin');
+		$role = $this->config->item('customerservice_role');
+		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
+        $data['cstype'] = $this->config->item('customerservice_type');
+		$this->showView('customerserviceAdd', $data);
+	}
+
+	/**
+	 *
+	 * 增加/编辑逻辑
+	 */
+	public function doAdd()
+	{
+		$data = array();
+		$data = $this->input->post();
+		$this->load->model('OA_Customerservice');
+		if(isset($data['id'])&&is_numeric($data['id'])){
+			if(checkRight('customer_service_record') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			if($data['cs_status']==1&&$data['appointed']){
+			    $data['cs_status'] = 2;
+			}
+			$this->OA_Customerservice->update($data);
+			redirect(formatUrl('customerservice/record'));
+		}else{
+			if(checkRight('customer_service_record') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$msg = '';
+			$data['cs_no'] = strtotime('now').rand(100000,999999);
+			$data['added_time'] = strtotime('now');
+			$data['added_by'] = $this->session->userdata('admin_name');
+			if($data['appointed']){
+				$data['cs_status'] = 2;
+			}
+			if($this->OA_Customerservice->add($data) === FALSE){
+				$msg = '?msg='.urlencode('创建失败');
+			}
+			redirect(formatUrl('customerservice/record'.$msg));
+		}
+	}
+
+	/**
+	 *
+	 * 删除
+	 */
+	public function doDel()
+	{
+		$data = array();
+		if(checkRight('customer_service_record') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$id = $this->input->get('id');
+		//删除客服问题
+		$this->load->model('OA_Customerservice');
+		$this->OA_Customerservice->del($id);
+		redirect(formatUrl('customerservice/record'));
+	}
+
+	/**
+	 *
+	 * 详情页面
+	 */
+	public function detail()
+	{
+		$data = array();
+		if(checkRight('customer_service_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
+		$id = $this->input->get('id');
+		$data['id'] = $id;
+		$this->load->model('OA_Customerservice');
+		$data['workerInfo'] = $this->OA_Customerservice->getCsInfo($id);
+		$data['csStatus'] = $this->config->item('customerservice_status');
+		$this->showView('customerserviceDetail', $data);
+	}
+
+	public function trace(){
+		$data = $postdata = array();
+		if(checkRight('customer_service_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
+		$this->load->model('OA_Customerservice');
+		$postdata = $this->input->post();
+		$dataList = $this->OA_Customerservice->searchCs($postdata);
+		$stat = $stattype = array();
+		foreach($dataList as $val){
+			if(!isset($stat[$val['added_by']][$val['cs_type']]['add'])){
+				$stat[$val['added_by']][$val['cs_type']]['add'] = 1;
+			}else{
+				$stat[$val['added_by']][$val['cs_type']]['add']++;
+			}
+			if(!empty($val['appointed'])){
+				if(!isset($stat[$val['appointed']][$val['cs_type']]['app'])){
+				    $stat[$val['appointed']][$val['cs_type']]['app'] = 1;
+			    }else{
+				    $stat[$val['appointed']][$val['cs_type']]['app']++;
+			    }
+			}
+			$stattype[] = $val['cs_type'];
+		}
+		if($postdata['cssingle']){
+			foreach($stat as $k=>$v){
+				if($k==$postdata['cssingle']){
+					$stat[$k] = $v;
+				}else{
+					unset($stat[$k]);
+				}
+			}
+		}
+		$data['dataList'] = $dataList;
+		$data['stat'] = $stat;
+		$data['stattype'] = $stattype;
+		$data['cstype'] = $this->config->item('customerservice_type');
+		$data['csstatus'] = $this->config->item('customerservice_status');
+		$data['admin'] = $this->session->userdata('admin_name');
+		$this->load->model('OA_Admin');
+		$role = $this->config->item('customerservice_role');
+		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
+		$this->showView('customerserviceTrace', $data);
+	}
+	/*
+	 * 统计分析
+	 *
+	*/
+	public function statistical(){
+		$data = $postdata = array();
+		if(checkRight('customer_service_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		if($this->input->get('msg')){
+			$data['msg'] = $this->input->get('msg');
+		}
+		$this->load->model('OA_Customerservice');
+		$postdata = $this->input->post();
+		if(!empty($postdata['sdate'])&&!empty($postdata['edate'])){
+            $d1 = strtotime($postdata['sdate']);
+            $d2 = strtotime($postdata['edate']);
+            $Days = ($d2-$d1)/86400;
+		}
+		$dataList = $this->OA_Customerservice->searchCs($postdata);
+		$stat = $stattype = $xy = array();
+		foreach($dataList as $val){
+			if(isset($Days)&&$Days<=31){
+			    if(!isset($stat[date('d',$val['added_time'])][$val['cs_type']])){
+				   $stat[date('d日',$val['added_time'])][$val['cs_type']] = 1;
+			    }else{
+				   $stat[date('d日',$val['added_time'])][$val['cs_type']]++;
+			    }
+			}else{
+				if(!isset($stat[date('m',$val['added_time'])][$val['cs_type']])){
+				   $stat[date('m月',$val['added_time'])][$val['cs_type']] = 1;
+			    }else{
+				   $stat[date('m月',$val['added_time'])][$val['cs_type']]++;
+			    }
+			}
+			$stattype[] = $val['cs_type'];
+  		}
+		$cstype = $this->config->item('customerservice_type');
+		foreach($stat as $k=>$v){
+			$xsets[] = $k;
+			foreach($stattype as $d){
+				if(isset($v[$d])){
+					$y[$d][] = $v[$d];
+				}else{
+					$y[$d][] = 0;
+				}
+			}
+		}
+		$ytxt = '[';
+		foreach($y as $key=>$ys){
+			$ytxt .= '{name: "'.$cstype[$key].'",data: '.json_encode($ys).',},';
+		}
+		$xy[0] = json_encode($xsets);
+		$xy[1] = $ytxt.']';
+		$data['xy'] = $xy;
+		$data['dataList'] = $stat;;
+		$data['cstype'] = $cstype;
+		$data['csstatus'] = $this->config->item('customerservice_status');
+		$this->showView('customerserviceStat', $data);
+	}
+}

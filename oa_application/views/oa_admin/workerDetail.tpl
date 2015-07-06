@@ -1,4 +1,4 @@
-<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  资料管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">护工信息管理</a> <span class="c-gray en">&gt;</span> 护工详情</nav>
+<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  护工管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">护工信息管理</a> <span class="c-gray en">&gt;</span> 护工详情</nav>
 {if isset($msg)}
 <div class="header">
 	<div class="Huialert Huialert-danger"><i class="icon-remove"></i>{$msg}</div>
