@@ -202,4 +202,20 @@ class Worker extends OA_Controller
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('workerDetail', $data);
 	}
+
+	/**
+	 * 统计页面
+	 */
+	 public function statis(){
+	 	$data = $hospital = $ninfo = array();
+	 	$this->load->model('OA_Worker');
+		$dataList = $this->OA_Worker->searchWorker($this->input->post());
+	 	$this->load->model('OA_Hospital');
+	 	$hospital = $this->OA_Hospital->queryByPid(0);
+	 	$data['hospitalInfo'] = $hospital;
+		$data['nInfo'] = $ninfo;
+		$data['dataList'] = array();
+		$data['wsInfo'] = $this->config->item('worker_status');
+		$this->showView('workerStat', $data);
+	 }
 }

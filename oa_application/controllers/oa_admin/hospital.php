@@ -29,7 +29,7 @@ class Hospital extends OA_Controller
 	public function index()
 	{
 		$data = array();
-		if(checkRight('worker_list') === FALSE){
+		if(checkRight('hospital_list') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -70,7 +70,7 @@ class Hospital extends OA_Controller
 		$nInfo = array();
 		$hospital = $this->OA_Hospital->queryByPid(0);
 		if($this->input->get('hid')){
-			if(checkRight('worker_edit') === FALSE){
+			if(checkRight('hospital_edit') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
@@ -83,7 +83,7 @@ class Hospital extends OA_Controller
 				$data['info'] = $this->OA_Hospital->getHospitalInfo($data['info']['parent_id']);
 			}
 		}else{
-			if(checkRight('worker_add') === FALSE){
+			if(checkRight('hospital_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
@@ -97,7 +97,7 @@ class Hospital extends OA_Controller
 	{
 		$data = $starr = $staid = array();
 		if($this->input->post('wb_id')){
-			if(checkRight('worker_edit') === FALSE){
+			if(checkRight('hospital_edit') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
@@ -127,7 +127,7 @@ class Hospital extends OA_Controller
 			}
 			redirect(formatUrl('hospital/index'));
 		}else{
-			if(checkRight('worker_add') === FALSE){
+			if(checkRight('hospital_add') === FALSE){
 				$this->showView('denied', $data);
 				exit;
 			}
@@ -147,7 +147,7 @@ class Hospital extends OA_Controller
 	public function doDel()
 	{
 		$data = array();
-		if(checkRight('worker_del') === FALSE){
+		if(checkRight('hospital_del') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -156,5 +156,32 @@ class Hospital extends OA_Controller
 		$this->load->model('OA_Hospital');
 		$this->OA_Hospital->del($hid);
 		redirect(formatUrl('hospital/index'));
+	}
+
+	/**驻点医院护工列表
+	 *
+	 *
+	*/
+	public function worker(){
+		$this->load->model('OA_Hospital');
+		$data['hospitalTree'] = $this->OA_Hospital->getListTree(0);
+		$adminList = array();
+		if(isset($data['hospitalTree'][0]['wb_id'])){
+			$pid = $data['hospitalTree'][0]['wb_id'];
+			if($this->input->get('pid', TRUE)){
+				$pid = $this->input->get('pid', TRUE);
+			}
+			$subList = $this->OA_Hospital->getListTree($pid, $data['hospitalTree']);
+			$idList = array();
+			$idList[] = $pid;
+			foreach($subList as $item){
+				$idList[] = $item['wb_id'];
+			}
+			$this->load->model('OA_Worker');
+			$workerList = $this->OA_Worker->queryWorkerByHospital($idList);
+			$data['pid'] = $pid;
+		}
+		$data['workerList'] = $workerList;
+		$this->showView('hospitalworkerList', $data);
 	}
 }

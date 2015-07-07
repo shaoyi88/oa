@@ -167,4 +167,38 @@ class OA_Hospital extends CI_Model
 		}
 		$this->db->delete($this->_table);
 	}
+
+	/**
+	 *
+	 * 获取树
+	 * @param unknown_type $parent_id
+	 */
+	public function getListTree($pid, $allList = NULL)
+	{
+		if($allList === NULL){
+			$allList = $this->_getAll();
+		}
+		$reuslt = array();
+		$this->_getSubList($reuslt, $allList, $pid, 0);
+		return $reuslt;
+	}
+
+	/**
+	 *
+	 * 获取子树
+	 * @param unknown_type $result
+	 * @param unknown_type $allList
+	 * @param unknown_type $parent_id
+	 * @param unknown_type $level
+	 */
+	private function _getSubList(&$result, $allList, $pid, $level)
+	{
+		foreach($allList as $item){
+			if($item['parent_id'] == $pid){
+				$item['level'] = $level;
+				$result[] = $item;
+				$this->_getSubList($result,$allList,$item['wb_id'],$level+1);
+			}
+		}
+	}
 }

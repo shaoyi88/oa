@@ -117,4 +117,42 @@ class OA_Worker extends CI_Model
 		$this->db->where('worker_id', $worker_id);
 		$this->db->delete($this->_table);
 	}
+
+	/**
+	 *
+	 * 通过医院科室查询护工
+	 * @param unknown_type $hids
+	 */
+	public function queryworkerByHospital($hids)
+	{
+		$this->db->where_in('worker_stationary', $hids);
+		$info = array();
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
+
+	/**
+	 *
+	 * 护工统计
+	 * @param unknown_type $keyword
+	 */
+	public function statWorker($keydata)
+	{
+		if(isset($keydata['worker_hospital'])){
+			$this->db->where('worker_hospital', $keydata['worker_hospital']);
+		}
+		if(isset($keydata['nid'])){
+			$this->db->where('worker_stationary', $keydata['worker_stationary']);
+		};
+		$this->db->or_where('worker_name', $keyword);
+		$this->db->or_where('worker_phone', $keyword);
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }

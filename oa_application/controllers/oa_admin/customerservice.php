@@ -210,13 +210,10 @@ class Customerservice extends OA_Controller
 			$stattype[] = $val['cs_type'];
 		}
 		if($postdata['cssingle']){
-			foreach($stat as $k=>$v){
-				if($k==$postdata['cssingle']){
-					$stat[$k] = $v;
-				}else{
-					unset($stat[$k]);
-				}
-			}
+			//查询时如果选择客服则仅显示该客服的数据
+            $singlestat = $stat[$postdata['cssingle']];
+            $stat = array();
+            $stat[$postdata['cssingle']] = $singlestat;
 		}
 		$data['dataList'] = $dataList;
 		$data['stat'] = $stat;
@@ -254,9 +251,9 @@ class Customerservice extends OA_Controller
 		foreach($dataList as $val){
 			if(isset($Days)&&$Days<=31){
 			    if(!isset($stat[date('d',$val['added_time'])][$val['cs_type']])){
-				   $stat[date('d日',$val['added_time'])][$val['cs_type']] = 1;
+				   $stat[date('m月d日',$val['added_time'])][$val['cs_type']] = 1;
 			    }else{
-				   $stat[date('d日',$val['added_time'])][$val['cs_type']]++;
+				   $stat[date('m月d日',$val['added_time'])][$val['cs_type']]++;
 			    }
 			}else{
 				if(!isset($stat[date('m',$val['added_time'])][$val['cs_type']])){

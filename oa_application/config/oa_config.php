@@ -24,11 +24,19 @@ $config['menus'] = array(
 		'module' => '护工管理',
 		'menu' => array(
 			array('护工资料管理', formatUrl('worker/index'), 'worker_list'),
-			array('护工服务统计', formatUrl('worker/stat'), 'worker_stat'),
+			array('护工服务统计', formatUrl('worker/statis'), 'worker_stat'),
 			array('服务评价管理', formatUrl('worker/comment'), 'worker_comment'),
-			array('驻点医院管理', formatUrl('hospital/index'), 'hospital_list'),
 		),
 		'right' => 'worker'
+	),
+
+	array(
+		'module' => '驻点医院管理',
+		'menu' => array(
+			array('驻点医院管理', formatUrl('hospital/index'), 'hospital_list'),
+			array('驻点医院护工', formatUrl('hospital/worker'), 'hospital_list')
+		),
+		'right' => 'hospital'
 	),
 
 	array(
@@ -62,10 +70,10 @@ $config['menus'] = array(
 	array(
 		'module' => '咨客管理',
 		'menu' => array(
-			array('客服人员管理', formatUrl('customerService/index'), 'customer_service_list'),
-			array('工单记录管理', formatUrl('customerService/record'), 'customer_service_record'),
-			array('工单跟踪管理', formatUrl('customerService/trace'), 'customer_service_trace'),
-			array('问题统计分析', formatUrl('customerService/statistical'), 'customer_service_stat')
+			array('客服人员管理', formatUrl('customerservice/index'), 'customer_service_list'),
+			array('工单记录管理', formatUrl('customerservice/record'), 'customer_service_record'),
+			array('工单跟踪管理', formatUrl('customerservice/trace'), 'customer_service_trace'),
+			array('问题统计分析', formatUrl('customerservice/statistical'), 'customer_service_stat')
 		),
 		'right' => 'customer_service'
 	),
@@ -149,6 +157,17 @@ $config['rights'] = array(
 			array('护工资料删除', 'worker_del', TRUE),
 			array('护工服务统计', 'worker_stat', TRUE),
 			array('服务评价管理', 'worker_comment')
+		),
+		'right' => 'worker'
+	),
+
+	array(
+		'module' => '驻点医院管理',
+		'roles' => array(
+			array('驻点医院列表', 'hospital_list'),
+			array('驻点医院增加', 'hospital_add'),
+			array('驻点医院编辑', 'hospital_edit'),
+			array('驻点医院删除', 'hospital_del', TRUE),
 		),
 		'right' => 'worker'
 	),

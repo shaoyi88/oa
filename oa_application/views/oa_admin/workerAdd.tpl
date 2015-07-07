@@ -7,6 +7,10 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       		    <tr>
+          		     <th class="text-r" width="80">*编号：</th>
+          			 <td><input name="worker_no" type="text" class="input-text" id="worker_no" value="{if isset($info)}{$info['worker_no']}{/if}" nullmsg="护工编号不能为空！" datatype="×"></td>
+        		</tr>
+      		    <tr>
           		     <th class="text-r" width="80">*归属：</th>
           			 <td>
           			 <select target="worker_stationary" style="width:30%" class="select" id="worker_hospital" name="worker_hospital" nullmsg="医院不能为空！" datatype="*">
