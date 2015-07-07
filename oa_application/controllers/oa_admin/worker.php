@@ -91,6 +91,7 @@ class Worker extends OA_Controller
 		$data['title'] = $this->config->item('service_level_1');
 		$data['workerStatus'] = $this->config->item('worker_status');
 		$data['workerService'] = $this->config->item('customer_service_type');
+		$data['serviceMode'] = $this->config->item('worker_service_mode');
 		$data['hospitalInfo'] = $hospital;
 		$data['nInfo'] = $ninfo;
 		$this->showView('workerAdd', $data);

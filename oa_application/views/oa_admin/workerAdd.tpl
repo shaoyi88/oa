@@ -160,6 +160,19 @@
     					</select>
           			 </td>
         		</tr>
+        		<tr>
+          		     <th class="text-r" width="80">*服务模式：</th>
+          			 <td>
+          			 	<select class="select" id="worker_service_mode" name="worker_service_mode" nullmsg="服务模式不能为空！" datatype="*">
+      						<option value="">请选择服务模式</option>
+      						{foreach $serviceMode as $key => $item}
+      						<option value="{$key}" {if isset($info) && $info['worker_service_mode'] == $key}selected{/if}>
+      						{$item}
+      						</option>
+      						{/foreach}
+    					</select>
+          			 </td>
+        		</tr>
           		<tr>
           			<th></th>
           			<td>
