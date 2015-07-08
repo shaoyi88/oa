@@ -25,7 +25,7 @@ $config['menus'] = array(
 		'menu' => array(
 			array('护工资料管理', formatUrl('worker/index'), 'worker_list'),
 			array('护工服务统计', formatUrl('worker/statis'), 'worker_stat'),
-			array('服务评价管理', formatUrl('worker/comment'), 'worker_comment'),
+			array('服务评价统计', formatUrl('worker/comment'), 'worker_comment'),
 		),
 		'right' => 'worker'
 	),
@@ -156,7 +156,7 @@ $config['rights'] = array(
 			array('护工资料编辑', 'worker_edit'),
 			array('护工资料删除', 'worker_del', TRUE),
 			array('护工服务统计', 'worker_stat', TRUE),
-			array('服务评价管理', 'worker_comment')
+			array('服务评价统计', 'worker_comment')
 		),
 		'right' => 'worker'
 	),
@@ -327,7 +327,7 @@ $config['worker_status'] = array(
 
 //描述；对应护工服务模式（该模式护工可提供服务）；对应护工工作状态（该工作状态护工可提供服务）；是否支持多选；提成比例
 $config['order_service_mode'] = array(
-	'1' => array('一对一', 1, array(2), FALSE, 0.8), 
+	'1' => array('一对一', 1, array(2), FALSE, 0.8),
 	'2' => array('一对多', 2, array(1,2), TRUE, 0.7),
 	'3' => array('多对一', 1, array(2), FALSE, 0.8),
 );

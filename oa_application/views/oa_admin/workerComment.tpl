@@ -5,36 +5,44 @@
 </div>
 {/if}
 <div class="pd-20">
-	<form class="Huiform" action="{formatUrl('customerservice/statistical')}" method="post">
-  		<div class="text-c">
-  		    <select name="cs_type" class="select-box" style="width:10%">
-                <option value="">请选择类型</option>
-                {foreach $cstype as $key => $item}
-      			<option value="{$key}">
-      			{$item}
-      			</option>
-      			{/foreach}
-  		    </select>
-  		    &nbsp;&nbsp;
-   			<input type="text" class="input-text" style="width:15%" onfocus="WdatePicker()" name="sdate" placeholder="选择时间段-开始时间">&nbsp;-&nbsp;<input type="text" onfocus="WdatePicker()" name="edate" class="input-text" style="width:15%" placeholder="选择时间段-结束时间">
-    		&nbsp;&nbsp;&nbsp;&nbsp;
-    		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜问题</button>
-  		</div>
-  	</form>
   	<br/>
-  	{if empty($dataList)}
+  	{if empty($hospital)}
   		<div class="cl pd-5 bg-1 bk-gray">
-  			<h2 class="text-c">无客服问题</h2>
+  			<h2 class="text-c">无驻点医院</h2>
   		</div>
   	{else}
-  		<div id="csinfo"></div>
+  	<table class="table table-border table-bordered table-hover table-bg">
+    <thead>
+      <tr class="text-c">
+      	<th>驻点医院</th>
+        <th>科室</th>
+        <th>护工数量</th>
+        <th>综合平均得分</th>
+      </tr>
+    </thead>
+    <tbody>
+    {foreach $hospital as $item}
+      <tr class="text-c">
+      	<td rowspan="{count($nInfo[$item['wb_id']])+1}">{$item['stationary_name']}</td>
+        <td>{$nInfo[$item['wb_id']][0]['stationary_name']}</td>
+        <td>{if isset($workernum[$nInfo[$item['wb_id']][0]['wb_id']])}{$workernum[$nInfo[$item['wb_id']][0]['wb_id']]}{else}0{/if}</td>
+        <td>{if isset($stacom[$nInfo[$item['wb_id']][0]['wb_id']])}{sprintf("%.2f",$stacom[$nInfo[$item['wb_id']][0]['wb_id']]/$comn[$nInfo[$item['wb_id']][0]['wb_id']])}{else}-{/if}</td>
+      </tr>
+      {foreach $nInfo[$item['wb_id']] as $i=>$n}
+      {if $i>0}
+      <tr class="text-c">
+         <td>{$n['stationary_name']}</td>
+         <td>{if isset($workernum[$n['wb_id']])}{$workernum[$n['wb_id']]}{else}0{/if}</td>
+         <td>{if isset($stacom[$n['wb_id']])}{sprintf("%.2f",$stacom[$n['wb_id']]/$comn[$n['wb_id']])}{else}-{/if}</td>
+      </tr>
+      {/if}
+      {/foreach}
+      <tr class="text-c">
+          <th class="text-r">小结</th><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td><td>{if isset($stahos[$item['wb_id']])}{sprintf("%.2f",$stahos[$item['wb_id']]/$comh[$item['wb_id']])}{else}-{/if}</td>
+      </tr>
+    {/foreach}
+      <tr class="text-c">
+          <th colspan="2">汇总</th><td>{$total}</td><td>{$totalcom}</td>
+      </tr>
   	{/if}
 </div>
-<script type="text/javascript" src="/public/oa_admin/js/customerservice.js"></script>
-<script type="text/javascript" src="/public/common/js/date/WdatePicker.js"></script>
-<script type="text/javascript" src="/public/common/js/highcharts.js"></script>
-<script type="text/javascript">
-$(function(){
-    chart("csinfo",{$xy[0]},{$xy[1]});
-});
-</script>
