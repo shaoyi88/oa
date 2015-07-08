@@ -47,9 +47,27 @@ class Order extends OA_Controller
 	public function add()
 	{
 		$data = array();
-		if(checkRight('order_add') === FALSE){
-			$this->showView('denied', $data);
-			exit;
+		if($this->input->get('oid')){
+			if(checkRight('order_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$uid = $this->input->get('uid');
+			$data['typeMsg'] = '编辑';
+			$oid = $this->input->get('oid');
+			$this->load->model('OA_Order');
+			$data['info'] = $this->OA_Order->getOrderInfo($oid);
+			$data['order_start_time'] = date('Y-m-d H:i:s', $data['info']['order_start_time']);
+			$this->load->model('OA_User');
+			$data['userInfo'] = $this->OA_User->getUserInfo($data['info']['user_id']);
+			$this->load->model('OA_Customer');
+			$data['customerInfo'] = $this->OA_Customer->getCustomerInfo($data['info']['customer_id']);
+		}else{
+			if(checkRight('order_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data['typeMsg'] = '新增';
 		}
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
@@ -63,22 +81,70 @@ class Order extends OA_Controller
 	 */
 	public function doAdd()
 	{
-		if(checkRight('order_add') === FALSE){
-			$this->showView('denied', $data);
-			exit;
+		$data = array();	
+		if($this->input->post('order_id')){
+			if(checkRight('order_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$serviceTypeInfo = $this->config->item('customer_service_type');
+			$order_service_mode = $this->config->item('order_service_mode');
+			$order_fee_unit = $this->config->item('order_fee_unit');
+			$data = $this->input->post();
+			$data['order_start_time'] = strtotime($data['order_start_time']);
+			$this->load->model('OA_Order');
+			$this->load->model('OA_OrderHistory');
+			$orderInfo = $this->OA_Order->getOrderInfo($data['order_id']);
+			$orderHistory = array('order_id'=>$data['order_id'],'admin_id'=>$this->userId,'admin_name'=>$this->userName,'add_time'=>time(),'order_pre_info'=>'','order_cur_info'=>'');
+			$update = FALSE;
+			$order_pre_info = $order_cur_info = array();
+			if(isset($data['service_type']) && $data['service_type'] != $orderInfo['service_type']){
+				$order_pre_info[] = '服务类型：'.$serviceTypeInfo[$orderInfo['service_type']];
+				$order_cur_info[] = '服务类型：'.$serviceTypeInfo[$data['service_type']];
+				$update = TRUE;
+			}
+			if(isset($data['service_mode']) && $data['service_mode'] != $orderInfo['service_mode']){
+				$order_pre_info[] = '服务模式：'.$order_service_mode[$orderInfo['service_type']][0];
+				$order_cur_info[] = '服务模式：'.$order_service_mode[$data['service_type']][0];
+				$update = TRUE;
+			}
+			if($data['order_fee'] != $orderInfo['order_fee'] || $data['order_fee_unit'] != $orderInfo['order_fee_unit']){
+				$order_pre_info[] = '收费标准：'.$orderInfo['order_fee'].'/'.$order_fee_unit[$orderInfo['order_fee_unit']];
+				$order_cur_info[] = '收费标准：'.$data['order_fee'].'/'.$order_fee_unit[$data['order_fee_unit']];
+				$update = TRUE;
+			}
+			if(isset($data['order_start_time']) && $data['order_start_time'] != $orderInfo['order_start_time']){
+				$order_pre_info[] = '开始时间：'.date('Y-m-d H:i:s',$orderInfo['order_start_time']);
+				$order_cur_info[] = '开始时间：'.date('Y-m-d H:i:s',$data['order_start_time']);
+				$update = TRUE;
+			}
+			if($update){
+				$orderHistory['order_pre_info'] = json_encode($order_pre_info);
+				$orderHistory['order_cur_info'] = json_encode($order_cur_info);
+				$this->OA_Order->update($data);
+				$this->OA_OrderHistory->add($orderHistory);
+			}
+			redirect(formatUrl('order/index'));
+		}else{
+			if(checkRight('order_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data = $this->input->post();
+			$msg = '';
+			$this->load->model('OA_Order');
+			$data['order_no'] = time().rand(100,999);
+			$data['order_start_time'] = strtotime($data['order_start_time']);
+			$data['order_status'] = 1;
+			$data['admin_id'] = $this->userId;
+			$data['admin_name'] = $this->userName;
+			$data['add_time'] = time();
+			if($this->OA_Order->add($data) === FALSE){
+				$msg = '?msg='.urlencode('创建失败');
+			}
+			redirect(formatUrl('order/index'.$msg));
 		}
-		$data = $this->input->post();
-		$msg = '';
-		$this->load->model('OA_Order');
-		$data['order_no'] = time().rand(100,999);
-		$data['order_start_time'] = strtotime($data['order_start_time']);
-		$data['order_status'] = 1;
-		$data['admin_id'] = $this->userId;
-		$data['add_time'] = $data['update_time'] = time();
-		if($this->OA_Order->add($data) === FALSE){
-			$msg = '?msg='.urlencode('创建失败');
-		}
-		redirect(formatUrl('order/index'.$msg));
+	
 	}
 	
 	/**
@@ -127,5 +193,183 @@ class Order extends OA_Controller
 			$this->OA_Order->del($oid);
 			redirect(formatUrl('order/index?msg='.urlencode('删除订单成功')));
 		}
+	}
+	
+	/**
+	 * 
+	 * 详情页面
+	 */
+	public function detail()
+	{
+		$data = array();
+		if(checkRight('order_list') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$data['orderInfo'] = $this->OA_Order->getOrderInfo($oid);
+		$this->load->model('OA_User');
+		$data['userInfo'] = $this->OA_User->getUserInfo($data['orderInfo']['user_id']);
+		$this->load->model('OA_Customer');
+		$data['customerInfo'] = $this->OA_Customer->getCustomerInfo($data['orderInfo']['customer_id']);
+		$this->load->model('OA_OrderHistory');
+		$data['historyInfo'] = $this->OA_OrderHistory->queryHistoryByOrderId($oid);
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['order_service_mode'] = $this->config->item('order_service_mode');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$data['order_status'] = $this->config->item('order_status');
+		$this->load->model('OA_WorkerOrder');
+		$data['workerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid);
+		$this->showView('orderDetail', $data);
+	}
+	
+	/**
+	 * 
+	 * 指派护工
+	 */
+	public function setWorker()
+	{
+		$data = array();
+		if(checkRight('order_set_worker') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($oid);
+		if(empty($orderInfo)){
+			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
+		}else if($orderInfo['order_status'] != 1){
+			redirect(formatUrl('order/index?msg='.urlencode('该订单不可指派护工')));
+		}
+		$order_service_mode = $this->config->item('order_service_mode');
+		$this->load->model('OA_Worker');
+		$data['workerList'] = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2]);
+		$data['isMult'] = $order_service_mode[$orderInfo['service_mode']][3];
+		$data['orderInfo'] = $orderInfo;
+		$this->showView('orderSetWorker', $data);
+	}
+	
+	/**
+	 * 
+	 * 指派护工逻辑
+	 */
+	public function doSetWorker()
+	{
+		$data = array();
+		if(checkRight('order_set_worker') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$data = $this->input->post();
+		// 更新订单状态
+		$this->load->model('OA_Order');
+		$this->OA_Order->update(array('order_id'=>$data['order_id'], 'order_status'=>2));
+		// 增加护工订单记录
+		$this->load->model('OA_WorkerOrder');
+		$workerOrder = $workerList = array();
+		foreach($data['worker_id'] as $item){
+			$order = $data;
+			$order['worker_id'] = $item;
+			$order['status'] = 1;
+			$workerList[] = $item;
+			$workerOrder[] = $order;
+		}
+		$this->OA_WorkerOrder->addBatch($workerOrder);
+		// 更新护工状态
+		$this->load->model('OA_Worker');
+		$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
+		redirect(formatUrl('order/index'));
+	}
+	
+	/**
+	 * 
+	 * 更换护工
+	 */
+	public function changeWorker()
+	{
+		$data = array();
+		if(checkRight('order_change_worker') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($oid);
+		if(empty($orderInfo)){
+			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
+		}else if($orderInfo['order_status'] != 2){
+			redirect(formatUrl('order/index?msg='.urlencode('该订单不可更换护工')));
+		}
+		$this->load->model('OA_WorkerOrder');
+		$data['curWorkerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid);
+		foreach($data['curWorkerList'] as $worker){
+			$curWorkerIds[] = $worker['worker_id'];
+		}
+		$order_service_mode = $this->config->item('order_service_mode');
+		$this->load->model('OA_Worker');
+		$workerList = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2]);
+		foreach($workerList as $worker){
+			if(!in_array($worker['worker_id'], $curWorkerIds)){
+				$data['workerList'][] = $worker;
+			}
+		}
+		$data['isMult'] = $order_service_mode[$orderInfo['service_mode']][3];
+		$data['orderInfo'] = $orderInfo;
+		$this->showView('orderChangeWorker', $data);
+	}
+	
+	/**
+	 * 
+	 * 更换护工逻辑
+	 */
+	public function doChangeWorker()
+	{
+		$data = array();
+		if(checkRight('order_change_worker') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$data = $this->input->post();
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($data['order_id']);
+		$curTime = time();
+		// 增加替换的护工订单记录
+		$this->load->model('OA_WorkerOrder');
+		$this->load->model('OA_Worker');
+		$workerOrder = $workerList = array();
+		foreach($data['worker_id'] as $item){
+			$order = array();
+			$order['order_id'] = $data['order_id'];
+			$order['worker_id'] = $item;
+			$order['start_time'] = $curTime;
+			$order['status'] = 1;
+			$workerList[] = $item;
+			$workerOrder[] = $order;
+		}
+		//$this->OA_WorkerOrder->addBatch($workerOrder);
+		// 更新替换的护工状态
+		//$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
+		// 结算被替换的护工工资
+		$info = $this->OA_WorkerOrder->getOrderByWorkerId($data['cur_worker_id']);
+		$hasOrderWorker = array();
+		foreach($info as $item)
+		{
+			if($item['order_id'] == $data['order_id']){  //结算当前订单
+				$workerTime = $curTime - $item['start_time'];
+				$order = array();
+				$order['id'] = $item['id'];
+				$order['end_time'] = $curTime;
+				$order['status'] = 0;
+				$order['salary'] = calculateWorkerSalary($orderInfo, $workerTime);
+				//$this->OA_WorkerOrder->update($order);
+			}else{
+				$hasOrderWorker[] = $item['worker_id'];  //目前仍有订单的护工不需要更新状态
+			}
+		}
+		// 更新被替换的护工状态
+		$updateWorker = array_diff($data['cur_worker_id'], $hasOrderWorker);
+		//$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
 	}
 }

@@ -325,10 +325,11 @@ $config['worker_status'] = array(
 	'4' => '离职',
 );
 
+//描述；对应护工服务模式（该模式护工可提供服务）；对应护工工作状态（该工作状态护工可提供服务）；是否支持多选；提成比例
 $config['order_service_mode'] = array(
-	'1' => array('一对一', 1),
-	'2' => array('一对多', 2),
-	'3' => array('多对一', 1),
+	'1' => array('一对一', 1, array(2), FALSE, 0.8), 
+	'2' => array('一对多', 2, array(1,2), TRUE, 0.7),
+	'3' => array('多对一', 1, array(2), FALSE, 0.8),
 );
 
 $config['worker_service_mode'] = array(

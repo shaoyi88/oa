@@ -92,3 +92,32 @@ function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
 	}
 	$offset = ($curPage-1)*$perNum;
 }
+
+/**
+ * 
+ * 计算护工工资
+ * @param unknown_type $orderInfo
+ * @param unknown_type $startTime
+ */
+function calculateWorkerSalary($orderInfo, $workerTime)
+{
+	$ci =& get_instance();
+	if($workerTime < 0){  //工作时间小于0，结算金额为0
+		return 0;
+	}
+	// 计费单位
+	switch($orderInfo['order_fee_unit']){
+		case 1:
+			$timeUnit = 60*60*24*30;
+			break;
+		case 2:
+			$timeUnit = 60*60*24;
+			break;
+		case 3:
+			$timeUnit = 60*60;
+			break;
+	}
+	$order_service_mode = $ci->config->item('order_service_mode');
+	$rate = $order_service_mode[$orderInfo['service_mode']][4];  //计费比例
+	return round($workerTime / $timeUnit * $orderInfo['order_fee'] * $rate);
+}

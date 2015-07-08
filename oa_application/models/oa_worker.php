@@ -156,4 +156,35 @@ class OA_Worker extends CI_Model
 		}
 		return $info;
 	}
+	
+	/**
+	 * 
+	 * 批量更新
+	 * @param unknown_type $workerList
+	 * @param unknown_type $data
+	 */
+	public function updateBatch($workerList, $data)
+	{
+        $this->db->where_in('worker_id', $workerList);
+		$this->db->update($this->_table, $data);
+	}
+	
+	/**
+	 * 
+	 * 通过指定信息查询护工
+	 * @param unknown_type $serverType
+	 * @param unknown_type $serverMode
+	 * @param unknown_type $status
+	 */
+	public function queryWorkerByInfo($serverType, $serverMode, $status)
+	{
+		$this->db->where_in('worker_status', $status);
+		$this->db->where('worker_service', $serverType);
+		$this->db->where('worker_service_mode', $serverMode);
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }
