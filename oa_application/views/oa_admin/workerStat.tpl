@@ -43,14 +43,45 @@
       </tr>
     </thead>
     <tbody>
-      {foreach $dataList as $item}
+      {foreach $staHospital as $item}
       <tr class="text-c">
-      	<td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      	<td rowspan="{count($nInfo[$item['wb_id']])*count($staWs)+1}">{$item['stationary_name']}</td>
+        <td rowspan="{count($staWs)}">{$nInfo[$item['wb_id']][0]['stationary_name']}</td>
+        <td>{$staWs[0]['ws']}</td>
+        <td>{if isset($statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']])}{$statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']]}{else}0{/if}</td>
+      </tr>
+      {foreach $staWs as $k=>$ws}
+      {if $k>0}
+      <tr class="text-c">
+         <td>{$ws['ws']}</td>
+         <td>{if isset($statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']])}{$statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']]}{else}0{/if}</td>
+      </tr>
+      {/if}
+      {/foreach}
+      {foreach $nInfo[$item['wb_id']] as $i=>$n}
+      {if $i>0}
+      <tr class="text-c">
+         <td rowspan="{count($staWs)}">{$n['stationary_name']}</td>
+         <td>{$staWs[0]['ws']}</td>
+         <td>{if isset($statInfo[$item['wb_id']][$n['wb_id']][$staWs[0]['ws']])}{$statInfo[$item['wb_id']][$n['wb_id']][$staWs[0]['ws']]}{else}0{/if}</td>
+      </tr>
+      {foreach $staWs as $k=>$ws}
+      {if $k>0}
+      <tr class="text-c">
+         <td>{$ws['ws']}</td>
+         <td>{if isset($statInfo[$item['wb_id']][$n['wb_id']][$ws['wk']])}{$statInfo[$item['wb_id']][$n['wb_id']][$ws['wk']]}{else}0{/if}</td>
+      </tr>
+      {/if}
+      {/foreach}
+      {/if}
+      {/foreach}
+      <tr class="text-c">
+          <td>小结</td><td>&nbsp;</td><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td>
       </tr>
       {/foreach}
+      <tr class="text-c">
+          <th colspan="3">汇总</th><td>{$total}</td>
+      </tr>
     </tbody>
     </table>
 </div>

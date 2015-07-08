@@ -137,18 +137,19 @@ class OA_Worker extends CI_Model
 	/**
 	 *
 	 * 护工统计
-	 * @param unknown_type $keyword
+	 * @param unknown_type $keydata
 	 */
 	public function statWorker($keydata)
 	{
-		if(isset($keydata['worker_hospital'])){
+		if(!empty($keydata['worker_hospital'])){
 			$this->db->where('worker_hospital', $keydata['worker_hospital']);
 		}
-		if(isset($keydata['nid'])){
+		if(!empty($keydata['worker_stationary'])){
 			$this->db->where('worker_stationary', $keydata['worker_stationary']);
-		};
-		$this->db->or_where('worker_name', $keyword);
-		$this->db->or_where('worker_phone', $keyword);
+		}
+		if(!empty($keydata['worker_status'])){
+			$this->db->where('worker_status', $keydata['worker_status']);
+		}
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();

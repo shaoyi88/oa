@@ -13,7 +13,7 @@
   <dl style="margin-left:80px; color:#fff">
     <dt><span class="f-18">{$workerInfo['worker_name']}</span></dt>
   	<dd class="pt-10 f-12" style="margin-left:0">服务状态：{$workerStatus[$workerInfo['worker_status']]}</dd>
-  	<dd class="pt-10 f-12" style="margin-left:0">服务分类：{$worker_service}</dd>
+  	<dd class="pt-10 f-12" style="margin-left:0">服务分类：{$workerService[$workerInfo['worker_service']]}</dd>
   </dl>
 </div>
 <div class="pd-20">

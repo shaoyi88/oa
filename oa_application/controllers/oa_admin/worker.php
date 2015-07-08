@@ -70,7 +70,6 @@ class Worker extends OA_Controller
 			if($data['info']['worker_domicile_city']){
 				$districtInfo = $this->OA_Areas->queryAreasByPid($data['info']['worker_domicile_city']);
 			}
-			$service_arr = explode('|',$data['info']['worker_service']);
             if($data['info']['worker_hospital']){
 				$ninfo = $this->OA_Hospital->queryByPid($data['info']['worker_hospital']);
 			}
@@ -84,7 +83,6 @@ class Worker extends OA_Controller
 		$data['provinceInfo'] = $provinceInfo;
 		$data['cityInfo'] = $cityInfo;
 		$data['districtInfo'] = $districtInfo;
-		$data['service'] = $service_arr;
 		$data['sexInfo'] = $this->config->item('sex');
 		$data['eduInfo'] = $this->config->item('education');
 		$data['marriage'] = $this->config->item('marriage');
@@ -122,12 +120,6 @@ class Worker extends OA_Controller
             $age++;
         }
 		$data['worker_age'] = $age;
-		if(isset($data['worker_service'])){
-			$service = $data['worker_service'];
-		    if(!empty($service)){
-			    $data['worker_service'] = implode('|',$service);
-		    }
-		}
 		if(isset($data['worker_id'])&&is_numeric($data['worker_id'])){
 			if(checkRight('worker_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -190,12 +182,6 @@ class Worker extends OA_Controller
 		$data['title'] = $this->config->item('service_level_1');
 		$data['workerStatus'] = $this->config->item('worker_status');
 		$data['workerService'] = $this->config->item('customer_service_type');
-		$worker_service = explode('|',$data['workerInfo']['worker_service']);
-		$arr = array();
-		foreach($worker_service as $v){
-			$arr[] = $data['workerService'][$v];
-		}
-		$data['worker_service'] = implode('，',$arr);
 		$this->load->model('OA_Areas');
 		$data['provinceInfo'] = $this->OA_Areas->queryAreasByPid(0);
 		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();
@@ -208,15 +194,66 @@ class Worker extends OA_Controller
 	 * 统计页面
 	 */
 	 public function statis(){
-	 	$data = $hospital = $ninfo = array();
+	 	$data = $hospital = $ninfo = $statinfo = $staHospital = $staWs = $sta = array();
+	 	$data['wsInfo'] = $this->config->item('worker_status');
 	 	$this->load->model('OA_Worker');
-		$dataList = $this->OA_Worker->searchWorker($this->input->post());
+	 	$postdata = $this->input->post();
+		$dataList = $this->OA_Worker->statWorker($postdata);
 	 	$this->load->model('OA_Hospital');
 	 	$hospital = $this->OA_Hospital->queryByPid(0);
+	 	$staHospital = $hospital;
+	 	foreach($hospital as $h){
+	        $ninfo[$h['wb_id']] = $this->OA_Hospital->queryByPid($h['wb_id']);
+	 	}
+	 	//查询指定医院
+	 	if(!empty($postdata['worker_hospital'])){
+	 		$temp = array();
+	 		$temp = $ninfo[$postdata['worker_hospital']];
+	 		$ninfo = array();
+	 		$ninfo[$postdata['worker_hospital']] = $temp;
+	 		$staHospital = array();
+	 		$staHospital[] = $this->OA_Hospital->getHospitalInfo($postdata['worker_hospital']);
+	 	}
+	 	//查询指定科室
+	 	if(!empty($postdata['worker_stationary'])){
+	 		$temp = array();
+	 		$temp = $this->OA_Hospital->getHospitalInfo($postdata['worker_stationary']);;
+	 		$ninfo = array();
+	 		$ninfo[$temp['parent_id']][] = $temp;
+	 		$staHospital = array();
+	 		$staHospital[] = $this->OA_Hospital->getHospitalInfo($postdata['worker_hospital']);
+	 	}
+	 	foreach($data['wsInfo'] as $k=>$ws){
+	 		$sta['wk'] = $k;
+	 		$sta['ws'] = $ws;
+	 		$staWs[] = $sta;
+	 	}
+	 	//查询指定状态
+	 	if(!empty($postdata['worker_status'])){
+	 		$staWs = array();
+	 		$sta['wk'] = $postdata['worker_status'];
+	 		$sta['ws'] = $data['wsInfo'][$postdata['worker_status']];
+	 		$staWs[] = $sta;
+	 	}
+	 	$total = 0;
+	 	foreach($dataList as $val){
+	 		$sum[$val['worker_hospital']] = 0;
+	 		if(!isset($statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']])){
+	 			$sum[$val['worker_hospital']] = 1;
+	 			$statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']] = 1;
+	 		}else{
+	 			$statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']]++;
+	 			$sum[$val['worker_hospital']] ++;
+	 		}
+	 		$total++;
+	 	}
 	 	$data['hospitalInfo'] = $hospital;
+	 	$data['staHospital'] = $staHospital;
+	 	$data['staWs'] = $staWs;
 		$data['nInfo'] = $ninfo;
-		$data['dataList'] = array();
-		$data['wsInfo'] = $this->config->item('worker_status');
+		$data['total'] = $total;
+		$data['sum'] = $sum;
+		$data['statInfo'] = $statinfo;
 		$this->showView('workerStat', $data);
 	 }
 }

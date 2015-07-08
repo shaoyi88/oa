@@ -31,7 +31,7 @@
       						{/foreach}
           			 	</select>
           			 	&nbsp;&nbsp;&nbsp;&nbsp;
-          			 	目标医院/科室不存在？<a href="{formatUrl('hospital/Add')}" target=_blank>前往添加</a>
+          			 	目标医院/科室不存在？<a href="{formatUrl('hospital/Add')}" target=_blank style="color:#5A98DE;">前往添加</a>
           			 </td>
         		</tr>
         		<tr>
@@ -142,8 +142,12 @@
         		<tr>
           		     <th class="text-r" width="80">提供服务：</th>
           			 <td>
+          			 <select class="select" id="worker_service" name="worker_service" nullmsg="服务不能为空！" datatype="*">
+          			 <option value="">请选择服务</option>
           			 {foreach $workerService as $key => $item}
-          			 <input type="checkbox" name="worker_service[]" value="{$key}" {if isset($info) && in_array($key,$service)}checked{/if} >&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			 <option value="{$key}" {if isset($info) && $info['worker_service'] == $key}selected{/if}>
+          			 {$item}
+      				 </option>
           			 {/foreach}
           			 </td>
         		</tr>
