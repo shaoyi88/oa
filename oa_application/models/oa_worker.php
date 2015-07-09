@@ -156,9 +156,9 @@ class OA_Worker extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 批量更新
 	 * @param unknown_type $workerList
 	 * @param unknown_type $data
@@ -168,9 +168,9 @@ class OA_Worker extends CI_Model
         $this->db->where_in('worker_id', $workerList);
 		$this->db->update($this->_table, $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 通过指定信息查询护工
 	 * @param unknown_type $serverType
 	 * @param unknown_type $serverMode
@@ -187,4 +187,19 @@ class OA_Worker extends CI_Model
 		}
 		return $info;
 	}
+
+	/**
+	 * 护工评价统计
+	 */
+	 public function statComment(){
+	 	$this->db->select('sum(a.comment_level) as sumle,count(a.comment_worker_id) as ccw,b.worker_hospital,b.worker_stationary,b.worker_id');
+        $this->db->from('oa_comment as a');
+        $this->db->join('oa_worker as b', 'a.comment_worker_id = b.worker_id');
+        $this->db->group_by('a.comment_worker_id');
+        $query = $this->db->get();
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	 }
 }

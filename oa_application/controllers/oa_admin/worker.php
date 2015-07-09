@@ -195,6 +195,10 @@ class Worker extends OA_Controller
 	 */
 	 public function statis(){
 	 	$data = $hospital = $ninfo = $statinfo = $staHospital = $staWs = $sta = array();
+	 	if(checkRight('worker_stat') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
 	 	$data['wsInfo'] = $this->config->item('worker_status');
 	 	$this->load->model('OA_Worker');
 	 	$postdata = $this->input->post();
@@ -235,25 +239,98 @@ class Worker extends OA_Controller
 	 		$sta['ws'] = $data['wsInfo'][$postdata['worker_status']];
 	 		$staWs[] = $sta;
 	 	}
-	 	$total = 0;
 	 	foreach($dataList as $val){
-	 		$sum[$val['worker_hospital']] = 0;
-	 		if(!isset($statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']])){
+	 		//各驻点医院护工数小结
+	 		if(!isset($sum[$val['worker_hospital']])){
 	 			$sum[$val['worker_hospital']] = 1;
-	 			$statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']] = 1;
 	 		}else{
-	 			$statinfo[$val['worker_hospital']][$val['worker_stationary']][$val['worker_status']]++;
 	 			$sum[$val['worker_hospital']] ++;
 	 		}
-	 		$total++;
+	 		//各科室护工各个服务状态人数
+	 		if(!isset($statinfo[$val['worker_stationary']][$val['worker_status']])){
+	 			$statinfo[$val['worker_stationary']][$val['worker_status']] = 1;
+	 		}else{
+	 			$statinfo[$val['worker_stationary']][$val['worker_status']]++;
+	 		}
 	 	}
 	 	$data['hospitalInfo'] = $hospital;
 	 	$data['staHospital'] = $staHospital;
 	 	$data['staWs'] = $staWs;
 		$data['nInfo'] = $ninfo;
-		$data['total'] = $total;
+		$data['total'] = $this->OA_Worker->getWorkerCount();
 		$data['sum'] = $sum;
 		$data['statInfo'] = $statinfo;
 		$this->showView('workerStat', $data);
 	 }
+
+	 /**
+	  * 评价统计
+	  */
+	   public function comment(){
+	   	 $data = $hospital = $ninfo = $workernum = $sum = $comment = $stacom = $comn = $stahos = $comh = array();
+	   	 if(checkRight('worker_comment') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+	   	 $this->load->model('OA_Worker');
+		 $dataList = $this->OA_Worker->statWorker($arr=array());
+		 $this->load->model('OA_Hospital');
+	 	 $hospital = $this->OA_Hospital->queryByPid(0);
+	 	 foreach($hospital as $h){
+	        $ninfo[$h['wb_id']] = $this->OA_Hospital->queryByPid($h['wb_id']);
+	 	 }
+	 	 foreach($dataList as $val){
+	 	 	if(!isset($sum[$val['worker_hospital']])){
+	 			$sum[$val['worker_hospital']] = 1;
+	 		}else{
+	 			$sum[$val['worker_hospital']] ++;
+	 		}
+	 		if(!isset($workernum[$val['worker_stationary']])){
+	 			$workernum[$val['worker_stationary']] = 1;
+	 		}else{
+	 			$workernum[$val['worker_stationary']]++;
+	 		}
+	 	}
+	 	$comment = $this->OA_Worker->statComment();
+	 	$totalcom = 0;
+	 	$totaln = 0;
+	 	foreach($comment as $v){
+	 		//医院评价小结
+	 		if(!isset($stahos[$v['worker_hospital']])){
+	 		    $stahos[$v['worker_hospital']] = $v['sumle'];
+	 		}else{
+	 			$stahos[$v['worker_hospital']] += $v['sumle'];
+	 		}
+	 		if(!isset($comh[$v['worker_hospital']])){
+	 		    $comh[$v['worker_hospital']] = $v['ccw'];
+	 		}else{
+	 			$comh[$v['worker_hospital']] += $v['ccw'];
+	 		}
+	 		//科室评价小结
+	 		if(!isset($stacom[$v['worker_stationary']])){
+	 		    $stacom[$v['worker_stationary']] = $v['sumle'];
+	 		}else{
+	 			$stacom[$v['worker_stationary']] += $v['sumle'];
+	 		}
+	 		if(!isset($comn[$v['worker_stationary']])){
+	 		    $comn[$v['worker_stationary']] = $v['ccw'];
+	 		}else{
+	 			$comn[$v['worker_stationary']] += $v['ccw'];
+	 		}
+	 		//汇总
+	 		$totalcom += $v['sumle'];
+	 		$totaln += $v['ccw'];
+	 	}
+		$data['hospital'] = $hospital;
+		$data['nInfo'] = $ninfo;
+		$data['total'] = $this->OA_Worker->getWorkerCount();
+		$data['sum'] = $sum;
+		$data['workernum'] = $workernum;
+		$data['stacom'] = $stacom;
+		$data['stahos'] = $stahos;
+		$data['comn'] = $comn;
+		$data['comh'] = $comh;
+		$data['totalcom'] = sprintf("%.2f",$totalcom/$totaln);
+	    $this->showView('workerComment', $data);
+	   }
 }

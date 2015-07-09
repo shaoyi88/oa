@@ -48,13 +48,13 @@
       	<td rowspan="{count($nInfo[$item['wb_id']])*count($staWs)+1}">{$item['stationary_name']}</td>
         <td rowspan="{count($staWs)}">{$nInfo[$item['wb_id']][0]['stationary_name']}</td>
         <td>{$staWs[0]['ws']}</td>
-        <td>{if isset($statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']])}{$statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']]}{else}0{/if}</td>
+        <td>{if isset($statInfo[$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']])}{$statInfo[$nInfo[$item['wb_id']][0]['wb_id']][$staWs[0]['wk']]}{else}0{/if}</td>
       </tr>
       {foreach $staWs as $k=>$ws}
       {if $k>0}
       <tr class="text-c">
          <td>{$ws['ws']}</td>
-         <td>{if isset($statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']])}{$statInfo[$item['wb_id']][$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']]}{else}0{/if}</td>
+         <td>{if isset($statInfo[$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']])}{$statInfo[$nInfo[$item['wb_id']][0]['wb_id']][$ws['wk']]}{else}0{/if}</td>
       </tr>
       {/if}
       {/foreach}
@@ -63,20 +63,20 @@
       <tr class="text-c">
          <td rowspan="{count($staWs)}">{$n['stationary_name']}</td>
          <td>{$staWs[0]['ws']}</td>
-         <td>{if isset($statInfo[$item['wb_id']][$n['wb_id']][$staWs[0]['ws']])}{$statInfo[$item['wb_id']][$n['wb_id']][$staWs[0]['ws']]}{else}0{/if}</td>
+         <td>{if isset($statInfo[$n['wb_id']][$staWs[0]['ws']])}{$statInfo[$n['wb_id']][$staWs[0]['ws']]}{else}0{/if}</td>
       </tr>
       {foreach $staWs as $k=>$ws}
       {if $k>0}
       <tr class="text-c">
          <td>{$ws['ws']}</td>
-         <td>{if isset($statInfo[$item['wb_id']][$n['wb_id']][$ws['wk']])}{$statInfo[$item['wb_id']][$n['wb_id']][$ws['wk']]}{else}0{/if}</td>
+         <td>{if isset($statInfo[$n['wb_id']][$ws['wk']])}{$statInfo[$n['wb_id']][$ws['wk']]}{else}0{/if}</td>
       </tr>
       {/if}
       {/foreach}
       {/if}
       {/foreach}
       <tr class="text-c">
-          <td>小结</td><td>&nbsp;</td><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td>
+          <td class="text-r">小结</td><td>&nbsp;</td><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td>
       </tr>
       {/foreach}
       <tr class="text-c">
