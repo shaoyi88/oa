@@ -8,6 +8,14 @@
 		{/if}
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
+      			{if isset($info)}
+      			<tr>
+          		     <th class="text-r" width="200">订单号：</th>
+          			 <td>
+          			 	{$info['order_no']}
+          			 </td>
+        		</tr>
+      			{/if}
       			<tr>
           		     <th class="text-r" width="200">用户ID/姓名/微信号/昵称/手机：</th>
           			 <td>

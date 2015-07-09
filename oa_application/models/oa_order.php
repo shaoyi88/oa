@@ -44,10 +44,7 @@ class OA_Order extends CI_Model
 	/**
 	 * 
 	 * 增加
-	 * @param unknown_type $user_phone
-	 * @param unknown_type $user_sex
-	 * @param unknown_type $user_province
-	 * @param unknown_type $user_city
+	 * @param unknown_type $data
 	 */
 	public function add($data)
 	{

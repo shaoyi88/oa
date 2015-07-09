@@ -182,8 +182,7 @@ $config['rights'] = array(
 			array('订单取消', 'order_cancel', TRUE),
 			array('订单指派护工', 'order_set_worker'),
 			array('订单更换护工', 'order_change_worker'),
-			array('订单预付款', 'order_advance_payment'),
-			array('订单结算', 'order_balance')
+			array('订单收款', 'order_collection')
 		),
 		'right' => 'sign'
 	),
@@ -345,9 +344,10 @@ $config['order_fee_unit'] = array(
 
 $config['order_status'] = array(
 	'1' => '未确认', //支持查看，指派护工，取消，编辑
-	'2' => '进行中', //支持查看，编辑，更换护工，预付款，结算
-	'3' => '已完成', //支持查看
-	'4' => '已取消'  //支持查看，删除
+	'2' => '进行中', //支持查看，编辑，更换护工，收款
+	'3' => '结算中', //支持查看
+	'4' => '已完成', //支持查看
+	'5' => '已取消'  //支持查看，删除
 );
 
 $config['customerservice_status'] = array(
@@ -366,3 +366,29 @@ $config['customerservice_type'] = array(
 );
 
 $config['customerservice_role'] = 2;
+
+//收款类型
+$config['order_collection_type'] = array(
+	'1' => '预收款',
+	'2' => '结算',
+);
+
+//付款方式
+$config['order_payment_type'] = array(
+	'1' => '现金',
+	'2' => '银行卡',
+	'3' => '微信支付',
+);
+
+//收款状态
+$config['order_collection_status'] = array(
+	'1' => '未支付',
+	'2' => '已支付',
+	'3' => '已取消',
+);
+
+//票据状态
+$config['order_bill_status'] = array(
+	'1' => '未出票',
+	'2' => '已出票',
+);

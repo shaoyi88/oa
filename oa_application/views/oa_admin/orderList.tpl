@@ -54,11 +54,10 @@
         <td>
         	 {if checkRight('order_set_worker') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" title="指派护工" href="{formatUrl('order/setWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">指派护工</a>{/if}
         	 {if checkRight('order_change_worker') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="更换护工" href="{formatUrl('order/changeWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">更换护工</a>{/if}
-        	 {if checkRight('order_advance_payment') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="预付款" href="{formatUrl('order/advancePayment?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">预付款</a>{/if}
-        	 {if checkRight('order_balance') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="结算" href="{formatUrl('order/balance?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">结算</a>{/if}
+        	 {if checkRight('order_collection') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="收款" href="{formatUrl('order/collection?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">收款</a>{/if}
         	 {if checkRight('order_edit') && ($item['order_status'] == 1 || $item['order_status'] == 2)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="编辑" href="{formatUrl('order/add?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">编辑</a>{/if}
         	 {if checkRight('order_cancel') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius cancel" oid="{$item['order_id']}" title="取消" href="javascript:;" style="text-decoration:none;margin-bottom:10px">取消</a>{/if}
-        	 {if checkRight('order_del') && $item['order_status'] == 4}&nbsp;&nbsp;<a class="btn btn-primary radius del" oid="{$item['order_id']}" title="删除" href="javascript:;" style="text-decoration:none;margin-bottom:10px">删除</a>{/if}
+        	 {if checkRight('order_del') && $item['order_status'] == 5}&nbsp;&nbsp;<a class="btn btn-primary radius del" oid="{$item['order_id']}" title="删除" href="javascript:;" style="text-decoration:none;margin-bottom:10px">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

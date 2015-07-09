@@ -44,7 +44,7 @@
       </tr>
       <tr>
       	<th class="text-r" width="120">结束时间：</th>
-        <td>{if $orderInfo['order_end_time']}{date('Y-m-d H:i:s',$orderInfo['order_start_time'])}{else}未结束{/if}</td>
+        <td>{if $orderInfo['order_end_time']}{date('Y-m-d H:i:s',$orderInfo['order_end_time'])}{else}未结束{/if}</td>
       </tr>
       <tr>
       	<th class="text-r" width="120">预收款：</th>

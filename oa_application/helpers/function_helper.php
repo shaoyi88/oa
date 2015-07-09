@@ -95,11 +95,11 @@ function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
 
 /**
  * 
- * 计算护工工资
+ * 计算订单金额
  * @param unknown_type $orderInfo
  * @param unknown_type $startTime
  */
-function calculateWorkerSalary($orderInfo, $workerTime)
+function calculateOrderCost($orderInfo, $workerTime, $isWorker = TRUE)
 {
 	$ci =& get_instance();
 	if($workerTime < 0){  //工作时间小于0，结算金额为0
@@ -118,6 +118,6 @@ function calculateWorkerSalary($orderInfo, $workerTime)
 			break;
 	}
 	$order_service_mode = $ci->config->item('order_service_mode');
-	$rate = $order_service_mode[$orderInfo['service_mode']][4];  //计费比例
+	$rate = $isWorker ? $order_service_mode[$orderInfo['service_mode']][4] : 1;  //计费比例
 	return round($workerTime / $timeUnit * $orderInfo['order_fee'] * $rate);
 }

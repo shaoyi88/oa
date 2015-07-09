@@ -348,9 +348,9 @@ class Order extends OA_Controller
 			$workerList[] = $item;
 			$workerOrder[] = $order;
 		}
-		//$this->OA_WorkerOrder->addBatch($workerOrder);
+		$this->OA_WorkerOrder->addBatch($workerOrder);
 		// 更新替换的护工状态
-		//$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
+		$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
 		// 结算被替换的护工工资
 		$info = $this->OA_WorkerOrder->getOrderByWorkerId($data['cur_worker_id']);
 		$hasOrderWorker = array();
@@ -362,14 +362,129 @@ class Order extends OA_Controller
 				$order['id'] = $item['id'];
 				$order['end_time'] = $curTime;
 				$order['status'] = 0;
-				$order['salary'] = calculateWorkerSalary($orderInfo, $workerTime);
-				//$this->OA_WorkerOrder->update($order);
+				$order['salary'] = calculateOrderCost($orderInfo, $workerTime);
+				$this->OA_WorkerOrder->update($order);
 			}else{
 				$hasOrderWorker[] = $item['worker_id'];  //目前仍有订单的护工不需要更新状态
 			}
 		}
 		// 更新被替换的护工状态
 		$updateWorker = array_diff($data['cur_worker_id'], $hasOrderWorker);
-		//$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
+		$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
+		redirect(formatUrl('order/index'));
+	}
+	
+	/**
+	 * 
+	 * 收款页面
+	 */
+	public function collection()
+	{
+		$data = array();
+		if(checkRight('order_collection') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$oid = $this->input->get('oid');
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($oid);
+		if(empty($orderInfo)){
+			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
+		}else if($orderInfo['order_status'] != 2){
+			redirect(formatUrl('order/index?msg='.urlencode('该订单不可收款')));
+		}
+		$data['orderInfo'] = $orderInfo;
+		$data['order_collection_type'] = $this->config->item('order_collection_type');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$data['order_advance_payment'] = $orderInfo['order_advance_payment'] ? $orderInfo['order_advance_payment'] : 0;
+		$this->load->model('OA_WorkerOrder');
+		$data['workerInfo'] = $this->OA_WorkerOrder->getOrderWorkers($orderInfo['order_id'], TRUE);
+		$this->load->model('OA_User');
+		$data['userInfo'] = $this->OA_User->getUserInfo($orderInfo['user_id']);
+		$this->load->model('OA_Customer');
+		$data['customerInfo'] = $this->OA_Customer->getCustomerInfo($orderInfo['customer_id']);
+		// 计费单位
+		switch($orderInfo['order_fee_unit']){
+			case 1:
+				$timeUnit = 60*60*24*30;
+				break;
+			case 2:
+				$timeUnit = 60*60*24;
+				break;
+			case 3:
+				$timeUnit = 60*60;
+				break;
+		}
+		$data['timeUnit'] = $timeUnit;
+		$data['order_fee'] = $orderInfo['order_fee'];		
+		$this->showView('orderCollection', $data);
+	}
+	
+	/**
+	 * 
+	 * 收款逻辑
+	 */
+	public function doCollection()
+	{
+		$data = array();
+		if(checkRight('order_collection') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$data = $this->input->post();
+		if($data['collection_type'] == 1){//预付逻辑
+			$this->load->model('OA_OrderCollection');
+			$info['order_id'] = $data['order_id'];
+			$info['order_no'] = $data['order_no'];
+			$info['collection_type'] = $data['collection_type'];
+			$info['collection_amount'] = $data['collection_amount_1'];
+			$info['collection_status'] = 1;
+			$info['bill_status'] = 1;
+			$info['add_time'] = time();
+			$this->OA_OrderCollection->add($info);			
+		}else if($data['collection_type'] == 2){//结算逻辑
+			$this->load->model('OA_WorkerOrder');
+			$this->load->model('OA_Worker');
+			$this->load->model('OA_OrderCollection');
+			$this->load->model('OA_Order');
+			$orderInfo = $this->OA_Order->getOrderInfo($data['order_id']);
+			$endTime = strtotime($data['order_end_time']);
+			//结算护工工资
+			$workerInfo = $this->OA_WorkerOrder->getOrderByWorkerId($data['worker']);
+			$hasOrderWorker = array();
+			foreach($workerInfo as $item)
+			{
+				if($item['order_id'] == $data['order_id']){  //结算当前订单
+					$workerTime = $endTime - $item['start_time'];
+					$order = array();
+					$order['id'] = $item['id'];
+					$order['end_time'] = $endTime;
+					$order['status'] = 0;
+					$order['salary'] = calculateOrderCost($orderInfo, $workerTime);
+					$this->OA_WorkerOrder->update($order);
+				}else{
+					$hasOrderWorker[] = $item['worker_id'];  //目前仍有订单的护工不需要更新状态
+				}
+			}
+			//更改护工状态
+			$updateWorker = array_diff($data['worker'], $hasOrderWorker);
+			$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
+			//增加收款记录
+			$info['order_id'] = $data['order_id'];
+			$info['order_no'] = $data['order_no'];
+			$info['collection_type'] = $data['collection_type'];
+			$info['collection_amount'] = $data['collection_amount_2'];
+			$info['collection_status'] = 1;
+			$info['bill_status'] = 1;
+			$info['add_time'] = time();
+			$this->OA_OrderCollection->add($info);		
+			//修改订单状态
+			$updateOrder['order_id'] = $data['order_id'];
+			$updateOrder['order_end_time'] = $endTime;
+			$updateOrder['order_status'] = 3;
+			$updateOrder['order_total_cost'] = $orderInfo['order_advance_payment'] + $data['collection_amount_2'];
+			$this->OA_Order->update($updateOrder);
+		}
+		redirect(formatUrl('order/index'));
 	}
 }
