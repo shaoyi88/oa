@@ -136,8 +136,6 @@ class Knowledge extends OA_Controller
 	public function navdata(){
 		$data['cat_pid'] = $this->input->post('cat_pid');
 		$data['cat_name'] = $this->input->post('cat_name');
-		// $data['cat_pid'] = '1';
-		// $data['cat_name'] ='测试';
 		$data['cat_time'] = date('y-m-d',time());
 		$resadd = $this->OA_Knowledge->addNav($data);
 		if($resadd){
@@ -240,12 +238,17 @@ class Knowledge extends OA_Controller
 
 	//保存信息
 	public function savechangeMsg(){
-		$info_id 		= $this->input->post('info_id');
-		$info_title 	= $this->input->post('info_title');
-		$info_detail 	= $this->input->post('info_detail');
-		$info_order 	= $this->input->post('info_order');
-		$this->OA_Knowledge->update_content($info_id,$info_id,$info_title,$info_detail,$info_order);
-		redirect('knowledge/index/', 'refresh');
+		$info_id 				= $this->input->post('info_id');
+		$data['info_title'] 	= $this->input->post('info_title');
+		$data['info_detail'] 	= $this->input->post('info_detail');
+		$data['info_order'] 	= $this->input->post('info_order');
+		$data['add_time']		= date('y-m-d',time());
+		$res = $this->OA_Knowledge->update_content($data,$info_id);
+		if($res>1){	
+		redirect('/oa_admin/knowledge/index');
+		}else{
+			return FALSE;
+		}
 	}
 
 	/**
@@ -264,5 +267,38 @@ class Knowledge extends OA_Controller
 			));
 		}
 		print_r($checknav);
+	}
+
+	//测试短信接口
+	public function smsMsg(){
+		$this->load->helper('sms');
+		$apikey = SMSAPPIKEY; //请用自己的apikey代替
+		$mobile = "15914308649"; //请用自己的手机号代替
+		$text="【一家依】您的验证码是1234";
+		echo send_sms($apikey,$text,$mobile);
+
+		//返回码
+		// {"code":0,"msg":"OK","result":{"count":1,"fee":1,"sid":2260245741}}
+
+		// send_sms($apikey, $text, $mobile);
+		/**
+		* 通用接口发短信
+		* apikey 为云片分配的apikey
+		* text 为短信内容
+		* mobile 为接受短信的手机号
+		*/
+		
+		// tpl_send_sms($apikey, $tpl_id, $tpl_value, $mobile)
+		/**
+		* 模板接口发短信
+		* apikey 为云片分配的apikey
+		* tpl_id 为模板id
+		* tpl_value 为模板值
+		* mobile 为接受短信的手机号
+		*/
+	}
+
+	public function test(){
+		echo SMSAPPIKEY;
 	}
 }	

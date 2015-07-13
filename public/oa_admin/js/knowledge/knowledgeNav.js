@@ -33,7 +33,4 @@ $(document).ready(function() {
 	})
 }); 
 
-// <button type="button" class="btn btn-default nextNav" value="' + item.cat_id + '"><a href="/oa_admin/knowledge/navManagement/{$show['cat_id']}" class=" icon-pencil"></a>"'+ item.cat_name + '"</button>&nbsp;&nbsp;&nbsp;
-// <button type="button" class="btn btn-default nextNav" value="' + item.cat_id + '""><a href="/oa_admin/knowledge/navManagement/{$show['cat_id']}" class=" icon-pencil"></a>"' + item.cat_name + '"</button>&nbsp;&nbsp;&nbsp; 
-
 

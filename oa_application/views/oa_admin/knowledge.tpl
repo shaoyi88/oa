@@ -3,17 +3,16 @@
 <div class="pd-20">
   <!-- 添加内容 -->
   <div class="cl pd-5 bg-1 bk-gray mt-20"> 
-    <span class="l"><input class="btn btn-secondary radius add-but" type="button" value="添加新内容"></span> 
+    <span class="l"><input class="btn btn-secondary radius add-but" type="button" value="添加新内容"></span>
     <span class="r"></span>
   </div>
-
   <div class="pd-20" id="add-detail" style="display:none">
-    <form action="" method="post" class="form form-horizontal" id="form-user-add">
+    <div class="form form-horizontal" id="form-user-add">
       <!---一级菜单 -->
       <div class="row cl">
         <label class="form-label col-3"><span class="c-red">*</span>请选择一级标题</label>
         <div class="formControls col-5"> <span class="select-box">
-          <select id="select-nav" class="select" size="1" name="demo1" datatype="*" nullmsg="请选择一级标题">
+          <select id="select-nav" class="select" size="1" datatype="*" nullmsg="请选择一级标题">
             <option class ="select-type" value="null">请选择分类</option>
             {foreach $navall as $chooseBut}
               <option class ="select-type" value="{$chooseBut['cat_id']}"> {$chooseBut['cat_name']}</option>
@@ -76,7 +75,7 @@
       <div class="row cl">
         <label class="form-label col-3"><span class="c-red">*</span>信息标题</label>
         <div class="formControls col-5"> 
-          <input type="text" id="addContentTitle" placeholder="空制在80个汉字，160个字符以内" value="" class="input-text">
+          <input type="text" id="addContentTitle" placeholder="空制在80个汉字，160个字符以内" class="input-text">
         </div>
         <div class="col-4"> </div>
       </div>
@@ -84,7 +83,7 @@
       <div class="row cl">
         <label class="form-label col-3">详细信息</label>
         <div class="formControls col-5">
-          <textarea name="" cols="" rows="" class="textarea" id="AddContentDetail" style="height:300px" placeholder="说点什么...最少输入10个字符" datatype="*10-1000" dragonfly="true" nullmsg="详细信息不能为空哦！" onKeyUp="textarealength(this,1000)"></textarea>
+          <textarea cols="" rows="" class="textarea AddContentDetail" style="height:300px" placeholder="说点什么...最少输入10个字符" datatype="*10-1000" dragonfly="true" nullmsg="详细信息不能为空哦！" onKeyUp="textarealength(this,1000)"></textarea>
           <p class="textarea-numberbar"><em class="textarea-length">0</em>/1000</p>
         </div>
         <div class="col-4"> </div>
@@ -94,40 +93,42 @@
           <input class="btn btn-primary radius" type="submit" id="addNewcontent" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
         </div>
       </div>
-    </form>
+    </div>
   </div>
   <!-- end  -->
 <div class="pd-20">
   <!-- 一级菜单输出 -->
   <div class="text-c">
-    <form class="Huiform" method="post" action="" target="_self">
+    <div class="Huiform" method="post" action="" target="_self">
       {foreach $navall as $nav}
-        <button type="button" class="btn btn-primary radius oneNav" value ="{$nav['cat_id']}" name="">
+        <button type="button" class="btn btn-primary radius oneNav" value ="{$nav['cat_id']}" style="line-height:1.6em;margin-top:3px">
         <i class="icon-plus"></i> {$nav['cat_name']}</button>&nbsp;&nbsp;&nbsp;          
       {/foreach}
-    </form>
+    </div>
   </div></br>
   <!-- 2级菜单输出 -->
   {foreach $navall as $nav}
   <div class="text-c showtwoNav" id="ww{$nav['cat_id']}" style="display:none">
-    <form class="Huiform" method="post" action="" target="_self">
+    <div class="Huiform">
       {foreach $nav['navtwo'] as $eee}  
-        <span style="margin-top:2cm;"><button type="button" class="btn btn-secondary radius but-one" id="{$eee['cat_id']}" name="">
+        <span style="margin-top:2cm;"><button type="button" class="btn btn-secondary radius but-one" id="{$eee['cat_id']}" style="line-height:1.6em;margin-top:3px">
         {$eee['cat_name']}</button>&nbsp;&nbsp;&nbsp;    </span>
         {/foreach}      
-    </form>
+    </div>
   </div>
   {/foreach}
   <br/>
   <!-- 3级菜单输出 -->
   <div class="text-c" id="shownavThird">
-    <form class="Huiform" method="post" action="" target="_self"><span style="margin-top:2cm;"></span></form>
+    <div class="Huiform"><span style="margin-top:2cm;"></span></div>
   </div>
-</div>
- <!-- 4级菜单输出 -->
-<div class="text-c" id="nav-four"><form class="Huiform" method="post" action="" target="_self">
-    <span style="margin-top:2cm;"></span>
-  </form></div>
+
+   <!-- 4级菜单输出 -->
+  <div class="text-c" id="nav-four">
+    <div class="Huiform">
+      <span style="margin-top:2cm;"></span>
+    </div>
+  </div>
 </div>
 <!-- 所有信息列表 -->
   <table class="table table-border table-bordered table-bg">
@@ -160,8 +161,5 @@
     </tbody>
   </table>
 </div>
-
-
-
 
 <script type="text/javascript" src="/public/oa_admin/js/knowledge/knowledge.js"></script>

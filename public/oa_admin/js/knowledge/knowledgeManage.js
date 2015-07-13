@@ -18,7 +18,7 @@ $(document).ready(function(){
 	 	if(result.msg ='ok'){
 	 		location.href = "/oa_admin/knowledge/add_title"
 	 	}else(
-	 		alert('数据相同活或出错，请刷新重试')
+	 		alert('The same data')
 	 	)
 	    });
 	});
@@ -27,10 +27,11 @@ $(document).ready(function(){
 	  	alert(cat_id)
 	  	$.post("/oa_admin/knowledge/navdel",{'cat_id':cat_id},function(result){
 		  	if(result.msg ='ok'){
-		  		location.href = "/oa_admin/knowledge/add_title"
-		  	}else(
-		  		alert('菜单还存在对应的内容');
-		  	)
+		  		location.href = "/oa_admin/knowledge/add_title";
+		  	}else{
+		  		alert('false');
+		  	}
+		  	
 	  	});
 	});
 })

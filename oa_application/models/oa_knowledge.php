@@ -208,4 +208,14 @@ class OA_Knowledge extends CI_Model
 		}
 		return $info;
 	}
+	public function update_content($data,$info_id){
+	    $this->db->where('info_id', $info_id);		    
+	    $this->db->update($this->_infoTable,$data); 		
+		if($this->db->affected_rows() <= 0){
+			return FALSE;
+		}
+		else{
+			return TRUE;
+		}
+	}
 }

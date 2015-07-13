@@ -37,7 +37,7 @@ $(document).ready(function() {
 				$('.lastChoose').show();
 				$("#lastNav").append(options_str);
 			}else(
-				alert('最后一级菜单')
+				alert('last nav')
 			)
 			}
 		});
@@ -58,7 +58,7 @@ $(document).ready(function() {
 				success: function (data) { 
 					var _html = ''; 
 					$.each(data, function(index, catPid){
-					_html += '<input type="button" class="btn btn-default radius thirdNav" id="' +catPid.cat_id+ '" value="' +catPid.cat_name+ '">&nbsp;&nbsp;';
+					_html += '<input type="button" class="btn btn-default radius thirdNav" style="line-height:1.6em;margin-top:3px" id="' +catPid.cat_id+ '" value="' +catPid.cat_name+ '" >&nbsp;&nbsp;';
 					}); 
 				$('#shownavThird').html(_html);
 				$('.thirdNav').on('click',function(){
@@ -70,7 +70,7 @@ $(document).ready(function() {
 							if(data.msg == 'nav'){
 								var _html = '';
 								$.each(data.navdata, function(index, butOne){
-								_html += '<input type="button" class="btn btn-default round thirdNav" id="' +butOne.cat_id+ '" name="" value="' +butOne.cat_name+ '">&nbsp;&nbsp;';
+								_html += '<input type="button" class="btn btn-default round thirdNav" id="' +butOne.cat_id+ '" style="line-height:1.6em;margin-top:3px" value="' +butOne.cat_name+ '">&nbsp;&nbsp;';
 								}); 
 								$('#nav-four').html(_html);
 							}
@@ -100,7 +100,7 @@ $(document).ready(function() {
 	})
 	$('#addNewcontent').on('click',function(){
 		var infoTitle = $('#addContentTitle').val();
-		var infoDetail = $('#AddContentDetail').val();
+		var infoDetail = $('.AddContentDetail').val();
 		var infoCatid = $('.selectNavTree').val();
 		alert(infoCatid);
 		alert(infoTitle);

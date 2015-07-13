@@ -34,11 +34,11 @@
   <br/>
   <!-- 3级菜单输出 -->
   {foreach $navthird as $chooseThree}
-    <div class="text-c threeChoose" id="third{$chooseThree['id']}" style="display:none" >
+      <div class="text-c threeChoose" id="third{$chooseThree['id']}" style="display:none" >
       <form class="Huiform" method="post" action="" target="_self">
           {foreach $chooseThree['other'] as $key} 
             <span style="margin-top:2cm;">
-              <button type="button" class="btn btn-default nextNav" value="{$key['cat_id']}"><a href="/oa_admin/knowledge/navManagement/{$show['cat_id']}" class=" icon-pencil"></a>{$key['cat_name']}</button>&nbsp;&nbsp;&nbsp;    
+              <button type="button" class="btn btn-default nextNav" value="{$key['cat_id']}"><a href="/oa_admin/knowledge/navManagement/{$key['cat_id']}" class=" icon-pencil"></a>{$key['cat_name']}</button>&nbsp;&nbsp;&nbsp;    
             </span>
           {/foreach}  
             <span style="margin-top:2cm;">

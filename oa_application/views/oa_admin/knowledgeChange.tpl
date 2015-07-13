@@ -19,7 +19,7 @@
     <div class="row cl">
       <label class="form-label col-3"><span class="c-red">*</span>排列的顺序：</label>
       <div class="formControls col-5">
-        <input type="text" class="input-text" value="{$contentData['info_order']}">
+        <input type="text" class="input-text" id="info_order" name="info_order" value="{$contentData['info_order']}">
       </div>
       <div class="col-4"> </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="row cl">
       <label class="form-label col-3"><span class="c-red">*</span>内容的标题：</label>
       <div class="formControls col-5">
-        <input type="text" class="input-text" value="{$contentData['info_title']}" readonly="readonly">
+        <input type="text" class="input-text" id="info_title" name="info_title" value="{$contentData['info_title']}">
       </div>
       <div class="col-4"> </div>
     </div>
@@ -44,7 +44,7 @@
     <div class="row cl">
       <label class="form-label col-3">详细内容：</label>
       <div class="formControls col-5">
-        <textarea cols="22" rows="" class="textarea" style="height:500px;" datatype="*10-1500" dragonfly="true" onKeyUp="textarealength(this,1500)">{$contentData['info_detail']}</textarea>
+        <textarea cols="22" rows="" id="info_detail" name="info_detail" class="textarea" style="height:500px;" datatype="*10-1500" dragonfly="true" onKeyUp="textarealength(this,1500)">{$contentData['info_detail']}</textarea>
         <p class="textarea-numberbar"></p>
       </div>
       <div class="col-4"> </div>
