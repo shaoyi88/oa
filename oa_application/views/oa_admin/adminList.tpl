@@ -34,13 +34,19 @@
 			<thead>
         		<tr class="text-c">
           		<th>用户名</th>
+          		<th>账户</th>
+          		<th>工号</th>
+          		<th>手机</th>
           		<th width="70">操作</th>
         		</tr>
       		</thead>
 			<tbody>
 				{foreach $adminList as $item}
 					<tr class="text-c">
-        				<td class="text-l">{$item['admin_name']}</td>
+        				<td>{$item['admin_name']}</td>
+        				<td>{$item['admin_account']}</td>
+        				<td>{$item['admin_no']}</td>
+        				<td>{$item['admin_phone']}</td>
           				<td class="f-14">
           				{if checkRight('admin_edit')}<a class="edit" title="编辑" href="{formatUrl('admin/add?id=')}{$item['admin_id']}" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
           				{if checkRight('admin_del')}<a aid="{$item['admin_id']}" pid="{$pid}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}

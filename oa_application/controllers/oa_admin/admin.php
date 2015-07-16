@@ -90,7 +90,7 @@ class Admin extends OA_Controller
 			}
 			$data = $this->input->post();
 			if($data['admin_password']){
-        		$data['admin_password'] = md5($admin_password);
+        		$data['admin_password'] = md5($data['admin_password']);
         	}else{
         		unset($data['admin_password']);
         	}
