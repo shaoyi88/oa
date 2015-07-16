@@ -52,7 +52,7 @@
         <td>
         	 <a class="btn btn-primary radius" href="{formatUrl('finance/collectdetail?cid=')}{$item['collection_id']}" style="text-decoration:none">详情</a>
         	 {if checkRight('finance_collect') && $item['collection_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" href="{formatUrl('finance/collection?cid=')}{$item['collection_id']}" href="javascript:;" style="text-decoration:none">收款</a>{/if}
-        	 {if checkRight('finance_collect') && $item['collection_status'] == 2 && $item['bill_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" href="{formatUrl('finance/collectdetail?cid=')}{$item['collection_id']}" href="javascript:;" style="text-decoration:none">出票</a>{/if}
+        	 {if checkRight('finance_collect') && $item['collection_status'] == 2 && $item['bill_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" href="{formatUrl('finance/prncollection?cid=')}{$item['collection_id']}" href="javascript:;" style="text-decoration:none">出票</a>{/if}
              {if checkRight('finance_collect') && $item['collection_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius cancollect" coid="{$item['collection_id']}" href="javascript:;" style="text-decoration:none">取消</a>{/if}
         </td>
       </tr>

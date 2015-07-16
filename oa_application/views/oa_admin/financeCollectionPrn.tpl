@@ -3,7 +3,7 @@
 <div class="pd-20">
   {if $collectInfo['collection_amount']>0}
   <!--可以扫描要打印的单据作为背景图方便位置对比 -->
-  <div style="position:relative;width:800px;height:400px;background:url()">
+  <div style="position:relative;width:800px;height:400px;background:url();left:50%;margin-left:-400px;">
   <div id="print_area">
   <!--打印区域需自带样式 -->
   <style type="text/css">
@@ -63,7 +63,7 @@
   </div>
   </div>
   {/if}
-  <div><button type="button" class="btn btn-success radius goprint"><i class="icon-ok"></i> {$typeMsg}</button>&nbsp;&nbsp;&nbsp;&nbsp;<a coid="{$collectInfo['collection_id']}" href="javascript:void(0);" class="btn btn-success radius confirmbill">开票确认</a></div>
+  <div class="text-c"><button type="button" class="btn btn-success radius goprint"><i class="icon-ok"></i> {$typeMsg}</button>&nbsp;&nbsp;&nbsp;&nbsp;<a coid="{$collectInfo['collection_id']}" href="javascript:void(0);" class="btn btn-success radius confirmbill">开票确认</a></div>
 </div>
 <input type="hidden" id="billConfirm" value="{formatUrl('finance/confirmBill')}"></input>
 <script type="text/javascript" src="/public/common/js/jquery.jPrintArea.js"></script>
