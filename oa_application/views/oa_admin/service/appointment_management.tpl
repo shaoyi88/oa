@@ -3,11 +3,11 @@
 <body ng-app="serviceApp" ng-controller="serviceCtrl">
     <nav class="mainnav cl">
         <ul class="cl">
-            <li class="current"><a href="#" ng-click="loadAppointment('all')">全部</a></li>
-            <li><a href="#" ng-click="loadAppointment('unprocessed')">未处理</a></li>
+            <li class="current"><a href="#" ng-click="clickLoadAppointment('all', $event)">全部</a></li>
+            <li><a href="#" ng-click="clickLoadAppointment('unprocessed', $event)">未处理</a></li>
             {*<li><a href="#">准备派遣</a></li>*}
             {*<li><a href="#">服务中</a></li>*}
-            <li><a href="#" ng-click="loadAppointment('processed')">完成</a></li>
+            <li><a href="#" ng-click="clickLoadAppointment('processed', $event)">完成</a></li>
         </ul>
     </nav>
 

@@ -5,13 +5,26 @@
 serviceModule = angular.module('serviceApp', ['ngResource']);
 
 serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope, $resource){
-    $scope.test = 'good';
+
     $scope.appPageIndex = 1;
     $scope.appointments = new Array();
 
     appointment =  $resource('get_appointment?type=:type&page=:page', {});
 
+    $scope.clickLoadAppointment = function(type, $event){
+        var eventParent = $($event.target.parentNode);
+        var sublimes = eventParent.siblings();
+        sublimes.each(function(index){
+            $(sublimes[index]).removeClass('current');
+        });
+        eventParent.addClass('current');
+
+
+        $scope.loadAppointment(type);
+    }
+    
     $scope.loadAppointment = function(type){
+
         var result = appointment.query({type:type, page:$scope.appPageIndex}, function(){
             for(var i=0; i < result.length; i++){
                 result[i]['address'] = result[i].province + '省' + result[i].city + '市'
@@ -24,7 +37,12 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
                 }else if(result[i].state == 2000){
                     result[i]['button'] = '已处理';
                     result[i]['btnClass'] = 'disabled ';
-
+                }else if(result[i].state == 3000){
+                    result[i]['button'] = '已签约';
+                    result[i]['btnClass'] = 'disabled ';
+                }else if(result[i].state == -1){
+                    result[i]['button'] = '已取消';
+                    result[i]['btnClass'] = 'disabled ';
                 }
             }
             $scope.appointments = result;
