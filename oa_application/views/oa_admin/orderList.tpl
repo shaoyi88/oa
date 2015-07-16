@@ -7,7 +7,7 @@
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('order/index')}" method="post">
   		<div class="text-c"> 
-   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入订单编号/用户ID/客户ID" id="keyword" name="keyword">
+   			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入订单编号/用户名字/客户名字" id="keyword" name="keyword">
     		&nbsp;&nbsp;&nbsp;&nbsp;
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜订单</button>
   		</div>

@@ -41,6 +41,22 @@ class OA_Worker extends CI_Model
 	{
 		return $this->db->count_all_results($this->_table);
 	}
+	
+	/**
+	 * 
+	 * 通过订单id获取护工
+	 * @param unknown_type $oid
+	 */
+	public function searchWorkerByOrderId($oid)
+	{
+		$sql = "select * from `oa_worker` as w left join `oa_worker_order` as o on w.worker_id = o.worker_id where ".
+				"o.order_id = '".$oid."' and o.status = 1";
+		$query = $this->db->query($sql);
+		if($query){
+			$info = $query->row_array();
+		}
+		return $info;
+	}
 
 	/**
 	 *

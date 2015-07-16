@@ -133,7 +133,6 @@ var order = function(){
             	            	}
             	            }
             	        });
-            			//$('#submitAddOrder').removeClass('disabled');
             		});
             	}
             }

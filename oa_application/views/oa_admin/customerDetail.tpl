@@ -1,4 +1,6 @@
+{if !$hideTitle}
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  资料管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('customer/index')}">客户健康管理</a> <span class="c-gray en">&gt;</span> 客户详情</nav>
+{/if}
 {if isset($msg)}
 <div class="header">
 	<div class="Huialert Huialert-danger"><i class="icon-remove"></i>{$msg}</div>
@@ -137,15 +139,17 @@
         					<td width="70%">
         						{$item['user_name']}_{$item['user_phone']}({$item['relationship']})
         					</td>
+        					{if !$hideTitle}
         					<td>
         					{if checkRight('customer_follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注我的用户" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
         					</td>
+        					{/if}
         				</tr>
         			{/foreach}
         			</tbody>
         		</table>
         	{/if}
-        	{if checkRight('customer_follow_add')}
+        	{if checkRight('customer_follow_add') and !$hideTitle}
         		<a class="btn btn-primary radius" id="addFollow" title="增加关注我的用户" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
         	{/if}
         </td>

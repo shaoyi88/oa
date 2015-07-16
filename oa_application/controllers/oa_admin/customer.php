@@ -202,6 +202,11 @@ class Customer extends OA_Controller
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
+		$hideTitle = FALSE;
+		if($this->input->get('hideTitle')){
+			$hideTitle = TRUE;;
+		}
+		$data['hideTitle'] = $hideTitle;
 		$cid = $this->input->get('cid');
 		$data['cid'] = $cid;
 		$this->load->model('OA_Customer');

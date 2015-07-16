@@ -50,8 +50,8 @@ $config['menus'] = array(
 	array(
 		'module' => '服务跟踪管理',
 		'menu' => array(
-			array('护理计划管理', formatUrl('nursing/plan'), 'nursing_plan'),
-			array('回访管理', formatUrl('nursing/return'), 'nursing_return')
+			array('护理计划管理', formatUrl('nursing/planList'), 'nursing_plan_list'),
+			array('回访管理', formatUrl('nursing/returnList'), 'nursing_return_list')
 		),
 		'right' => 'service_trace'
 	),
@@ -190,8 +190,14 @@ $config['rights'] = array(
 	array(
 		'module' => '服务跟踪管理',
 		'roles' => array(
-			array('护理计划管理', 'nursing_plan'),
-			array('回访管理', 'nursing_return')
+			array('护理计划管理', 'nursing_plan_list'),
+			array('护理计划增加', 'nursing_plan_add'),
+			array('护理计划编辑', 'nursing_plan_edit'),
+			array('护理计划删除', 'nursing_plan_del', TRUE),
+			array('回访管理', 'nursing_return_list'),
+			array('回访增加', 'nursing_return_add'),
+			array('回访登记', 'nursing_return_register'),
+			array('回访删除', 'nursing_return_del'),
 		),
 		'right' => 'service_trace'
 	),
@@ -327,8 +333,8 @@ $config['worker_status'] = array(
 //描述；对应护工服务模式（该模式护工可提供服务）；对应护工工作状态（该工作状态护工可提供服务）；是否支持多选；提成比例
 $config['order_service_mode'] = array(
 	'1' => array('一对一', 1, array(2), FALSE, 0.8),
-	'2' => array('一对多', 2, array(1,2), TRUE, 0.7),
-	'3' => array('多对一', 1, array(2), FALSE, 0.8),
+	'2' => array('一对多', 2, array(1,2), FALSE, 0.7),
+	'3' => array('多对一', 1, array(2), TRUE, 0.8),
 );
 
 $config['worker_service_mode'] = array(
@@ -392,3 +398,5 @@ $config['order_bill_status'] = array(
 	'1' => '未出票',
 	'2' => '已出票',
 );
+
+$config['workerservice_role'] = 3; //护工角色，可指派进行回访

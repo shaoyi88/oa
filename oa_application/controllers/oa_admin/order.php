@@ -24,7 +24,7 @@ class Order extends OA_Controller
 		}
 		$this->load->model('OA_Order');
 		if($this->input->post('keyword')){
-			//$dataList = $this->OA_User->searchUser($this->input->post('keyword'));
+			$dataList = $this->OA_Order->searchOrder($this->input->post('keyword'));
 		}else{
 			$offset = 0;
 			$pageUrl = '';
@@ -133,15 +133,20 @@ class Order extends OA_Controller
 			$data = $this->input->post();
 			$msg = '';
 			$this->load->model('OA_Order');
-			$data['order_no'] = time().rand(100,999);
-			$data['order_start_time'] = strtotime($data['order_start_time']);
-			$data['order_status'] = 1;
-			$data['admin_id'] = $this->userId;
-			$data['admin_name'] = $this->userName;
-			$data['add_time'] = time();
-			if($this->OA_Order->add($data) === FALSE){
-				$msg = '?msg='.urlencode('创建失败');
-			}
+			$info = $this->OA_Order->getOrderInfoByCustomerId($data['customer_id']);
+			if(empty($info)){
+				$data['order_no'] = time().rand(100,999);
+				$data['order_start_time'] = strtotime($data['order_start_time']);
+				$data['order_status'] = 1;
+				$data['admin_id'] = $this->userId;
+				$data['admin_name'] = $this->userName;
+				$data['add_time'] = time();
+				if($this->OA_Order->add($data) === FALSE){
+					$msg = '?msg='.urlencode('创建失败');
+				}
+			}else{
+				$msg = '?msg='.urlencode('该客户已存在订单，请勿重复新增');
+			}			
 			redirect(formatUrl('order/index'.$msg));
 		}
 	
@@ -207,6 +212,11 @@ class Order extends OA_Controller
 			exit;
 		}
 		$oid = $this->input->get('oid');
+		$hideTitle = FALSE;
+		if($this->input->get('hideTitle')){
+			$hideTitle = TRUE;;
+		}
+		$data['hideTitle'] = $hideTitle;
 		$this->load->model('OA_Order');
 		$data['orderInfo'] = $this->OA_Order->getOrderInfo($oid);
 		$this->load->model('OA_User');

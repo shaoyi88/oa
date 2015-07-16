@@ -172,6 +172,11 @@ class Worker extends OA_Controller
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
+		$hideTitle = FALSE;
+		if($this->input->get('hideTitle')){
+			$hideTitle = TRUE;;
+		}
+		$data['hideTitle'] = $hideTitle;
 		$wid = $this->input->get('wid');
 		$data['wid'] = $wid;
 		$this->load->model('OA_Worker');

@@ -1,4 +1,6 @@
+{if !$hideTitle}
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  签约管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('order/index')}">订单管理</a> <span class="c-gray en">&gt;</span> 订单详情</nav>
+{/if}
 <div class="pd-20">
   <table class="table table-bg table-border table-bordered">
     <tbody>
