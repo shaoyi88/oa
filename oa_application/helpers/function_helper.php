@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * 
+ *
  * 重定向
  * @param unknown_type $uri
  */
@@ -11,7 +11,7 @@ function redirect($uri = '')
 }
 
 /**
- * 
+ *
  * 格式化url
  * @param unknown_type $uri
  */
@@ -22,7 +22,7 @@ function formatUrl($uri = '')
 }
 
 /**
- * 
+ *
  * 检测登录
  */
 function checkLogin()
@@ -40,7 +40,7 @@ function checkLogin()
 }
 
 /**
- * 
+ *
  * 检测权限
  * @param unknown_type $key
  */
@@ -50,7 +50,7 @@ function checkRight($key)
 	if($ci->userRights == 'all'){
 		return TRUE;
 	}else{
-		$rightsArr = explode(',', $ci->userRights); 
+		$rightsArr = explode(',', $ci->userRights);
 		if(in_array($key, $rightsArr)){
 			return TRUE;
 		}
@@ -59,7 +59,7 @@ function checkRight($key)
 }
 
 /**
- * 
+ *
  * 分页帮助类
  * @param unknown_type $baseUrl
  * @param unknown_type $totalNum
@@ -85,7 +85,7 @@ function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
 	$config['last_link'] = '末页';
 	$ci->pagination->initialize($config);
 	$pageUrl = $ci->pagination->create_links();
-	
+
 	$curPage = 1;
 	if($ci->input->get('per_page')){
 		$curPage = $ci->input->get('per_page');
@@ -94,7 +94,7 @@ function page($baseUrl, $totalNum, $perNum, &$offset, &$pageUrl)
 }
 
 /**
- * 
+ *
  * 计算订单金额
  * @param unknown_type $orderInfo
  * @param unknown_type $startTime
@@ -121,3 +121,28 @@ function calculateOrderCost($orderInfo, $workerTime, $isWorker = TRUE)
 	$rate = $isWorker ? $order_service_mode[$orderInfo['service_mode']][4] : 1;  //计费比例
 	return round($workerTime / $timeUnit * $orderInfo['order_fee'] * $rate);
 }
+
+//金额转换为大写
+/**
+ * 数字金额转换成中文大写金额的函数
+ * $m 是否显示单位
+ */
+function get_amount_capitalized($num,$m=false){
+        $c1 = "零壹贰叁肆伍陆柒捌玖";
+        $c2 = "分角元拾佰仟万拾佰仟亿";
+        $num = round($num, 2);
+        $num = $num * 100;
+        if(strlen($num) > 10){
+            return false;
+        }
+        $n = strlen($num);
+        $p = array();
+        for($i=1;$i<=$n;$i++){
+        	$p[$i] = mb_substr($c1,$num%10,1);
+        	if($m==true){
+        		$p[$i] .= mb_substr($c2,$i-1,1);
+        	}
+        	$num = substr($num,0,-1);
+        }
+        return $p;
+    }

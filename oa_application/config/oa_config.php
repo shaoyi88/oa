@@ -82,7 +82,8 @@ $config['menus'] = array(
 		'module' => '财务管理',
 		'menu' => array(
 			array('收款管理', formatUrl('finance/collect'), 'finance_collect'),
-			array('对账管理', formatUrl('finance/balance'), 'finance_balance')
+			array('对账管理', formatUrl('finance/balance'), 'finance_balance'),
+			array('票据管理', formatUrl('finance/bill'), 'finance_bill')
 		),
 		'right' => 'finance'
 	),
@@ -228,7 +229,11 @@ $config['rights'] = array(
 		'module' => '财务管理',
 		'roles' => array(
 			array('收款管理', 'finance_collect'),
-			array('对账管理', 'finance_balance')
+			array('对账管理', 'finance_balance'),
+			array('票据管理', 'finance_bill'),
+			array('票据领取', 'bill_add'),
+			array('票据作废', 'bill_edit'),
+			array('票据删除', 'bill_del')
 		),
 		'right' => 'finance'
 	),
@@ -371,6 +376,7 @@ $config['customerservice_type'] = array(
 	'4' => '发票问题',
 );
 
+//客服角色
 $config['customerservice_role'] = 2;
 
 //收款类型
