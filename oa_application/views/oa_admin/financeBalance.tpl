@@ -62,7 +62,7 @@
         <td>{$item['months']}</td>
         <td>{$item['sumsalary']}</td>
         <td class="f-14">
-        	 <a title="详情" href="{formatUrl('finance/balancedetail?wid=')}{$item['worker_id']}&months={$item['months']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
+        	 <a title="详情" href="{formatUrl('finance/balancedetail?wid=')}{$item['worker_id']}&months={$item['months']}" class="btn btn-primary radius" style="text-decoration:none">详情</a>
         </td>
       </tr>
       {/foreach}

@@ -182,6 +182,8 @@ class Hospital extends OA_Controller
 			$data['pid'] = $pid;
 		}
 		$data['workerList'] = $workerList;
+		$data['sexInfo'] = $this->config->item('sex');
+		$data['title'] = $this->config->item('service_level_1');
 		$this->showView('hospitalworkerList', $data);
 	}
 }

@@ -62,7 +62,7 @@
         <th>当前状态</th>
         <th>指派给</th>
         <th>记录人</th>
-        <th width="105">操作</th>
+        <th width="130">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -79,14 +79,14 @@
         <td class="f-14">
         	 {if $item['cs_status']==1}
         	     {if checkRight('customer_service_record')}
-        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>
+        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
         	     {/if}
         	 {elseif $item['cs_status']<4}
         	     {if $item['appointed']==$admin}
-        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>
+        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
         	     {/if}
         	 {/if}
-        	 {if checkRight('customer_service_record')}<a id="{$item['id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+        	 {if checkRight('customer_service_record')}&nbsp;&nbsp;<a id="{$item['id']}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

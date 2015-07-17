@@ -35,7 +35,7 @@
         <th>性别</th>
         <th>年龄</th>
         <th>工作经验</th>
-        <th width="105">操作</th>
+        <th width="200">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -50,9 +50,9 @@
         <td>{$item['worker_age']}</td>
         <td>{$item['worker_experience']}</td>
         <td class="f-14">
-        	 <a title="详情" href="{formatUrl('worker/detail?wid=')}{$item['worker_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
-        	 {if checkRight('worker_edit')}<a title="编辑" href="{formatUrl('worker/add?wid=')}{$item['worker_id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-        	 {if checkRight('worker_del')}<a wid="{$item['worker_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+        	 <a title="详情" href="{formatUrl('worker/detail?wid=')}{$item['worker_id']}" class="btn btn-primary radius" style="text-decoration:none">详情</a>
+        	 {if checkRight('worker_edit')}&nbsp;&nbsp;<a title="编辑" href="{formatUrl('worker/add?wid=')}{$item['worker_id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>{/if}
+        	 {if checkRight('worker_del')}&nbsp;&nbsp;<a wid="{$item['worker_id']}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

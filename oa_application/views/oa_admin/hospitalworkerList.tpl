@@ -26,14 +26,26 @@
 		<table class="table table-border table-bg table-bordered table-hover">
 			<thead>
         		<tr class="text-c">
+        		<th>工号</th>
           		<th>护工名</th>
+          		<th>头衔</th>
+                <th>手机</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>工作经验</th>
         		</tr>
       		</thead>
 			<tbody>
 				{foreach $workerList as $item}
-					<tr class="text-c">
-        				<td class="text-l">{$item['worker_name']}</td>
-          			</tr>
+				    <tr class="text-c">
+        				<td>{$item['worker_no']}</td>
+        				<td>{$item['worker_name']}</td>
+          			    <td>{$title[$item['worker_title']]}</td>
+                        <td>{$item['worker_phone']}</td>
+                        <td>{$sexInfo[$item['worker_sex']]}</td>
+                        <td>{$item['worker_age']}</td>
+                        <td>{$item['worker_experience']}</td>
+                    </tr>
 				{/foreach}
 			</tbody>
 		</table>

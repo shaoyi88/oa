@@ -29,7 +29,7 @@
       <tr class="text-c">
       	<th>医院</th>
         <th>科室</th>
-        <th width="105">操作</th>
+        <th width="150">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@
       <tr class="text-c">
       <td rowspan="{count($item)}">{$hospital[$k]}</td>
       <td>{if isset($item[0]['stationary_name'])}{$item[0]['stationary_name']}{/if}</td>
-      <td rowspan="{count($item)}">{if checkRight('hospital_edit')}<a title="编辑" href="{formatUrl('hospital/add?hid=')}{$k}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}&nbsp;{if checkRight('hospital_del')}<a wid="{$k}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}</td>
+      <td rowspan="{count($item)}">{if checkRight('hospital_edit')}<a title="编辑" href="{formatUrl('hospital/add?hid=')}{$k}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>{/if}{if checkRight('hospital_del')}&nbsp;&nbsp;<a wid="{$k}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}</td>
       </tr>
       {foreach $item as $k=>$h}
       {if $k>0}
