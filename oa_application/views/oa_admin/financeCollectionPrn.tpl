@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  财务管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('finance/collect')}">收款管理</a> <span class="c-gray en">&gt;</span> 打印</nav>
 <div class="pd-20">
   {if $collectInfo['collection_amount']>0}
@@ -9,7 +8,7 @@
   <style type="text/css">
   {literal}p{position:absolute;}{/literal}
   {literal}p input{border:0;}{/literal}
-  {literal}.top0{top:0;right:80px;}{/literal}
+  {literal}.top0{top:0;left:600px;}{/literal}
   {literal}.top1{top:30px;left:0px;}{/literal}
   {literal}.top2{top:80px;left:60px;}{/literal}
   {literal}.top3{top:130px;left:120px;}{/literal}
@@ -66,5 +65,5 @@
   <div class="text-c"><button type="button" class="btn btn-success radius goprint"><i class="icon-ok"></i> {$typeMsg}</button>&nbsp;&nbsp;&nbsp;&nbsp;<a coid="{$collectInfo['collection_id']}" href="javascript:void(0);" class="btn btn-success radius confirmbill">开票确认</a></div>
 </div>
 <input type="hidden" id="billConfirm" value="{formatUrl('finance/confirmBill')}"></input>
-<script type="text/javascript" src="/public/common/js/jquery.jPrintArea.js"></script>
-<script type="text/javascript" src="/public/oa_admin/js/finance.js"></script>
+<script type="text/javascript" src="/public/common/js/jquery.jPrintArea.js?v=102"></script>
+<script type="text/javascript" src="/public/oa_admin/js/finance.js?v=102"></script>
