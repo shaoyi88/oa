@@ -97,7 +97,7 @@
       				</tr>
        				<tr>
        		 			<th class="text-r" width="120">服务级别：</th>
-        				<td>{$serviceLevel1[$customerInfo['customer_service_level']]}</td>
+        				<td>{if $customerInfo['customer_service_level']}{$serviceLevel1[$customerInfo['customer_service_level']]}{else}暂无评估{/if}</td>
       				</tr>
         		</tbody>
         	</table>

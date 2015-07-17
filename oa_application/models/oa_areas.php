@@ -36,29 +36,19 @@ class OA_Areas extends CI_Model
 	
 	/**
 	 * 
-	 * 获取地区名列表
+	 * 获取id列表获取地区名列表
 	 */
-	public function getAreasNameList()
+	public function getAreasNameListByIds($ids)
 	{
-		$allList = $this->_getAll();
-		$result = array();
-		foreach($allList as $item){
-			$result[$item['area_id']] = $item['area_name'];
-		}
-		return $result;
-	}
-	
-	/**
-	 * 
-	 * 获取全部
-	 */
-	private function _getAll()
-	{
-		$info = array();
+		$info = $result = array();
+		$this->db->where_in('area_id', $ids);
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();
 		}
-		return $info;
+		foreach($info as $item){
+			$result[$item['area_id']] = $item['area_name'];
+		}
+		return $result;
 	}
 }

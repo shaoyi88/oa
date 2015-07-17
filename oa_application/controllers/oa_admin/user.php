@@ -33,7 +33,14 @@ class User extends OA_Controller
 			$data['pageUrl'] = $pageUrl;
 		}
 		$this->load->model('OA_Areas');
-		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();	
+		$ids = array();
+		foreach($dataList as $item){
+			$ids[] = $item['user_province'];
+			$ids[] = $item['user_city'];
+		}
+		if(!empty($ids)){
+			$data['areasInfo'] = $this->OA_Areas->getAreasNameListByIds($ids);	
+		}
 		$data['dataList'] = $dataList;		
 		$data['sexInfo'] = $this->config->item('sex');
 		$this->showView('userList', $data);
@@ -159,7 +166,15 @@ class User extends OA_Controller
 		$data['followInfo'] = $this->OA_Follow->queryFollowByUid($uid);
 		$this->load->model('OA_Areas');
 		$data['provinceInfo'] = $this->OA_Areas->queryAreasByPid(0);	
-		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();	
+		$ids = array();
+		$ids[] = $data['userInfo']['user_province'];
+		$ids[] = $data['userInfo']['user_city'];
+		foreach($data['addressInfo'] as $item){
+			$ids[] = $item['province'];
+			$ids[] = $item['city'];
+			$ids[] = $item['area'];
+		}
+		$data['areasInfo'] = $this->OA_Areas->getAreasNameListByIds($ids);	
 		$this->showView('userDetail', $data);
 	}
 	

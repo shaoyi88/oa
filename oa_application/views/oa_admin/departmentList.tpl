@@ -35,16 +35,16 @@
       <thead>
         <tr class="text-c">
           <th>组织部门名称</th>
-          <th width="70">操作</th>
+          <th width="20%">操作</th>
         </tr>
       </thead>
       <tbody>
       	{foreach $dataList as $item}
       		<tr class="text-c">
           		<td class="text-l">{if $item['level'] > 0}{str_repeat('&nbsp', $item['level']*2)}├ {/if}{$item['department_name']}</td>
-          		<td class="f-14" did="{$item['id']}" dname="{$item['department_name']}">
-          			{if checkRight('department_edit')}<a class="edit" title="编辑" href="javascript:;" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-          			{if checkRight('department_del')}<a title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+          		<td did="{$item['id']}" dname="{$item['department_name']}">
+          			{if checkRight('department_edit')}<a class="edit btn btn-primary radius" title="编辑" href="javascript:;" style="text-decoration:none">编辑</a>{/if}
+          			{if checkRight('department_del')}<a title="删除" href="javascript:;" class="ml-5 del btn btn-primary radius" style="text-decoration:none">删除</a>{/if}
           		</td>
         	</tr>
       	{/foreach}

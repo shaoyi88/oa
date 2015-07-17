@@ -21,16 +21,16 @@
     <thead>
       <tr class="text-c">
         <th>分组名</th>
-        <th width="70">操作</th>
+        <th width="20%">操作</th>
       </tr>
     </thead>
     <tbody>
       {foreach $dataList as $item}
       <tr class="text-c">
         <td>{$item['role_name']}</td>
-        <td class="f-14">
-        	 {if checkRight('role_edit')}<a title="编辑" href="{formatUrl('role/add?id=')}{$item['id']}" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-        	 {if checkRight('role_del')}<a rid="{$item['id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+        <td>
+        	 {if checkRight('role_edit')}<a class="btn btn-primary radius" title="编辑" href="{formatUrl('role/add?id=')}{$item['id']}" style="text-decoration:none">编辑</a>{/if}
+        	 {if checkRight('role_del')}<a rid="{$item['id']}" title="删除" href="javascript:;" class="ml-5 del btn btn-primary radius" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

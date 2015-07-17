@@ -35,7 +35,7 @@
         <th>性别</th>
         <th>地区</th>
         <th>最近访问时间</th>
-        <th width="105">操作</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
@@ -53,10 +53,10 @@
         {if $item['user_city'] != 0}{$areasInfo[$item['user_city']]}{/if}
         </td>
         <td>{if $item['user_last_visit_time'] != ''}{date('Y-m-d H:i:s',$item['user_last_visit_time'])}{else}暂无{/if}</td>
-        <td class="f-14">
-        	 <a title="详情" href="{formatUrl('user/detail?uid=')}{$item['user_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
-        	 {if checkRight('user_edit')}<a title="编辑" href="{formatUrl('user/add?uid=')}{$item['user_id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-        	 {if checkRight('user_del')}<a uid="{$item['user_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+        <td>
+        	 <a class="btn btn-primary radius" title="详情" href="{formatUrl('user/detail?uid=')}{$item['user_id']}" style="text-decoration:none">详情</a>
+        	 {if checkRight('user_edit')}<a title="编辑" href="{formatUrl('user/add?uid=')}{$item['user_id']}" class="ml-5 btn btn-primary radius" style="text-decoration:none">编辑</a>{/if}
+        	 {if checkRight('user_del')}<a uid="{$item['user_id']}" title="删除" href="javascript:;" class="ml-5 del btn btn-primary radius" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

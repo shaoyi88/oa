@@ -33,7 +33,6 @@ class Worker extends OA_Controller
 			$data['pageUrl'] = $pageUrl;
 		}
 		$this->load->model('OA_Areas');
-		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();
 		$data['dataList'] = $dataList;
 		$data['sexInfo'] = $this->config->item('sex');
 		$this->load->model('OA_Hospital');
@@ -189,7 +188,11 @@ class Worker extends OA_Controller
 		$data['workerService'] = $this->config->item('customer_service_type');
 		$this->load->model('OA_Areas');
 		$data['provinceInfo'] = $this->OA_Areas->queryAreasByPid(0);
-		$data['areasInfo'] = $this->OA_Areas->getAreasNameList();
+		$ids = array();
+		$ids[] = $data['workerInfo']['worker_domicile_province'];
+		$ids[] = $data['workerInfo']['worker_domicile_city'];
+		$ids[] = $data['workerInfo']['worker_domicile_district'];
+		$data['areasInfo'] = $this->OA_Areas->getAreasNameListByIds($ids);
 		$this->load->model('OA_Hospital');
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('workerDetail', $data);

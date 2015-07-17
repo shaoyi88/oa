@@ -37,7 +37,7 @@
           		<th>账户</th>
           		<th>工号</th>
           		<th>手机</th>
-          		<th width="70">操作</th>
+          		<th>操作</th>
         		</tr>
       		</thead>
 			<tbody>
@@ -47,9 +47,9 @@
         				<td>{$item['admin_account']}</td>
         				<td>{$item['admin_no']}</td>
         				<td>{$item['admin_phone']}</td>
-          				<td class="f-14">
-          				{if checkRight('admin_edit')}<a class="edit" title="编辑" href="{formatUrl('admin/add?id=')}{$item['admin_id']}" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-          				{if checkRight('admin_del')}<a aid="{$item['admin_id']}" pid="{$pid}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+          				<td>
+          				{if checkRight('admin_edit')}<a class="btn btn-primary radius edit" title="编辑" href="{formatUrl('admin/add?id=')}{$item['admin_id']}" style="text-decoration:none">编辑</a>{/if}
+          				{if checkRight('admin_del')}<a class="btn btn-primary radius ml-5 del" aid="{$item['admin_id']}" pid="{$pid}" title="删除" href="javascript:;" style="text-decoration:none">删除</a>{/if}
           				</td>
           			</tr>
 				{/foreach}

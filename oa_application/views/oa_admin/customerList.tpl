@@ -36,7 +36,7 @@
         <th>客户分组</th>
         <th>服务分组</th>
         <th>服务评估</th>
-        <th width="105">操作</th>
+        <th>操作</th>
       </tr>
     </thead>
     <tbody>
@@ -51,10 +51,10 @@
         <td>{$groupInfo[$item['customer_type']]}</td>
         <td>{$serviceTypeInfo[$item['customer_service_type']]}</td>
         <td>{if $item['customer_service_level']}{if $item['customer_service_type'] == 4}{$serviceLevel2[$item['customer_service_level']]}{else}{$serviceLevel1[$item['customer_service_level']]}{/if}{else}暂无评估{/if}</td>
-        <td class="f-14">
-        	 <a title="详情" href="{formatUrl('customer/detail?cid=')}{$item['customer_id']}" style="text-decoration:none"><i class="icon-list-alt"></i></a>
-        	 {if checkRight('customer_edit')}<a title="编辑" href="{formatUrl('customer/add?cid=')}{$item['customer_id']}" class="ml-5" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
-        	 {if checkRight('customer_del')}<a cid="{$item['customer_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
+        <td>
+        	 <a class="btn btn-primary radius" title="详情" href="{formatUrl('customer/detail?cid=')}{$item['customer_id']}" style="text-decoration:none">详情</a>
+        	 {if checkRight('customer_edit')}<a title="编辑" href="{formatUrl('customer/add?cid=')}{$item['customer_id']}" class="ml-5 btn btn-primary radius" style="text-decoration:none">编辑</a>{/if}
+        	 {if checkRight('customer_del')}<a cid="{$item['customer_id']}" title="删除" href="javascript:;" class="ml-5 del btn btn-primary radius" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}
