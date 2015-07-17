@@ -1,15 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Order extends OA_Controller 
+class Order extends OA_Controller
 {
 	protected function initialize()
 	{
 		parent::initialize();
 		checkLogin();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 订单首页
 	 */
 	public function index()
@@ -36,12 +36,12 @@ class Order extends OA_Controller
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$data['order_status'] = $this->config->item('order_status');
-		$data['dataList'] = $dataList;		
+		$data['dataList'] = $dataList;
 		$this->showView('orderList', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 创建订单
 	 */
 	public function add()
@@ -74,14 +74,14 @@ class Order extends OA_Controller
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$this->showView('orderAdd', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 创建订单逻辑
 	 */
 	public function doAdd()
 	{
-		$data = array();	
+		$data = array();
 		if($this->input->post('order_id')){
 			if(checkRight('order_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -146,18 +146,19 @@ class Order extends OA_Controller
 				}
 			}else{
 				$msg = '?msg='.urlencode('该客户已存在订单，请勿重复新增');
-			}			
+			}
 			redirect(formatUrl('order/index'.$msg));
 		}
-	
+
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 取消订单
 	 */
 	public function doCancel()
 	{
+		$data = array();
 		if(checkRight('order_cancel') === FALSE){
 			$this->showView('denied', $data);
 			exit;
@@ -176,13 +177,14 @@ class Order extends OA_Controller
 			redirect(formatUrl('order/index?msg='.urlencode('取消订单成功')));
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 删除订单
 	 */
 	public function doDel()
 	{
+		$data = array();
 		if(checkRight('order_del') === FALSE){
 			$this->showView('denied', $data);
 			exit;
@@ -199,9 +201,9 @@ class Order extends OA_Controller
 			redirect(formatUrl('order/index?msg='.urlencode('删除订单成功')));
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 详情页面
 	 */
 	public function detail()
@@ -233,9 +235,9 @@ class Order extends OA_Controller
 		$data['workerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid);
 		$this->showView('orderDetail', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 指派护工
 	 */
 	public function setWorker()
@@ -260,9 +262,9 @@ class Order extends OA_Controller
 		$data['orderInfo'] = $orderInfo;
 		$this->showView('orderSetWorker', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 指派护工逻辑
 	 */
 	public function doSetWorker()
@@ -292,9 +294,9 @@ class Order extends OA_Controller
 		$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
 		redirect(formatUrl('order/index'));
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 更换护工
 	 */
 	public function changeWorker()
@@ -329,9 +331,9 @@ class Order extends OA_Controller
 		$data['orderInfo'] = $orderInfo;
 		$this->showView('orderChangeWorker', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 更换护工逻辑
 	 */
 	public function doChangeWorker()
@@ -383,9 +385,9 @@ class Order extends OA_Controller
 		$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
 		redirect(formatUrl('order/index'));
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 收款页面
 	 */
 	public function collection()
@@ -426,12 +428,12 @@ class Order extends OA_Controller
 				break;
 		}
 		$data['timeUnit'] = $timeUnit;
-		$data['order_fee'] = $orderInfo['order_fee'];		
+		$data['order_fee'] = $orderInfo['order_fee'];
 		$this->showView('orderCollection', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 收款逻辑
 	 */
 	public function doCollection()
@@ -451,7 +453,7 @@ class Order extends OA_Controller
 			$info['collection_status'] = 1;
 			$info['bill_status'] = 1;
 			$info['add_time'] = time();
-			$this->OA_OrderCollection->add($info);			
+			$this->OA_OrderCollection->add($info);
 		}else if($data['collection_type'] == 2){//结算逻辑
 			$this->load->model('OA_WorkerOrder');
 			$this->load->model('OA_Worker');
@@ -487,7 +489,7 @@ class Order extends OA_Controller
 			$info['collection_status'] = 1;
 			$info['bill_status'] = 1;
 			$info['add_time'] = time();
-			$this->OA_OrderCollection->add($info);		
+			$this->OA_OrderCollection->add($info);
 			//修改订单状态
 			$updateOrder['order_id'] = $data['order_id'];
 			$updateOrder['order_end_time'] = $endTime;

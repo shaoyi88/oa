@@ -7,7 +7,7 @@
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('worker/statis')}" method="post">
   		<div class="text-c">
-  		    <select target="worker_stationary" style="width:15%" class="select" id="worker_hospital" name="worker_hospital">
+  		    <select target="worker_stationary" style="width:15%" class="select-box" id="worker_hospital" name="worker_hospital">
           	    <option value="">请选择</option>
           		{foreach $hospitalInfo as $item}
       			<option value="{$item['wb_id']}">
@@ -15,12 +15,12 @@
       			</option>
       			{/foreach}
           	</select>
-          	&nbsp;
-          	<select style="width:15%" class="select" id="worker_stationary" name="worker_stationary">
+          	&nbsp;&nbsp;
+          	<select style="width:15%" class="select-box" id="worker_stationary" name="worker_stationary">
           		<option value="">请选择</option>
           	</select>
-          	&nbsp;
-          	<select style="width:15%" class="select" id="worker_status" name="worker_status">
+          	&nbsp;&nbsp;
+          	<select style="width:15%" class="select-box" id="worker_status" name="worker_status">
           		<option value="">请选择</option>
           		{foreach $wsInfo as $k=>$item}
       			<option value="{$k}" >
