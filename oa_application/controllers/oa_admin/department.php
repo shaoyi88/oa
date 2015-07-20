@@ -42,8 +42,13 @@ class Department extends OA_Controller
 		$data['pid'] = $data['pid'] ? $data['pid'] : 0;
 		$this->load->model('OA_Department');
 		$msg = '';
-		if($this->OA_Department->add($data) === FALSE){
-			$msg = '?msg='.urlencode('创建失败');
+		$info = $this->OA_Department->getInfo($data['pid'], $data['department_name']);
+		if(!empty($info)){
+			$msg = '?msg='.urlencode('该部门下已存在同名子部门');
+		}else{
+			if($this->OA_Department->add($data) === FALSE){
+				$msg = '?msg='.urlencode('创建失败');
+			}
 		}
 		redirect(formatUrl('department/index'.$msg));
 	}

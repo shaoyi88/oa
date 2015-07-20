@@ -1,5 +1,5 @@
 <header class="Hui-header cl"> 
-	<a class="Hui-logo l" title="XXX管理系统" href="javascript:;">XXX管理系统</a> 
+	<a class="Hui-logo l" title="一家依信息管理系统" href="javascript:;">一家依信息管理系统</a> 
 	<span class="Hui-userbox">
 		<span class="c-white">{$userName}</span> 
 		<a class="btn radius ml-10 changePassword" href="javascript:;" title="修改密码"><i class="icon-key"></i>修改密码</a>

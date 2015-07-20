@@ -32,6 +32,24 @@ class OA_Department extends CI_Model
 		}
 		return TRUE;
 	}
+	
+	/**
+	 * 
+	 * 获取信息
+	 * @param unknown_type $pid
+	 * @param unknown_type $department_name
+	 */
+	public function getInfo($pid, $department_name)
+	{
+		$this->db->where('pid', $pid);
+		$this->db->where('department_name', $department_name);
+		$query = $this->db->get($this->_table);
+		$info = array();
+		if($query){
+			$info = $query->row_array();
+		}
+		return $info;
+	}
 
 	/**
 	 *

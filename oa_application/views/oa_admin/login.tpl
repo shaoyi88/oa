@@ -15,7 +15,7 @@
 <link href="/public/common/css/iconfont/iconfont.css" rel="stylesheet" type="text/css" />
 <link href="/public/common/css/font-awesome/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="/public/oa_admin/css/login.css" rel="stylesheet" type="text/css" />
-<title>系统登录</title>
+<title>一家依信息管理系统登录</title>
 </head>
 <body>
 {if isset($msg)}
@@ -46,7 +46,7 @@
     </form>
   </div>
 </div>
-<div class="footer">Copyright XXX</div>
+<div class="footer">Copyright © 一家依信息管理系统</div>
 <script type="text/javascript" src="/public/common/js/jquery.min.js"></script> 
 <script type="text/javascript" src="/public/common/js/lib.js"></script> 
 <script type="text/javascript" src="/public/common/js/Validform_v5.3.2.js"></script>
