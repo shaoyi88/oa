@@ -1,4 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+define('WECHAT_MASTER_PATH', THIRD_PATH.'wechat-master/');
+
 /**
  * Created by PhpStorm.
  * User: Chan
@@ -8,12 +10,14 @@
 
 use Overtrue\Wechat\Server;
 
+
 class Chat extends OA_Controller
 {
     protected function initialize()
     {
         parent::initialize();
         checkLogin();
+        require_once WECHAT_MASTER_PATH.'autoload.php';
     }
 
     public function index(){
@@ -23,13 +27,19 @@ class Chat extends OA_Controller
     }
 
     public function validate(){
-        $appId          = 'wx3cf0f39249eb0e60';
+        echo 21;
+
+        $appId          = 'wx9d24912c87f38ef5';
         $token          = 'hellotest';
-        $encodingAESKey = 'EJThPazwzO4k1cyXJnwQtL60zBdhWvFaHb4emv0dLVN'; // 可选
+        $encodingAESKey = 'haSfPHurdtqIgkGkwY9A9PMBlSbbDnnlQ9WWyDuTE8u'; // 可选
 
 //$encodingAESKey 可以为空
         $server = new Server($appId, $token, $encodingAESKey);
+        echo 22;
+        $server->serve();
+        echo 222;
 
+        echo 23;
     }
 
 }
