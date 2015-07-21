@@ -69,10 +69,40 @@ class Order extends OA_Controller
 			}
 			$data['typeMsg'] = '新增';
 		}
-		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$this->showView('orderAdd', $data);
+	}
+	
+	/**
+	 * 
+	 * 添加新用户订单
+	 */
+	public function addNew()
+	{
+		$data = array();
+		if(checkRight('user_add') === FALSE || checkRight('customer_add') === FALSE ||
+			checkRight('follow_add') === FALSE || checkRight('order_add') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		//用户信息相关
+		$this->load->model('OA_Areas');
+		$provinceInfo = $cityInfo = array();
+		$provinceInfo = $this->OA_Areas->queryAreasByPid(0);	
+		$data['provinceInfo'] = $provinceInfo;
+		$data['cityInfo'] = $cityInfo;
+		$data['sexInfo'] = $this->config->item('sex');
+		//客户信息相关
+		$data['languageInfo'] = $this->config->item('customer_language');
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['groupInfo'] = $this->config->item('customer_group');
+		$this->load->model('OA_Hospital');	
+		$data['hospitalInfo'] = $this->OA_Hospital->queryByPid(0);	
+		//订单信息相关
+		$data['order_service_mode'] = $this->config->item('order_service_mode');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$this->showView('orderAddNew', $data);
 	}
 
 	/**
@@ -149,7 +179,65 @@ class Order extends OA_Controller
 			}
 			redirect(formatUrl('order/index'.$msg));
 		}
-
+	}
+	
+	/**
+	 *
+	 * 创建新用户订单逻辑
+	 */
+	public function doAddNew()
+	{
+		$data = array();
+		if(checkRight('user_add') === FALSE || checkRight('customer_add') === FALSE ||
+			checkRight('follow_add') === FALSE || checkRight('order_add') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		$data = $this->input->post();
+		//新增用户
+		$this->load->model('OA_User');
+		$addUserInfo['user_name'] = $data['user_name'];
+		$addUserInfo['user_phone'] = $data['user_phone'];
+		$addUserInfo['user_sex'] = $data['user_sex'];
+		$addUserInfo['user_province'] = $data['user_province'];
+		$addUserInfo['user_city'] = $data['user_city'];
+		$uid = $this->OA_User->add($addUserInfo);
+		//新建客户
+		$this->load->model('OA_Customer');
+		$addCustomerInfo['customer_name'] = $data['customer_name'];
+		$addCustomerInfo['customer_sex'] = $data['customer_sex'];
+		$addCustomerInfo['customer_age'] = $data['customer_age'];
+		$addCustomerInfo['customer_card'] = $data['customer_card'];
+		$addCustomerInfo['customer_language'] = $data['customer_language'] == '其他' ? $data['other_language'] : $data['customer_language'];
+		$addCustomerInfo['customer_type'] = $data['customer_type'];
+		$addCustomerInfo['customer_address'] = $data['customer_address'];
+		$addCustomerInfo['customer_hospital'] = $data['customer_hospital'];
+		$addCustomerInfo['customer_hospital_department'] = $data['customer_hospital_department'];
+		$addCustomerInfo['customer_bed_no'] = $data['customer_bed_no'];
+		$addCustomerInfo['customer_service_type'] = $data['customer_service_type'];
+		$cid = $this->OA_Customer->add($addCustomerInfo);
+		//新建用户客户关联
+		$this->load->model('OA_Follow');
+		$addFollowInfo['user_id'] = $uid;
+		$addFollowInfo['customer_id'] = $cid;
+		$addFollowInfo['relationship'] = $data['relationship'];
+		$this->OA_Follow->add($addFollowInfo);
+		//新建订单
+		$this->load->model('OA_Order');
+		$addOrderInfo['order_no'] = time().rand(100,999);
+		$addOrderInfo['user_id'] = $uid;
+		$addOrderInfo['customer_id'] = $cid;
+		$addOrderInfo['service_type'] = $data['customer_service_type'];
+		$addOrderInfo['service_mode'] = $data['service_mode'];
+		$addOrderInfo['order_fee'] = $data['order_fee'];
+		$addOrderInfo['order_fee_unit'] = $data['order_fee_unit'];
+		$addOrderInfo['order_start_time'] = strtotime($data['order_start_time']);
+		$addOrderInfo['order_status'] = 1;
+		$addOrderInfo['admin_id'] = $this->userId;
+		$addOrderInfo['admin_name'] = $this->userName;
+		$addOrderInfo['add_time'] = time();
+		$this->OA_Order->add($addOrderInfo);
+		redirect(formatUrl('order/index'));
 	}
 
 	/**

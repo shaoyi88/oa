@@ -7,11 +7,11 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
-          		     <th class="text-r" width="80">姓名：</th>
+          		     <th class="text-r" width="80">*姓名：</th>
           			 <td><input name="customer_name" type="text" class="input-text" id="customer_name" value="{if isset($info)}{$info['customer_name']}{/if}" nullmsg="姓名不能为空！" datatype="s"></td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">性别：</th>
+          		     <th class="text-r" width="80">*性别：</th>
           			 <td>
           			 	<select class="select" id="customer_sex" name="customer_sex" nullmsg="性别不能为空！" datatype="*">
       						<option value="">请选择性别</option>
@@ -24,7 +24,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">年龄：</th>
+          		     <th class="text-r" width="80">*年龄：</th>
           			 <td><input name="customer_age" type="text" class="input-text" id="customer_age" value="{if isset($info)}{$info['customer_age']}{/if}" nullmsg="年龄不能为空！" datatype="n"></td>
         		</tr>
         		<tr>
@@ -32,7 +32,7 @@
           			 <td><input ignore="ignore" name="customer_card" type="text" class="input-text" id="customer_card" value="{if isset($info)}{$info['customer_card']}{/if}"></td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">常用语言：</th>
+          		     <th class="text-r" width="80">*常用语言：</th>
           			 <td>
           			 	{foreach $languageInfo as $item}
           			 		<p>
@@ -44,7 +44,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">客户分组：</th>
+          		     <th class="text-r" width="80">*客户分组：</th>
           			 <td>
           			 	<select class="select" id="customer_type" name="customer_type" nullmsg="客户分组不能为空！" datatype="*">
       						<option value="">请选择客户分组</option>
@@ -57,11 +57,11 @@
           			 </td>
         		</tr>
         		<tr id="tr_customer_address" {if isset($info)&&$info['customer_type']==1}{else}style="display:none"{/if}>
-          		     <th class="text-r" width="80">家庭地址：</th>
+          		     <th class="text-r" width="80">*家庭地址：</th>
           			 <td><input {if isset($info)&&$info['customer_type']==1}{else}ignore="ignore"{/if} name="customer_address" type="text" class="input-text" id="customer_address" value="{if isset($info)}{$info['customer_address']}{/if}" nullmsg="家庭地址不能为空！" datatype="s"></td>
         		</tr>
         		<tr id="tr_customer_hospital" {if isset($info)&&$info['customer_type']==2}{else}style="display:none"{/if}>
-          		     <th class="text-r" width="80">医院信息：</th>
+          		     <th class="text-r" width="80">*医院信息：</th>
           			 <td>
           			 	<p>
           			 		<strong>医院:&nbsp;&nbsp;</strong>
@@ -92,7 +92,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">服务分组：</th>
+          		     <th class="text-r" width="80">*服务分组：</th>
           			 <td>
           			 	<select class="select" id="customer_service_type" name="customer_service_type" nullmsg="服务分组不能为空！" datatype="*">
       						<option value="">请选择服务分组</option>

@@ -25,13 +25,13 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r">回访记录：</th>
+          		     <th class="text-r">*回访记录：</th>
           		     <td>
           		     	 <textarea cols="" rows="" class="textarea" name="return_record" nullmsg="回访记录不能为空！" datatype="s"></textarea>
           		     </td>
           		</tr>  
           		<tr>
-          		     <th class="text-r">推送内容：</th>
+          		     <th class="text-r">*推送内容：</th>
           		     <td>
           		     <textarea cols="" rows="" class="textarea" name="push_content" nullmsg="推送内容不能为空！" datatype="s"></textarea>
           		     </td>

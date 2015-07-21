@@ -8,7 +8,7 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
-          		     <th class="text-r" width="150px">被更换护工：</th>
+          		     <th class="text-r" width="150px">*被更换护工：</th>
           		     <td>
           		     	{foreach $curWorkerList as $item}
           		     	<input type="checkbox" name="cur_worker_id[]" value="{$item['worker_id']}" nullmsg="被更换护工不能为空！" datatype="*">&nbsp;{$item['worker_name']}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -16,7 +16,7 @@
           		     </td>
           		</tr>   
         		<tr>
-          		     <th class="text-r" width="150px">更换护工：</th>
+          		     <th class="text-r" width="150px">*更换护工：</th>
           		     <td>
           		     	{if $isMult}
           		     		{foreach $workerList as $item}

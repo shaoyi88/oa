@@ -105,14 +105,14 @@
         						{$item['customer_name']}({$item['relationship']})
         					</td>
         					<td>
-        					{if checkRight('user_follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注病人" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
+        					{if checkRight('follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注病人" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
         					</td>
         				</tr>
         			{/foreach}
         			</tbody>
         		</table>
         	{/if}
-        	{if checkRight('user_follow_add')}
+        	{if checkRight('follow_add')}
         		<a class="btn btn-primary radius" id="addFollow" title="增加关注病人" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
         	{/if}
         </td>
@@ -126,7 +126,7 @@
 		<input type="hidden" name="customer_id" id="customer_id" value="" />
 		<table class="table table-bg table-border table-bordered">
 			<tr>
-      			<td>关注病人ID/姓名：</td>
+      			<td>*关注病人ID/姓名：</td>
       			<td>
       				<input type="text" class="input-text" id="customer_key" value="" nullmsg="关注病人不能为空！" datatype="*" autocomplete="off">
       				<div style="position:relative;">
@@ -135,7 +135,7 @@
       			</td>
       		</tr>
       		<tr>
-      			<td>关系：</td>
+      			<td>*关系：</td>
       			<td><input name="relationship" type="text" class="input-text" id="relationship" value="" nullmsg="关系不能为空！" datatype="s"></td>
       		</tr>
       		<tr>
@@ -151,7 +151,7 @@
 		<input type="hidden" name="user_id" value="{$uid}" />
 		<table class="table table-bg table-border table-bordered">
 			<tr>
-      			<td>红包金额：</td>
+      			<td>*红包金额：</td>
       			<td><input name="coupon_amount" type="text" class="input-text" id="coupon_amount" value="" nullmsg="红包金额不能为空！" datatype="n"></td>
       		</tr>
       		<tr>
@@ -159,7 +159,7 @@
       			<td><input name="coupon_condition" ignore="ignore" type="text" class="input-text" id="coupon_condition" value="" datatype="n"></td>
       		</tr>
       		<tr>
-      			<td>过期时间：</td>
+      			<td>*过期时间：</td>
       			 <td><input name="coupon_expire" type="text" class="input-text" id="coupon_expire" value="" nullmsg="过期时间不能为空！" datatype="*"></td>
       		</tr>
       		<tr>
@@ -176,7 +176,7 @@
 		<table class="table table-bg table-border table-bordered">
     		<tbody>
       			<tr>
-      				<td>所在地区：</td>
+      				<td>*所在地区：</td>
         			<td>
         				<select target="city" class="select" id="province" name="province" nullmsg="省份不能为空！" datatype="*">
           					<option value="">请选择</option>	
@@ -195,7 +195,7 @@
         			</td>
       			</tr>
       			<tr>
-      				<td>详细地址：</td>
+      				<td>*详细地址：</td>
       				<td><input name="address" type="text" class="input-text" id="address" value="" nullmsg="详细地址不能为空！" datatype="s"></td>
       			</tr>
       			<tr>

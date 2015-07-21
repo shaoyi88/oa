@@ -13,16 +13,12 @@ var user = function(){
 			beforeSubmit:function(curform){
 				var customer_language = $('.customer_language:checked').val();
 				var other_language = $('#other_language').val();
-				var customer_service_type = $('#customer_service_type').val();
 				if(typeof customer_language == 'undefined'){
 					layer.msg('常用语言不可为空');
 					return false;
 				}else if(customer_language == '其他' && other_language == ''){
 					layer.msg('其他语言必须填写');
 					return false;
-				}
-				if(customer_service_type == 4){
-					return true;
 				}
 			},
 		});
@@ -118,13 +114,13 @@ var user = function(){
 		var type = $(event.currentTarget).val();
 		if(type == 1 || type == 2 || type == 3){
 			$('.tr_service_info_1').show();
-			$('.tr_service_info_2').hide();
+			$('.tr_service_info_2').hide().find('input,select').val('');
 		}else if(type == 4){
-			$('.tr_service_info_1').hide();
+			$('.tr_service_info_1').hide().find('input,select').val('');
 			$('.tr_service_info_2').show();
 		}else{
-			$('.tr_service_info_1').hide();
-			$('.tr_service_info_2').hide();
+			$('.tr_service_info_1').hide().find('input,select').val('');
+			$('.tr_service_info_2').hide().find('input,select').val('');
 		}
 	};
 	
@@ -132,13 +128,13 @@ var user = function(){
 		var type = $(event.currentTarget).val();
 		if(type == 1){
 			$('#tr_customer_address').show().find('input').attr('ignore', '');
-			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore');
+			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore').val('');
 		}else if(type == 2){
-			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore');
+			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore').val('');
 			$('#tr_customer_hospital').show().find('input,select').attr('ignore', '');
 		}else{
-			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore');
-			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore');
+			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore').val('');
+			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore').val('');
 		}
 	};
 	

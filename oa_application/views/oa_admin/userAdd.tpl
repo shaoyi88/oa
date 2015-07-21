@@ -7,15 +7,15 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
-          		     <th class="text-r" width="80">姓名：</th>
+          		     <th class="text-r" width="80">*姓名：</th>
           			 <td><input name="user_name" type="text" class="input-text" id="user_name" value="{if isset($info)}{$info['user_name']}{/if}" nullmsg="姓名不能为空！" datatype="s"></td>
         		</tr>
       			<tr>
-          		     <th class="text-r" width="80">手机：</th>
+          		     <th class="text-r" width="80">*手机：</th>
           			 <td><input name="user_phone" type="text" class="input-text" id="user_phone" value="{if isset($info)}{$info['user_phone']}{/if}" errormsg="请输入正确的手机号码！" nullmsg="手机不能为空！" datatype="m"></td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">性别：</th>
+          		     <th class="text-r" width="80">*性别：</th>
           			 <td>
           			 	<select class="select" id="user_sex" name="user_sex" nullmsg="性别不能为空！" datatype="*">
       						<option value="">请选择性别</option>
@@ -28,7 +28,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">地区：</th>
+          		     <th class="text-r" width="80">*地区：</th>
           			 <td>
           			 	<select target="user_city" style="width:30%" class="select" id="user_province" name="user_province" nullmsg="省份不能为空！" datatype="*">
           			 		<option value="">请选择</option>	

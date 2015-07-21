@@ -136,14 +136,12 @@ $config['rights'] = array(
 			array('用户地址删除', 'user_address_del', TRUE),
 			array('用户红包增加', 'user_coupon_add'),
 			array('用户红包删除', 'user_coupon_del', TRUE),
-			array('用户关注病人增加', 'user_follow_add'),
-			array('用户关注病人删除', 'user_follow_del', TRUE),
 			array('客户健康列表', 'customer_list'),
 			array('客户健康增加', 'customer_add'),
 			array('客户健康编辑', 'customer_edit'),
 			array('客户健康删除', 'customer_del', TRUE),
-			array('客户被关注增加', 'customer_follow_add'),
-			array('客户被关注删除', 'customer_follow_del', TRUE),
+			array('用户与客户关注增加', 'follow_add'),
+			array('用户与客户关注删除', 'follow_del', TRUE),
 			array('客户统计分析',  'customer_stat')
 		),
 		'right' => 'record'

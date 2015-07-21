@@ -7,11 +7,11 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			 <tr>
-          		     <th class="text-r" width="80">分组名：</th>
+          		     <th class="text-r" width="80">*分组名：</th>
           			 <td><input name="role_name" type="text" class="input-text" id="role_name" value="{if isset($info)}{$info['role_name']}{/if}" nullmsg="分组名不能为空！" datatype="s"></td>
         		</tr>
         		<tr>
-          			<th class="text-r va-t">权限：</th>
+          			<th class="text-r va-t">*权限：</th>
           			<td>
           				<table class="table table-border table-bordered table-bg">
               				<tbody>

@@ -9,7 +9,7 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
         		<tr>
-          		     <th class="text-r" width="150px">护工：</th>
+          		     <th class="text-r" width="150px">*护工：</th>
           		     <td>
           		     	{if $isMult}
           		     		{foreach $workerList as $item}

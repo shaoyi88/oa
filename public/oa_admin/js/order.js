@@ -1,7 +1,23 @@
 var order = function(){
 	var form;
+	var addNewForm;
 	
 	var init = function(){
+		addNewForm = $("#addNewForm").Validform({
+			tiptype : 4,
+			tipSweep : true,
+			beforeSubmit:function(curform){
+				var customer_language = $('.customer_language:checked').val();
+				var other_language = $('#other_language').val();
+				if(typeof customer_language == 'undefined'){
+					layer.msg('常用语言不可为空');
+					return false;
+				}else if(customer_language == '其他' && other_language == ''){
+					layer.msg('其他语言必须填写');
+					return false;
+				}
+			}
+		});
 		form = $(".Huiform").Validform({
 			tiptype : 4,
 			tipSweep : true,
@@ -33,6 +49,64 @@ var order = function(){
 		$('.cancel').click(cancelOrder);
 		$('.del').click(delOrder);
 		$('#collection_type').change(collectionTypeChange);
+		$('#user_province').change(areaChange);
+		$('#customer_type').change(customerTypeChange);
+		$('#customer_hospital').change(hospitalChange);
+	};
+	
+	var hospitalChange = function(event){
+		var changeTarget = $(event.currentTarget).attr('target');
+		var pid = $(event.currentTarget).val();
+		if(pid == ''){
+			var template = Hogan.compile($('#departmentTpl').html(),{delimiters:'<% %>'});
+			$('#'+changeTarget).html(template.render({departmentList:[]}));
+		}else{
+			var getDepartmentUrl = $('#getDepartmentUrl').val()+'?pid='+$(event.currentTarget).val();
+			$.ajax({
+	            type: "GET",
+	            url: getDepartmentUrl,
+	            dataType: "json",
+	            success: function(data){
+	            	 var template = Hogan.compile($('#departmentTpl').html(),{delimiters:'<% %>'});
+	            	 $('#'+changeTarget).html(template.render({departmentList:data}));
+	            }
+	        });
+		}
+	};
+	
+	var customerTypeChange = function(event){
+		var type = $(event.currentTarget).val();
+		if(type == 1){
+			$('#tr_customer_address').show().find('input').attr('ignore', '');
+			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore').val('');
+		}else if(type == 2){
+			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore').val('');
+			$('#tr_customer_hospital').show().find('input,select').attr('ignore', '');
+		}else{
+			$('#tr_customer_address').hide().find('input').attr('ignore', 'ignore').val('');
+			$('#tr_customer_hospital').hide().find('input,select').attr('ignore', 'ignore').val('');
+		}
+	};
+	
+	var areaChange = function(event){
+		var changeTarget = $(event.currentTarget).attr('target');
+		var pid = $(event.currentTarget).val();
+		if(pid == ''){
+			var template = Hogan.compile($('#areaTpl').html(),{delimiters:'<% %>'});
+			$('#'+changeTarget).html(template.render({areaList:[]}));
+			$('#'+changeTarget).change();
+		}else{
+			var getAreasUrl = $('#getAreasUrl').val()+'?pid='+$(event.currentTarget).val();
+			$.ajax({
+	            type: "GET",
+	            url: getAreasUrl,
+	            dataType: "json",
+	            success: function(data){
+	            	 var template = Hogan.compile($('#areaTpl').html(),{delimiters:'<% %>'});
+	            	 $('#'+changeTarget).html(template.render({areaList:data}));
+	            }
+	        });
+		}
 	};
 	
 	var calculateOrderCost = function(dp){
@@ -88,8 +162,11 @@ var order = function(){
 	var customerChange = function(event){
 		var customer_id = $(event.currentTarget).val();
 		if(customer_id == ''){
+			$('#service_type').val('');
 			$('#submitAddOrder').addClass('disabled');
 		}else{
+			var service_type = $(event.currentTarget).find('option:selected').attr('type');
+			$('#service_type').val(service_type);
 			$('#submitAddOrder').removeClass('disabled');
 		}
 	};

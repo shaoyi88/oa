@@ -11,7 +11,7 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
-          		     <th class="text-r" width="200">客户名字:</th>
+          		     <th class="text-r" width="200">{if !isset($info)}*{/if}客户名字:</th>
           			 <td>
           			 	{if isset($info)}
           			 		{$info['customer_name']}
@@ -24,7 +24,7 @@
           			 </td>
         		</tr>
       			<tr>
-          		     <th class="text-r" width="200">订单号：</th>
+          		     <th class="text-r" width="200">{if !isset($info)}*{/if}订单号：</th>
           			 <td>
           			 	{if isset($info)}
           			 		{$info['order_no']}
@@ -34,7 +34,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r">护工：</th>
+          		     <th class="text-r">{if !isset($info)}*{/if}护工：</th>
           		     <td>
           		     	{if isset($info)}
           			 		{$info['worker_name']}

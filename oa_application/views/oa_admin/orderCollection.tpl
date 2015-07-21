@@ -67,7 +67,7 @@
           			 </td>
         		</tr>
       			<tr>
-          		     <th class="text-r" width="200">收款分类：</th>
+          		     <th class="text-r" width="200">*收款分类：</th>
           			 <td>
           			 	<select style="width:30%" class="select" id="collection_type" name="collection_type" nullmsg="收款分类不能为空！" datatype="*">
           		     		<option value="">请选择收款分类</option>	
@@ -78,19 +78,19 @@
           			 </td>
         		</tr>
           		<tr class="payment_1" style="display:none">
-          		     <th class="text-r">预收金额：</th>
+          		     <th class="text-r">*预收金额：</th>
           		     <td>
           		     	<input style="width:200px" type="text" class="input-text" id="collection_amount_1" name="collection_amount_1" value="" nullmsg="金额不能为空！" errormsg="金额必须为整数" datatype="collection_amount">元
           		     </td>
           		</tr>  
           		<tr class="payment_2" style="display:none">
-          		     <th class="text-r">订单截至时间：</th>
+          		     <th class="text-r">*订单截至时间：</th>
           		     <td>
           		     	<input style="width:200px" name="order_end_time" type="text" class="input-text" id="order_end_time" value="" nullmsg="截至时间不能为空！" datatype="*">
           		     </td>
           		</tr> 
           		<tr class="payment_2" style="display:none">
-          		     <th class="text-r">结算金额：</th>
+          		     <th class="text-r">*结算金额：</th>
           		     <td>
           		     	<input style="width:200px" type="text" class="input-text" id="collection_amount_2" name="collection_amount_2" value="" nullmsg="金额不能为空！" errormsg="金额必须为整数" datatype="collection_amount">元
           		     </td>

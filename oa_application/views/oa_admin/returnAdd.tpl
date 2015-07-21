@@ -9,13 +9,13 @@
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>
-          		     <th class="text-r" width="200">回访时间:</th>
+          		     <th class="text-r" width="200">*回访时间:</th>
           			 <td>
           			 	<input style="width:200px" name="return_time" type="text" class="input-text" id="return_time" value="" nullmsg="回访时间不能为空！" datatype="*">
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="200">回访人:</th>
+          		     <th class="text-r" width="200">*回访人:</th>
           			 <td>
           			 	<select style="width:30%" class="select" id="executive_admin_id" name="executive_admin_id" nullmsg="回访人不能为空！" datatype="*">
           		     		<option value="">请选择回访人</option>	

@@ -141,7 +141,7 @@
         					</td>
         					{if !$hideTitle}
         					<td>
-        					{if checkRight('customer_follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注我的用户" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
+        					{if checkRight('follow_del')}<a class="btn btn-primary radius delFollow" fid="{$item['id']}"  title="删除关注我的用户" href="javascript:;" style="text-decoration:none;height:auto">删除</a>&nbsp;&nbsp;{/if}
         					</td>
         					{/if}
         				</tr>
@@ -149,7 +149,7 @@
         			</tbody>
         		</table>
         	{/if}
-        	{if checkRight('customer_follow_add') and !$hideTitle}
+        	{if checkRight('follow_add') and !$hideTitle}
         		<a class="btn btn-primary radius" id="addFollow" title="增加关注我的用户" href="javascript:;" style="text-decoration:none;margin-top:10px;">点击添加</a>
         	{/if}
         </td>
@@ -163,7 +163,7 @@
 		<input type="hidden" name="user_id" id="user_id" value="" />
 		<table class="table table-bg table-border table-bordered">
 			<tr>
-      			<td>关注我的用户ID/姓名/微信号/昵称/手机：</td>
+      			<td>*关注我的用户ID/姓名/微信号/昵称/手机：</td>
       			<td>
       				<input type="text" class="input-text" id="user_key" value="" nullmsg="关注我的用户不能为空！" datatype="*" autocomplete="off">
       				<div style="position:relative;">
@@ -172,7 +172,7 @@
       			</td>
       		</tr>
       		<tr>
-      			<td>关系：</td>
+      			<td>*关系：</td>
       			<td><input name="relationship" type="text" class="input-text" id="relationship" value="" nullmsg="关系不能为空！" datatype="s"></td>
       		</tr>
       		<tr>

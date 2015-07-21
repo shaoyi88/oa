@@ -5,6 +5,7 @@
 		<input name="order_id" type="hidden" value="{$info['order_id']}">
 		{else}
 		<input type="hidden" name="user_id" id="user_id" value="" />
+		<input type="hidden" name="service_type" id="service_type" value="" />
 		{/if}
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
@@ -17,12 +18,13 @@
         		</tr>
       			{/if}
       			<tr>
-          		     <th class="text-r" width="200">用户ID/姓名/微信号/昵称/手机：</th>
+          		     <th class="text-r" width="200">{if !isset($userInfo)}*{/if}用户ID/姓名/微信号/昵称/手机：</th>
           			 <td>
           			 	{if isset($userInfo)}
           			 		{$userInfo['user_name']}
           			 	{else}
           			 	<input style="width:200px" type="text" class="input-text" id="user_key" value="" nullmsg="用户不能为空！" datatype="*" autocomplete="off">
+          			 	<span style="margin-left:10px;">用户不存在？请点击<a style="color:red" href="{formatUrl('order/addNew')}">这里</a></span>
       					<div style="position:relative;">
       						<div class="auto-complete-result"></div>
       					</div>
@@ -30,7 +32,7 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r">客户：</th>
+          		     <th class="text-r">{if !isset($userInfo)}*{/if}客户：</th>
           		     <td>
           		     	{if isset($customerInfo)}
           			 		{$customerInfo['customer_name']}
@@ -42,25 +44,8 @@
           		     </td>
           		</tr>  
           		<tr>
-          		     <th class="text-r">服务类型：</th>
-          		     <td>
-          		     	{if isset($info) && $info['order_status'] != 1}
-          		     		{$serviceTypeInfo[$info['service_type']]}
-          		     	{else}
-          		     	<select style="width:30%" class="select" id="service_type" name="service_type" nullmsg="服务类型不能为空！" datatype="*">
-          		     		<option value="">请选择服务类型</option>	
-          		     		{foreach $serviceTypeInfo as $key=>$item}
-      							<option value="{$key}" {if isset($info) && $info['order_status'] == $key}selected{/if}>
-      								{$item}
-      							</option>
-      						{/foreach}
-          		     	</select>
-          		     	{/if}
-          		     </td>
-          		</tr>  
-          		<tr>
-          		     <th class="text-r">服务模式：</th>
-          		     <td>
+          		     <th class="text-r">{if !isset($info) || $info['order_status'] == 1}*{/if}服务模式：</th>
+          		     <td>  
           		     	{if isset($info) && $info['order_status'] != 1}
           		     		{$order_service_mode[$info['service_mode']][0]}
           		     	{else}
@@ -76,13 +61,13 @@
           		     </td>
           		</tr>  
           		<tr>
-          		     <th class="text-r">收费标准：</th>
+          		     <th class="text-r">*收费标准：</th>
           		     <td>
           		     	<input style="width:200px" type="text" class="input-text" id="order_fee" name="order_fee" value="{if isset($info)}{$info['order_fee']}{/if}" nullmsg="收费标准不能为空！" datatype="n">
           		     </td>
           		</tr>  
           		<tr>
-          		     <th class="text-r">时间单位：</th>
+          		     <th class="text-r">*时间单位：</th>
           		     <td>
           		     	<select style="width:30%" class="select" id="order_fee_unit" name="order_fee_unit" nullmsg="时间单位不能为空！" datatype="*">
           		     		<option value="">请选择时间单位</option>	
@@ -95,7 +80,7 @@
           		     </td>
           		</tr>  
           		<tr>
-      				<th class="text-r">开始时间：</th>
+      				<th class="text-r">{if !isset($info) || $info['order_status'] == 1}*{/if}开始时间：</th>
       			 	<td>
       			 		{if isset($info) && $info['order_status'] != 1}
           		     		{$order_start_time}
@@ -128,7 +113,7 @@
 <script type="text/template" id="customerTpl">
 <option value="">请选择客户</option>	
 <%#customerList%>
-	<option value="<%customer_id%>">
+	<option value="<%customer_id%>" type="<%customer_service_type%>">
 	<%customer_name%>
 	</option>
 <%/customerList%>
