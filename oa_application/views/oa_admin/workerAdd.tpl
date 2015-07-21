@@ -1,6 +1,6 @@
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  护工管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">护工信息管理</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
 <div class="pd-20">
-	<form class="Huiform" id="form-role-add" action="{formatUrl('worker/doAdd')}" method="post">
+	<form class="Huiform" id="form-role-add" action="{formatUrl('worker/doAdd')}" method="post" enctype="multipart/form-data">
 		{if isset($info)}
 		<input name="worker_id" type="hidden" value="{$info['worker_id']}">
 		{/if}
@@ -31,8 +31,18 @@
       						{/foreach}
           			 	</select>
           			 	&nbsp;&nbsp;&nbsp;&nbsp;
-          			 	目标医院/科室不存在？<a href="{formatUrl('hospital/Add')}" target=_blank style="color:#5A98DE;">前往添加</a>
+          			 	目标医院/科室不存在？<a href="{formatUrl('hospital/Add')}" style="color:#5A98DE;">前往添加</a>
           			 </td>
+        		</tr>
+        		 <tr>
+          		     <th class="text-r" width="80">*头像：</th>
+          			 <td>
+          			 <span class="btn-upload form-group">
+                     <input class="input-text upload-url radius" type="text" name="worker_icon" id="worker_icon" readonly >&nbsp;<a href="javascript:void();" class="btn btn-primary radius"><i class="iconfont">&#xf0020;</i> 浏览文件</a>
+                     <input type="file" multiple name="worker_icon" class="input-file">
+                     &nbsp;(不超过2M)
+                     </span>
+                     {if isset($info)&&$info['worker_icon']}&nbsp;&nbsp;{$info['worker_icon']}<img src="{$info['worker_no']}" width="18%">{/if}</td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*头衔：</th>
@@ -140,7 +150,7 @@
           			 <td><input name="worker_characteristic" type="text" class="input-text" id="worker_name" value="{if isset($info)}{$info['worker_characteristic']}{/if}" ></td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="80">提供服务：</th>
+          		     <th class="text-r" width="80">*提供服务：</th>
           			 <td>
           			 <select class="select" id="worker_service" name="worker_service" nullmsg="服务不能为空！" datatype="*">
           			 <option value="">请选择服务</option>

@@ -46,7 +46,7 @@ h4{line-height:30px}
 	.Hui-subtitle{ font-size:12px; color:#eee; padding-top:15px}
 	.viewhome{ line-height:44px; padding-right:15px}
 	.viewhome a{ color:#FFF; padding-left:20px; background:url(../images/icon_link.png) no-repeat 0 center}
-	
+
 	/*导航*/
 	#Hui-nav{ margin-left:200px; margin-right:100px}
 	#Hui-nav li,#Hui-nav li a{height:44px; line-height:44px}
@@ -97,16 +97,16 @@ h4{line-height:30px}
 	.footer a,.footer a:hover{color:#999}
 /*大屏幕*/
 @media (min-width: 1200px){
-  
+
 }
 /*横向平板*/
 @media (min-width: 768px) and (max-width: 979px){
-  
+
 }
 
 /*横向手机 竖向平板*/
 @media (max-width: 767px) {
-	html{ overflow-y:auto}	
+	html{ overflow-y:auto}
 	#Hui-nav{margin-left:130px!important; margin-right:60px}
 	#Hui-nav li{width:24%;font-weight:bold;font-size:16px}
 	#Hui-nav li a{ display:block;}
@@ -129,7 +129,7 @@ h4{line-height:30px}
 		.Hui-logo{ display:none}
 		.Hui-logo-m{ display:inline-block; padding-right:5px}
 		.Hui-subtitle,.dislpayArrow,.Hui-userbox{ display:none}
-  
+
 }
 
 /*==============以下是业务相关的样式====================*/
@@ -174,3 +174,5 @@ h4{line-height:30px}
 	background-color:#4078c0;
 	color:#fff
 }
+.wdblock{display:block;width:100%;height:100%;}
+.commentl{height:16px;width:80px;background: url(../images/commentlevel.png);}

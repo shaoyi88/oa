@@ -6,6 +6,7 @@ class Worker extends OA_Controller
 	{
 		parent::initialize();
 		checkLogin();
+		$this->load->helper(array('form','url'));
 	}
 
 	/**
@@ -37,7 +38,7 @@ class Worker extends OA_Controller
 		$data['sexInfo'] = $this->config->item('sex');
 		$this->load->model('OA_Hospital');
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
-		$data['title'] = $this->config->item('service_level_1');
+		$data['wstatus'] = $this->config->item('worker_status');
 		$this->showView('workerList', $data);
 	}
 
@@ -100,7 +101,7 @@ class Worker extends OA_Controller
 	 */
 	public function doAdd()
 	{
-		$data = array();
+		$data = $upload_data = $config = array();
 		$data = $this->input->post();
 		$this->load->model('OA_Worker');
 		$cid = $data['worker_idnumber'];
@@ -119,6 +120,21 @@ class Worker extends OA_Controller
             $age++;
         }
 		$data['worker_age'] = $age;
+		if(!empty($_FILES)){
+            //上传头像
+		    $config['upload_path'] =   './upload/ico/'; //存放路径
+            $config['allowed_types'] = 'gif|jpg|jpeg|png|bmp';
+            $config['max_size'] = '2048'; //最大2M
+            $config['encrypt_name'] = TRUE;
+            $this->load->library('upload', $config);
+            if(!$this->upload->do_upload('worker_icon')){
+                echo $this->upload->display_errors();
+			    exit;
+            }else{
+                $upload_data = $this->upload->data();  //文件信息
+                $data['worker_icon'] = $upload_data['file_name'];
+            }
+		}
 		if(isset($data['worker_id'])&&is_numeric($data['worker_id'])){
 			if(checkRight('worker_edit') === FALSE){
 				$this->showView('denied', $data);
@@ -195,6 +211,8 @@ class Worker extends OA_Controller
 		$data['areasInfo'] = $this->OA_Areas->getAreasNameListByIds($ids);
 		$this->load->model('OA_Hospital');
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
+		$data['comment'] = $this->OA_Worker->getCommentList($wid);
+		$data['commentlevel'] = $this->OA_Worker->getCommentLevel($wid);
 		$this->showView('workerDetail', $data);
 	}
 
@@ -305,9 +323,9 @@ class Worker extends OA_Controller
 	 	foreach($comment as $v){
 	 		//医院评价小结
 	 		if(!isset($stahos[$v['worker_hospital']])){
-	 		    $stahos[$v['worker_hospital']] = $v['sumle'];
+	 		    $stahos[$v['worker_hospital']] = $v['sumale']+$v['sumple']+$v['sumdle'];
 	 		}else{
-	 			$stahos[$v['worker_hospital']] += $v['sumle'];
+	 			$stahos[$v['worker_hospital']] += $v['sumale']+$v['sumple']+$v['sumdle'];
 	 		}
 	 		if(!isset($comh[$v['worker_hospital']])){
 	 		    $comh[$v['worker_hospital']] = $v['ccw'];
@@ -316,9 +334,9 @@ class Worker extends OA_Controller
 	 		}
 	 		//科室评价小结
 	 		if(!isset($stacom[$v['worker_stationary']])){
-	 		    $stacom[$v['worker_stationary']] = $v['sumle'];
+	 		    $stacom[$v['worker_stationary']] = $v['sumale']+$v['sumple']+$v['sumdle'];
 	 		}else{
-	 			$stacom[$v['worker_stationary']] += $v['sumle'];
+	 			$stacom[$v['worker_stationary']] += $v['sumale']+$v['sumple']+$v['sumdle'];
 	 		}
 	 		if(!isset($comn[$v['worker_stationary']])){
 	 		    $comn[$v['worker_stationary']] = $v['ccw'];
@@ -326,7 +344,7 @@ class Worker extends OA_Controller
 	 			$comn[$v['worker_stationary']] += $v['ccw'];
 	 		}
 	 		//汇总
-	 		$totalcom += $v['sumle'];
+	 		$totalcom += $v['sumale']+$v['sumple']+$v['sumdle'];
 	 		$totaln += $v['ccw'];
 	 	}
 		$data['hospital'] = $hospital;
@@ -338,7 +356,7 @@ class Worker extends OA_Controller
 		$data['stahos'] = $stahos;
 		$data['comn'] = $comn;
 		$data['comh'] = $comh;
-		$data['totalcom'] = sprintf("%.2f",$totalcom/$totaln);
+		$data['totalcom'] = sprintf("%.2f",$totalcom/(3*$totaln));
 	    $this->showView('workerComment', $data);
 	   }
 }

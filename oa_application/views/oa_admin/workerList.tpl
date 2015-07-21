@@ -27,28 +27,36 @@
   		<table class="table table-border table-bordered table-hover table-bg">
     <thead>
       <tr class="text-c">
-      	<th>员工编号</th>
+        <th>头像</th>
+      	<th>编号</th>
         <th>姓名</th>
         <th>医院科室</th>
-        <th>头衔</th>
         <th>手机</th>
         <th>性别</th>
         <th>年龄</th>
         <th>工作经验</th>
+        <th>工作状态</th>
         <th width="200">操作</th>
       </tr>
     </thead>
     <tbody>
       {foreach $dataList as $item}
       <tr class="text-c">
+        <td>
+        {if $item['worker_icon']}
+        <img class="avatar size-s c" src="/./upload/ico/{$item['worker_icon']}" width="98%">
+        {else}
+ 		<img class="avatar size-s c" src="/public/oa_admin/images/user.png" width="98%">
+ 	    {/if}
+ 	    </td>
       	<td>{$item['worker_no']}</td>
         <td>{$item['worker_name']}</td>
         <td>{$nInfo[$item['worker_hospital']]}&nbsp;&nbsp;{$nInfo[$item['worker_stationary']]}</td>
-        <td>{$title[$item['worker_title']]}</td>
         <td>{$item['worker_phone']}</td>
         <td>{$sexInfo[$item['worker_sex']]}</td>
         <td>{$item['worker_age']}</td>
         <td>{$item['worker_experience']}</td>
+        <td>{$wstatus[$item['worker_status']]}</td>
         <td class="f-14">
         	 <a title="详情" href="{formatUrl('worker/detail?wid=')}{$item['worker_id']}" class="btn btn-primary radius" style="text-decoration:none">详情</a>
         	 {if checkRight('worker_edit')}&nbsp;&nbsp;<a title="编辑" href="{formatUrl('worker/add?wid=')}{$item['worker_id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>{/if}

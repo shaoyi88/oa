@@ -17,6 +17,7 @@ class OA_Worker extends CI_Model
 	{
 		parent::__construct();
 		$this->load->database();
+		$this->load->helper(array('form','url'));
 	}
 
 	/**
@@ -41,9 +42,9 @@ class OA_Worker extends CI_Model
 	{
 		return $this->db->count_all_results($this->_table);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 通过订单id获取护工
 	 * @param unknown_type $oid
 	 */
@@ -208,13 +209,45 @@ class OA_Worker extends CI_Model
 	 * 护工评价统计
 	 */
 	 public function statComment(){
-	 	$this->db->select('sum(a.comment_level) as sumle,count(a.comment_worker_id) as ccw,b.worker_hospital,b.worker_stationary,b.worker_id');
+	 	$this->db->select('sum(a.attitude_level) as sumale,sum(a.profession_level) as sumple,sum(a.discipline_level) as sumdle,count(a.comment_worker_id) as ccw,b.worker_hospital,b.worker_stationary,b.worker_id');
         $this->db->from('oa_comment as a');
         $this->db->join('oa_worker as b', 'a.comment_worker_id = b.worker_id');
         $this->db->group_by('a.comment_worker_id');
         $query = $this->db->get();
 		if($query){
 			$info = $query->result_array();
+		}
+		return $info;
+	 }
+
+	 /**
+	 * 获取护工客户评价
+	 */
+	 public function getCommentList($worker_id){
+	 	$this->db->select('a.*');
+        $this->db->from('oa_comment as a');
+        $this->db->join('oa_worker as b', 'a.comment_worker_id = b.worker_id');
+        $this->db->where('a.comment_worker_id',$worker_id);
+        $this->db->order_by('a.comment_time desc');
+        $query = $this->db->get();
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	 }
+
+	 /**
+	 * 获取护工评分
+	 */
+	 public function getCommentLevel($worker_id){
+	 	$this->db->select('sum(a.attitude_level) as sumale,sum(a.profession_level) as sumple,sum(a.discipline_level) as sumdle,count(a.comment_worker_id) as ccw');
+        $this->db->from('oa_comment as a');
+        $this->db->join('oa_worker as b', 'a.comment_worker_id = b.worker_id');
+        $this->db->where('a.comment_worker_id',$worker_id);
+        $this->db->group_by('a.comment_worker_id');
+        $query = $this->db->get();
+		if($query){
+			$info = $query->row_array();
 		}
 		return $info;
 	 }

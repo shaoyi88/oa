@@ -10,7 +10,7 @@
   			<h2 class="text-c">暂无护工</h2>
   		</div>
   	{else}
-	<div class="col-3 dTree">
+	<div class="col-3 dTree" style="width:20%">
 		<table class="table table-border table-bg table-bordered table-hover">
       		<tbody>
       			{foreach $hospitalTree as $item}
@@ -19,7 +19,7 @@
       		</tbody>
     	</table>
 	</div>
-	<div class="col-9" style="margin-left:2%;width:72%;_display:inline">
+	<div class="col-9" style="margin-left:2%;width:77%;_display:inline">
 		{if empty($workerList)}
 			<div class="cl pd-5 bg-1 bk-gray"><h2 class="text-c">该医院/科室下暂无护工</h2></div>
 		{else}

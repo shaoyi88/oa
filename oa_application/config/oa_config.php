@@ -23,6 +23,7 @@ $config['menus'] = array(
 	array(
 		'module' => '护工管理',
 		'menu' => array(
+		    array('驻点医院护工', formatUrl('hospital/worker'), 'hospital_list'),
 			array('护工资料管理', formatUrl('worker/index'), 'worker_list'),
 			array('护工服务统计', formatUrl('worker/statis'), 'worker_stat'),
 			array('服务评价统计', formatUrl('worker/comment'), 'worker_comment'),
@@ -34,7 +35,6 @@ $config['menus'] = array(
 		'module' => '驻点医院管理',
 		'menu' => array(
 			array('驻点医院管理', formatUrl('hospital/index'), 'hospital_list'),
-			array('驻点医院护工', formatUrl('hospital/worker'), 'hospital_list')
 		),
 		'right' => 'hospital'
 	),

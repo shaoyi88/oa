@@ -26,19 +26,19 @@
       	<td rowspan="{count($nInfo[$item['wb_id']])+1}">{$item['stationary_name']}</td>
         <td>{$nInfo[$item['wb_id']][0]['stationary_name']}</td>
         <td>{if isset($workernum[$nInfo[$item['wb_id']][0]['wb_id']])}{$workernum[$nInfo[$item['wb_id']][0]['wb_id']]}{else}0{/if}</td>
-        <td>{if isset($stacom[$nInfo[$item['wb_id']][0]['wb_id']])}{sprintf("%.2f",$stacom[$nInfo[$item['wb_id']][0]['wb_id']]/$comn[$nInfo[$item['wb_id']][0]['wb_id']])}{else}-{/if}</td>
+        <td>{if isset($stacom[$nInfo[$item['wb_id']][0]['wb_id']])}{sprintf("%.2f",$stacom[$nInfo[$item['wb_id']][0]['wb_id']]/(3*$comn[$nInfo[$item['wb_id']][0]['wb_id']]))}{else}-{/if}</td>
       </tr>
       {foreach $nInfo[$item['wb_id']] as $i=>$n}
       {if $i>0}
       <tr class="text-c">
          <td>{$n['stationary_name']}</td>
          <td>{if isset($workernum[$n['wb_id']])}{$workernum[$n['wb_id']]}{else}0{/if}</td>
-         <td>{if isset($stacom[$n['wb_id']])}{sprintf("%.2f",$stacom[$n['wb_id']]/$comn[$n['wb_id']])}{else}-{/if}</td>
+         <td>{if isset($stacom[$n['wb_id']])}{sprintf("%.2f",$stacom[$n['wb_id']]/(3*$comn[$n['wb_id']]))}{else}-{/if}</td>
       </tr>
       {/if}
       {/foreach}
       <tr class="text-c">
-          <th class="text-r">小结</th><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td><td>{if isset($stahos[$item['wb_id']])}{sprintf("%.2f",$stahos[$item['wb_id']]/$comh[$item['wb_id']])}{else}-{/if}</td>
+          <th class="text-r">小结</th><td>{if isset($sum[$item['wb_id']])}{$sum[$item['wb_id']]}{else}0{/if}</td><td>{if isset($stahos[$item['wb_id']])}{sprintf("%.2f",$stahos[$item['wb_id']]/(3*$comh[$item['wb_id']]))}{else}-{/if}</td>
       </tr>
     {/foreach}
       <tr class="text-c">
