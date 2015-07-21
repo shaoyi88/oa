@@ -1,6 +1,6 @@
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  财务管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('finance/collect')}">收款管理</a> <span class="c-gray en">&gt;</span> 收款</nav>
 <div class="pd-20">
-  <form class="Huiform" id="form-role-add" action="{formatUrl('finance/doCollection')}" method="post">
+  <form class="Huiform" id="form-collection" action="{formatUrl('finance/doCollection')}" method="post">
   <input type="hidden" name="collection_id" id="collection_id" value="{$collectInfo['collection_id']}">
   <table class="table table-bg table-border table-bordered">
     <tbody>
@@ -18,7 +18,7 @@
       </tr>
       <tr>
         <th class="text-r" width="120">金额：</th>
-        <td>{$collectInfo['collection_amount']}</td>
+        <td>{if $collectInfo['collection_type']==1}<input type="text" class="input-text" name="collection_amount" id="collection_amount" placeholder="{$collectInfo['collection_amount']}" nullmsg="预收款金额不能为空！" datatype="*">{else}{$collectInfo['collection_amount']}{/if}</td>
       </tr>
       <tr>
       	<th class="text-r" width="120">付款方式：</th>
@@ -44,3 +44,4 @@
   </form>
 </div>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
+<script type="text/javascript" src="/public/oa_admin/js/finance.js"></script>

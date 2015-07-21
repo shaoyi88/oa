@@ -8,7 +8,7 @@
       		<tbody>
       		    <tr>
           		     <th class="text-r" width="80">*编号：</th>
-          			 <td><input name="worker_no" type="text" class="input-text" id="worker_no" value="{if isset($info)}{$info['worker_no']}{/if}" nullmsg="护工编号不能为空！" datatype="×"></td>
+          			 <td><input name="worker_no" type="text" class="input-text" id="worker_no" value="{if isset($info)}{$info['worker_no']}{/if}" nullmsg="护工编号不能为空！" datatype="*"></td>
         		</tr>
       		    <tr>
           		     <th class="text-r" width="80">*归属：</th>

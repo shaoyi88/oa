@@ -112,6 +112,7 @@ class Finance extends OA_Controller
 			$msg = '?msg='.urlencode('收款失败');
 			redirect(formatUrl('finance/collect'.$msg));
 		}else{
+			$this->load->model('OA_Order');
 			if($collectInfo['collection_type']==2){
 				//修改订单状态
 			    $updateOrder['order_id'] = $collectInfo['order_id'];
