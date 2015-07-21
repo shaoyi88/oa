@@ -11,8 +11,8 @@
  		<img class="avatar size-XL l" src="/public/oa_admin/images/user.png">
  	{/if}
   <dl style="margin-left:80px; color:#fff">
-    <dt><span class="f-18">{if $userInfo['user_nickname']}{$userInfo['user_icon']}{else}暂无昵称{/if}</span></dt>
-  	<dd class="pt-10 f-12" style="margin-left:0">微信：{if $userInfo['user_weixin']}{$userInfo['user_weixin']}{else}暂无{/if}</dd>
+    <dt><span class="f-18">{if $userInfo['user_nickname']}{$userInfo['user_nickname']}{else}暂无昵称{/if}</span></dt>
+  	<dd class="pt-10 f-12" style="margin-left:0">微信：{if $userInfo['wechat_openid']}已绑定{else}未绑定{/if}</dd>
   </dl>
 </div>
 <div class="pd-20">

@@ -44,7 +44,7 @@
       	<td>{$item['user_id']}</td>
       	<td>{$item['user_name']}</td>
         <td>{if $item['user_nickname'] != ''}{$item['user_nickname']}{else}暂无{/if}</td>
-        <td>{if $item['user_weixin'] != ''}{$item['user_weixin']}{else}暂无{/if}</td>
+        <td>{if $item['wechat_openid'] != ''}已绑定{else}未绑定{/if}</td>
         <td>{$item['user_phone']}</td>
         <td>{$sexInfo[$item['user_sex']]}</td>
         <td>
