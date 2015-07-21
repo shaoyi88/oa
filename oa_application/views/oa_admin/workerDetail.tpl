@@ -13,7 +13,7 @@
  		<img class="avatar size-XL l" src="/public/oa_admin/images/user.png">
  	{/if}
   <dl style="margin-left:80px;color:#fff;width:200px;">
-    <dt class="wdblock"><span class="f-18 f-l">{$workerInfo['worker_name']}</span><span class="wdblock f-l commentl" style="margin-left:10px;background-position: 0 100%;"><span class="wdblock commentl" style="width:{sprintf('%.2f',($commentlevel['sumale']+$commentlevel['sumple']+$commentlevel['sumdle'])/(3*$commentlevel['ccw'])*16)}px;"></span></span></dt>
+    <dt class="wdblock"><span class="f-18 f-l">{$workerInfo['worker_name']}</span><span class="wdblock f-l commentl" style="margin-left:10px;background-position: 0 100%;"><span class="wdblock commentl" style="width:{if isset($commentlevel['sumale'])}{sprintf('%.2f',($commentlevel['sumale']+$commentlevel['sumple']+$commentlevel['sumdle'])/(3*$commentlevel['ccw'])*16)}{else}0{/if}px;"></span></span></dt>
   	<dd class="pt-10 f-12 f-l wdblock">服务状态：{$workerStatus[$workerInfo['worker_status']]}</dd>
   	<dd class="pt-10 f-12 f-l wdblock">服务分类：{$workerService[$workerInfo['worker_service']]}</dd>
   </dl>
@@ -68,9 +68,9 @@
         <th>劳动纪律（5分满分）</th>
       </tr>
       <tr class="text-c">
-        <td>{sprintf("%.2f",$commentlevel['sumale']/$commentlevel['ccw'])}</td>
-        <td>{sprintf("%.2f",$commentlevel['sumple']/$commentlevel['ccw'])}</td>
-        <td>{sprintf("%.2f",$commentlevel['sumdle']/$commentlevel['ccw'])}</td>
+        <td>{if isset($commentlevel['sumale'])}{sprintf("%.2f",$commentlevel['sumale']/$commentlevel['ccw'])}{else}暂无{/if}</td>
+        <td>{if isset($commentlevel['sumple'])}{sprintf("%.2f",$commentlevel['sumple']/$commentlevel['ccw'])}{else}暂无{/if}</td>
+        <td>{if isset($commentlevel['sumdle'])}{sprintf("%.2f",$commentlevel['sumdle']/$commentlevel['ccw'])}{else}暂无{/if}</td>
       </tr>
     <tbody>
   </table>
@@ -79,9 +79,13 @@
       <tr>
         <th class="text-r" width="120">客户评价：</th>
         <td>
+        {if !empty($comment)}
         {foreach $comment as $k=>$c}
         <p>{$k+1}、{$c['comment_content']}&nbsp;&nbsp;<span style="color:#999;">{date('Y-m-d',$c['comment_time']+86400)}</span></p>
         {/foreach}
+        {else}
+        暂无
+        {/if}
         </td>
       </tr>
     <tbody>
