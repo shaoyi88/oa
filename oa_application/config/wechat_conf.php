@@ -15,48 +15,48 @@ $config['subcribe_menus'] = array(
     array(
         'name' => '服务',
         'type' => 'view',
-        'key' => 'http://subcribe.ecare-easy.com/service/index/service_info',
+        'key' => 'http://subcribe.ecare-easy.com/service/wechat/service_info',
         'buttons' => null
     ),
-    array(
-        'name' => '菜单',
-        'key' => null,
-        'type' => null,
-        'buttons' => array(
-            array(
-                'name' => '服务',
-                'type' => 'view',
-                'key' => 'http://www.baidu.com',
-                'buttons' => null
-            ),
-            array(
-                'name' => '百度',
-                'type' => 'view',
-                'key' => 'http://www.baidu.com',
-                'buttons' => null
-            )
-
-        )
-    ),
-    array(
-        'name' => '菜单1',
-        'key' => null,
-        'type' => null,
-        'buttons' => array(
-            array(
-                'name' => '服务1',
-                'type' => 'view',
-                'key' => 'http://www.baidu.com',
-                'buttons' => null
-            ),
-            array(
-                'name' => '百度1',
-                'type' => 'view',
-                'key' => 'http://www.baidu.com',
-                'buttons' => null
-            )
-
-        )
-    )
+//    array(
+//        'name' => '菜单',
+//        'key' => null,
+//        'type' => null,
+//        'buttons' => array(
+//            array(
+//                'name' => '服务',
+//                'type' => 'view',
+//                'key' => 'http://www.baidu.com',
+//                'buttons' => null
+//            ),
+//            array(
+//                'name' => '百度',
+//                'type' => 'view',
+//                'key' => 'http://www.baidu.com',
+//                'buttons' => null
+//            )
+//
+//        )
+//    ),
+//    array(
+//        'name' => '菜单1',
+//        'key' => null,
+//        'type' => null,
+//        'buttons' => array(
+//            array(
+//                'name' => '服务1',
+//                'type' => 'view',
+//                'key' => 'http://www.baidu.com',
+//                'buttons' => null
+//            ),
+//            array(
+//                'name' => '百度1',
+//                'type' => 'view',
+//                'key' => 'http://www.baidu.com',
+//                'buttons' => null
+//            )
+//
+//        )
+//    )
 );
 
