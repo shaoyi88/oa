@@ -15,6 +15,7 @@ use Overtrue\Wechat\Message;
 use Overtrue\Wechat\Menu;
 use Overtrue\Wechat\MenuItem;
 use Overtrue\Wechat\User;
+use Overtrue\Wechat\Notice;
 
 
 class Validation extends OA_Controller
@@ -123,6 +124,29 @@ class Validation extends OA_Controller
         echo '设置成功';
     }
 
+
+    public function send_test_notice(){
+        $service_info = $this->wechat_conf['service'];
+        var_dump($service_info);
+        $notice = new Notice($service_info['appId'], $service_info['secret']);
+        $userId = 'o2DIYuBqdKzF316FXZxZZc2tjsM0';
+        $templateId = 'OwlWliZpdl0O3cm7C5GJP9k1LW2I3E2fyt1mz37GDOA';
+        $url = 'http://overtrue.me';
+        $color = '#FF0000';
+        $data = array(
+            "first"    => "恭喜你购买成功！",
+            "keyword1" => "巧克力",
+            "keyword2" => "39.8元",
+//            "keynote3" => "2014年9月16日",
+            "remark"   => "欢迎再次购买！",
+        );
+
+        echo 231;
+        $messageId = $notice->uses($templateId)->withUrl($url)->andData($data)->andReceiver($userId)->send();
+
+        var_dump($messageId);
+        echo 232;
+    }
 
 
 
