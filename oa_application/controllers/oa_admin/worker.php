@@ -265,6 +265,7 @@ class Worker extends OA_Controller
 	 		$sta['ws'] = $data['wsInfo'][$postdata['worker_status']];
 	 		$staWs[] = $sta;
 	 	}
+	 	$sum = array();
 	 	foreach($dataList as $val){
 	 		//各驻点医院护工数小结
 	 		if(!isset($sum[$val['worker_hospital']])){
