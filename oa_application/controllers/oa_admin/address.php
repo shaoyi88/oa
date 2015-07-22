@@ -15,7 +15,7 @@ class Address extends OA_Controller
 	public function doAdd()
 	{
 		$data = array();
-		if(checkRight('address_add') === FALSE){
+		if(checkRight('user_address_add') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -33,7 +33,7 @@ class Address extends OA_Controller
 	public function doDel()
 	{
 		$data = array();
-		if(checkRight('address_del') === FALSE){
+		if(checkRight('user_address_del') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -51,7 +51,7 @@ class Address extends OA_Controller
 	public function setAddressIsDefault()
 	{
 		$data = array();
-		if(checkRight('address_add') === FALSE){
+		if(checkRight('user_address_add') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}

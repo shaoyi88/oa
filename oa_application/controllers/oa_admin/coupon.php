@@ -15,7 +15,7 @@ class Coupon extends OA_Controller
 	public function doAdd()
 	{
 		$data = array();
-		if(checkRight('coupon_add') === FALSE){
+		if(checkRight('user_coupon_add') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -39,7 +39,7 @@ class Coupon extends OA_Controller
 	public function doDel()
 	{
 		$data = array();
-		if(checkRight('coupon_del') === FALSE){
+		if(checkRight('user_coupon_del') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
