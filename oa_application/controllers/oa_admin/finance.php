@@ -112,13 +112,20 @@ class Finance extends OA_Controller
 			$msg = '?msg='.urlencode('收款失败');
 			redirect(formatUrl('finance/collect'.$msg));
 		}else{
+			$updateOrder['order_id'] = $collectInfo['order_id'];
 			$this->load->model('OA_Order');
-			if($collectInfo['collection_type']==2){
-				//修改订单状态
-			    $updateOrder['order_id'] = $collectInfo['order_id'];
-			    $updateOrder['order_status'] = 4;
-			    $this->OA_Order->update($updateOrder);
+			if($collectInfo['collection_type']==1){
+				//更新预收款
+				$updateOrder['order_advance_payment'] = $data['collection_amount'];
 			}
+			else if($collectInfo['collection_type']==2){
+				//修改订单状态
+			    $updateOrder['order_status'] = 4;
+			}else{
+				$this->showView('denied', $data);
+			    exit;
+			}
+			$this->OA_Order->update($updateOrder);
 			redirect(formatUrl('finance/prncollection?cid='.$data['collection_id']));
 		}
 	}
