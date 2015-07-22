@@ -13,269 +13,13 @@ class Knowledge extends OA_Controller
 		$this->load->model('OA_Knowledge');
 	}
 
-	/**
-	 * 
-	 * 知识库管理
-	 */
-	public function index()
-	{	
-		$data = array();
-		if(checkRight('knowledge_management') === FALSE){
-			$this->showView('knowledge', $data);
-			exit;
-		}
-		// 所有的菜单
-		$res = $this->OA_Knowledge->gettop_title('0');
-		$checknav = array();
-		$third_nav = array();
-		foreach ($res as $key => $value) {
-			$cat_id = $value['cat_id'];//获取顶级菜单
-
-			$res_two = $this->OA_Knowledge->gettop_title($cat_id);
-			array_push($third_nav, $res_two);
-			array_push($checknav, array(
-			    'cat_id'        => $cat_id,
-			    'cat_name'      => $value['cat_name'],
-			    'navtwo'    	=> $res_two,
-			));
-		}
-		//三级菜单
-		$res_nav_third = array();
-		foreach ($third_nav as $key2 => $value2) {
-			foreach ($value2 as $key3 => $value3) {
-				$res_third = $this->OA_Knowledge->getall($value3['cat_id']);
-				array_push($res_nav_third,array(
-					'id' => $value3['cat_id'],
-					'other' =>$res_third ,
-					)
-				);			
-			}
-		}
-		$data = array();
-		$data['navall'] = $checknav;
-		$data['navthird'] = $res_nav_third;
-		$this->showView('knowledge',$data);
-	}
-
-	/**
-	*类目管理
-	*/
-	public function add_title(){
-		$data = array();
-		if(checkRight('knowledge_management') === FALSE){
-			$this->showView('knowledge', $data);
-			exit;
-		}
-		// 所有的菜单
-		$res = $this->OA_Knowledge->gettop_title('0');
-		$checknav = array();
-		$third_nav = array();
-		foreach ($res as $key => $value) {
-			$cat_id = $value['cat_id'];//获取顶级菜单
-
-			$res_two = $this->OA_Knowledge->gettop_title($cat_id);
-			array_push($third_nav, $res_two);
-			array_push($checknav, array(
-			    'cat_id'        => $cat_id,
-			    'cat_name'      => $value['cat_name'],
-			    'navtwo'    	=> $res_two,
-			));
-		}
-		//三级菜单
-		$res_nav_third = array();
-		foreach ($third_nav as $key2 => $value2) {
-			foreach ($value2 as $key3 => $value3) {
-				$res_third = $this->OA_Knowledge->getall($value3['cat_id']);
-				array_push($res_nav_third,array(
-					'id' => $value3['cat_id'],
-					'other' =>$res_third ,
-					)
-				);			
-			}
-		}
-		$data = array();
-		$data['navall'] = $checknav;
-		$data['navthird'] = $res_nav_third;
-		$this->showView('knowledgeNav',$data);
-	}
-
-	/*
-	*导航栏的管理，只设置可以更改上一级的目录
-	*/ 
-	function navManagement(){
-		$cat_id = $this->uri->segment(4);
-		$resNav = $this->OA_Knowledge->getContentNav($cat_id);
-		$restopNav = $this->OA_Knowledge->getContentNav($resNav[0]['cat_pid']);
-		$restopNavlist = $this->OA_Knowledge->getTopList($restopNav[0]['cat_pid']);
-		$data['title'] = $restopNav[0]['cat_name'];
-		$data['resoureNav'] = $resNav[0];
-		$data['resoureList'] = $restopNavlist;
-        // print_r($restopNav[0]['cat_name']);
-		$this->showView('knowledgeNavManagement',$data);
-	}
-
-	/**
-	*增加一个导航栏目
-	*/ 
-	public function addNav(){
-		$cat_id = $this->uri->segment(4);
-		if($cat_id == '0'){
-			$data['cat_id'] 	= '0';
-			$data['cat_name'] 	= '顶级目录';
-		}else{
-			$res = $this->OA_Knowledge->getContentNav($cat_id);
-			$data['cat_id'] 	= $res[0]['cat_id'];
-			$data['cat_name'] 	= $res[0]['cat_name']; 
-		}
-		//print_r($data);
-		$this->showView('knowledgeAdd',$data);
-	}
-	/**
-	*导航栏处理--添加
-	*/ 
-	public function navdata(){
-		$data['cat_pid'] = $this->input->post('cat_pid');
-		$data['cat_name'] = $this->input->post('cat_name');
-		$data['cat_time'] = date('y-m-d',time());
-		$resadd = $this->OA_Knowledge->addNav($data);
-		if($resadd){
-			$res['msg'] = 'ok';
-		}else{
-			$res['msg'] = 'false';
-		}
-		echo json_encode($res);
-	}
-
-	/**
-	*导航栏处理--更新
-	*/ 
-	public function navupdate(){
-		$cat_id = $this->input->post('cat_id');
-		$condition = $this->input->post('cat_pid');
-		$data['cat_name'] = $this->input->post('cat_name');	
-		$data['cat_time'] = date('y-m-d',time());
-		if($condition !='0'){
-			$data['cat_pid'] = $condition;
-		}
-		$resadd = $this->OA_Knowledge->updateNav($data,$cat_id);
-		if($resadd>'0'){
-			$res['msg'] = 'ok';
-		}else{
-			$res['msg'] = 'false';
-		}
-		echo json_encode($res);
-	}
-
-	/**
-	*删除指定id的对应的菜单
-	*/ 
-	public function navdel(){
-		$cat_id = $this->input->post('cat_id');
-		//查询所有下级目录
-		// $resdel = $this->OA_Knowledge->getTopList($cat_id);
-		
-
-		$resdel = $this->OA_Knowledge->del_nav($cat_id);
-		if($resdel>'0'){
-			$res['msg'] = 'ok';
-		}else{
-			$res['msg'] = 'false';
-		}
-		echo json_encode($res);
-	}
-
-	/**
-	*指定id的对应的一级菜单
-	*/ 
-	public function gettopNav(){
-		$cat_id = $this->input->post('cat_pid');
-		if(empty($cat_id)){
-			return FALSE;
-		}
-		else {
-			$data = $this->OA_Knowledge->getTopList($cat_id);
-			echo json_encode($data);
-		}
-	}
-
-	/**
-	*三级以下菜单及内容返回
-	*/
-	public function detail(){
-		$cat_id = $this->input->post('cat_pid');
-		// $cat_id = "23";
-		$count_nav = $this->OA_Knowledge->getTopList($cat_id);
-		if (empty($count_nav)){//没有下级菜单了		
-			$data['msg'] = 'content';
-			$data['kenwledge_detail'] = $this->OA_Knowledge->getContent($cat_id,'cat_id');		
-		}
-		else{//有下级菜单	
-			$data['msg'] = 'nav';
-			$data['navdata'] = $count_nav;
-		}
-		print_r(json_encode($data));
-	}	
-	
-	// 更改一条知识库的信息
-	public function changeMsg(){
-		$cat_id = $this->uri->segment(4);
-		//echo $cat_id;
-		$res = $this->OA_Knowledge->getContent($cat_id,'info_id');
-		$data['yjy_info'] =  $res;
-		// print_r($res);
-		$data['infoTitle'] = $this->OA_Knowledge->getContentNav($res[0]['cat_id']);
-		// print_r($res[0]['cat_id']);
-		$this->showView('knowledgeChange',$data);
-	}
-
-	//删除一条知识库的信息
-	public function deleteMsg(){
-		$cat_id = $this->uri->segment(4);
-		echo $cat_id;
-		// print_r($_SERVER['HTTP_REFERER']);	
-		redirect($_SERVER['HTTP_REFERER'],'location');	
-	}
-
-	//保存信息
-	public function savechangeMsg(){
-		$info_id 				= $this->input->post('info_id');
-		$data['info_title'] 	= $this->input->post('info_title');
-		$data['info_detail'] 	= $this->input->post('info_detail');
-		$data['info_order'] 	= $this->input->post('info_order');
-		$data['add_time']		= date('y-m-d',time());
-		$res = $this->OA_Knowledge->update_content($data,$info_id);
-		if($res>1){	
-		redirect('/oa_admin/knowledge/index');
-		}else{
-			return FALSE;
-		}
-	}
-
-	/**
-	*获取所有nav
-	*/ 
-	public function allnav(){
-		$res = $this->OA_Knowledge->getall('0');
-		$checknav = array();
-		foreach ($res as $key => $value) {
-			$cat_id = $value['cat_id'];//获取顶级菜单
-
-			$res_two = $this->OA_Knowledge->getall($cat_id);
-			array_push($checknav, array(
-			    'topnav'        => $value,
-			    $value['cat_id']    	=> $res_two,
-			));
-		}
-		print_r($checknav);
-	}
-
 	//测试短信接口
 	public function smsMsg(){
-		$this->load->helper('sms');
-		$apikey = SMSAPPIKEY; //请用自己的apikey代替
-		$mobile = "15914308649"; //请用自己的手机号代替
-		$text="【一家依】您的验证码是1234";
-		echo send_sms($apikey,$text,$mobile);
+//		$this->load->helper('sms');
+//		$apikey = SMSAPPIKEY; //请用自己的apikey代替
+//		$mobile = "15914308649"; //请用自己的手机号代替
+//		$text="【一家依】您的验证码是1234";
+//		echo send_sms($apikey,$text,$mobile);
 
 		//返回码
 		// {"code":0,"msg":"OK","result":{"count":1,"fee":1,"sid":2260245741}}
@@ -298,7 +42,166 @@ class Knowledge extends OA_Controller
 		*/
 	}
 
-	public function test(){
-		echo SMSAPPIKEY;
-	}
+
+    /**
+     *
+     *菜单管理
+     */
+    public function add_title(){
+        $data = array();
+        if(checkRight('knowledge_management') === FALSE){
+            $this->showView('denied', $data);
+            exit;
+        }
+        if($this->input->get('msg')){
+            $data['msg'] = $this->input->get('msg');
+        }
+        $data['nav'] = $this->OA_Knowledge->getlist('0');
+        $this->showView('knowledgeTitle', $data);
+    }
+
+    //添加一个菜单
+    public function titleAdd()
+    {
+        $data = array();
+        if(checkRight('knowledge_management') === FALSE){
+            $this->showView('denied', $data);
+            exit;
+        }
+        $data = $this->input->post();
+        $condition['cat_id'] = $data['pid'] ? $data['pid'] : 0;
+        $condition['cat_name'] = $data['cat_name'];
+        if(!empty($condition['cat_name'])){
+            $this->OA_Knowledge->titleAdd($condition['cat_id'],$condition['cat_name']);
+            $msg = '?msg='.urlencode('菜单添加成功!');
+        }else{
+            $msg = '?msg='.urlencode('添加失败!');
+
+        }
+        redirect(formatUrl('knowledge/add_title'.$msg));
+    }
+
+    //更新一个菜单
+    public function titleUpdate(){
+        $data = $this->input->post();
+        $condition['cat_id'] = $data['cat_id'];
+        $condition['cat_name'] = $data['cat_name'];
+        $condition['cat_time'] = date('y-m-d',time());
+        if(!empty($condition['cat_id'])){
+            $this->OA_Knowledge->titleUpdate($condition,$condition['cat_id']);
+            $msg = '?msg='.urlencode('菜单更新成功!');
+        }else{
+            $msg = '?msg='.urlencode('菜单更新失败');
+        }
+        redirect(formatUrl('knowledge/add_title'.$msg));
+    }
+
+    //删除菜单是否存在下级，是否存在content
+    public function titleDel(){
+        $cat_id = $this->input->get('cid');
+        if(count($this->OA_Knowledge->titleCheck($cat_id))>0){
+            $msg = '?msg='.urlencode('该菜单存在下级菜单，删除失败!');
+        }elseif(count($this->OA_Knowledge->contentCheck($cat_id))>0){
+            $msg = '?msg='.urlencode('该菜单存在详细信息，删除失败!');
+        }else{
+            $this->OA_Knowledge->titleDel($cat_id);
+            $msg = '?msg='.urlencode('删除菜单成功!');
+        }
+        redirect(formatUrl('knowledge/add_title'.$msg));
+    }
+
+
+    /**
+    *内容管理界面
+     */
+    public function index(){
+        $data = array();
+        if(checkRight('knowledge_management') === FALSE){
+            $this->showView('denied', $data);
+            exit;
+        }
+        if($this->input->get('msg')){
+            $data['msg'] = $this->input->get('msg');
+        }
+        $data['knowledgeTree'] = $this->OA_Knowledge->getlist(0);
+        if(isset($data['knowledgeTree'][0]['cat_id'])){
+            $pid = $data['knowledgeTree'][0]['cat_id'];
+            if($this->input->get('pid', TRUE)){
+                $pid = $this->input->get('pid', TRUE);
+                log_message('info',$pid);
+            }
+            if(count($this->OA_Knowledge->titleCheck($pid))>0){
+                $data['content'] = '';
+            }else{
+                $data['content'] = $this->OA_Knowledge->contentCatid('cat_id',$pid);
+            }
+        }
+        $this->showView('knowledgeList', $data);
+    }
+
+    //增加或修改知识库内容
+    public function contentChange(){
+        if($this->input->get('msg')){
+            $data['msg'] = $this->input->get('msg');
+        }
+
+        $data = '';
+        if($this->input->get('msg')){
+            $data['msg'] = $this->input->get('msg');
+        }
+        $id = $this->input->get('id');
+        if(empty($id)){
+            $data['type'] = "新增知识库内容";
+        }else{
+            $data['type']   = "更改知识库内容";
+            $updateMsg = $this->OA_Knowledge->contentCatid('info_id',$this->input->get('id'));
+            $data['updateMsg'] = $updateMsg;
+            $data['updateMsgTitle'] = $this->OA_Knowledge->titleCatid($updateMsg[0]['cat_id']);
+        }
+        $data['nav'] = $this->OA_Knowledge->getlist('0');
+        $this->showView('knowledgeContentAdd',$data);
+    }
+
+    //增加或修改一条内容
+    public function contentAdd(){
+        $condition = array();
+        $changeValue= $this->input->post();
+        $condition['info_title']    = $changeValue['info_title'];
+        $condition['info_order']    = $changeValue['info_order'];
+        $condition['info_detail']   = $changeValue['info_detail'];
+
+        $res = $this->OA_Knowledge->titleCheck($condition['cat_id']);
+        if(!empty($res)){
+            $msg = '?msg='.urlencode('所选菜单存在下级标题，能添加菜单!');
+            redirect(formatUrl('knowledge/contentChange'.$msg));
+        } else{
+            if($this->input->post('info_cat_id')){
+                $condition['cat_id']        = $changeValue['info_cat_id'];
+                $this->OA_Knowledge->contentUpdate($condition,$changeValue['info_id']);
+                $msg = '?msg='.urlencode('更新操作成功!').'&pid='.$condition['cat_id'];
+            } else{
+                $condition['cat_id']        = $changeValue['cat_id'];
+                $this->OA_Knowledge->contentAdd($condition);
+                $msg = '?msg='.urlencode('添加操作成功!').'&pid='.$condition['cat_id'];
+            }
+            redirect(formatUrl('knowledge/index'.$msg));
+        }
+    }
+
+    //删除一条知识库记录
+    public function contentDel(){
+        $info_id = $this->input->get('pid');
+        log_message('info',$info_id);
+        $res = $this->OA_Knowledge->contentDelete($info_id);
+        if($res===TRUE){
+            $msg = '?msg='.urlencode('删除操作成功!');
+            redirect(formatUrl('knowledge/index'.$msg));
+        }
+        else{
+            $msg = '?msg='.urlencode('删除操作失败!');
+            redirect(formatUrl('knowledge/index'.$msg));
+        }
+
+    }
+
 }	
