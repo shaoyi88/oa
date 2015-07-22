@@ -6,7 +6,7 @@
 {/if}
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('order/index')}" method="post">
-  		<div class="text-c"> 
+  		<div class="text-c">
    			<input nullmsg="搜索信息不可为空！" datatype="s" type="text" class="input-text" style="width:250px" placeholder="输入订单编号/用户名字/客户名字" id="keyword" name="keyword">
     		&nbsp;&nbsp;&nbsp;&nbsp;
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜订单</button>
@@ -43,7 +43,7 @@
       {foreach $dataList as $item}
       <tr class="text-c">
       	<td><a class="c-primary" title="详情" href="{formatUrl('order/detail?oid=')}{$item['order_id']}"><u class="c-primar">{$item['order_no']}</u></a></td>
-        <td>{$serviceTypeInfo[$item['service_type']]}</td>
+        <td>{if $item['service_type']}{$serviceTypeInfo[$item['service_type']]}{else}暂无{/if}</td>
         <td>{$order_service_mode[$item['service_mode']][0]}</td>
         <td>{$item['order_fee']}元/{$order_fee_unit[$item['order_fee_unit']]}</td>
         <td>{date('Y-m-d H:i:s',$item['order_start_time'])}</td>
