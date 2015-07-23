@@ -35,26 +35,21 @@
           			 </td>
         		</tr>
         		 <tr>
-          		     <th class="text-r" width="80">*头像：</th>
+          		     <th class="text-r" width="80">头像：</th>
           			 <td>
           			 <span class="btn-upload form-group">
                      <input class="input-text upload-url radius" type="text" name="worker_icon" id="worker_icon" readonly >&nbsp;<a href="javascript:void();" class="btn btn-primary radius"><i class="iconfont">&#xf0020;</i> 浏览文件</a>
                      <input type="file" multiple name="worker_icon" class="input-file">
                      &nbsp;(不超过2M)
                      </span>
-                     {if isset($info)&&$info['worker_icon']}&nbsp;&nbsp;{$info['worker_icon']}<img src="{$info['worker_no']}" width="18%">{/if}</td>
+                     {if isset($info)&&$info['worker_icon']}&nbsp;&nbsp;<img src="/./upload/ico/{$info['worker_icon']}" height="40">{/if}</td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*头衔：</th>
           			 <td>
-          			 	<select class="select" id="worker_title" name="worker_title" nullmsg="头衔不能为空！" datatype="*">
-      						<option value="">请选择头衔</option>
-      						{foreach $title as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_sex'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $title as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_title" name="worker_title" value="{$key}" {if isset($info) && $info['worker_title'] == $key}checked{/if} nullmsg="头衔不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
       		    <tr>
@@ -68,27 +63,17 @@
         		<tr>
           		     <th class="text-r" width="80">*性别：</th>
           			 <td>
-          			 	<select class="select" id="worker_sex" name="worker_sex" nullmsg="性别不能为空！" datatype="*">
-      						<option value="">请选择性别</option>
-      						{foreach $sexInfo as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_sex'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $sexInfo as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_sex" name="worker_sex" value="{$key}" {if isset($info) && $info['worker_sex'] == $key}checked{/if} nullmsg="性别不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*婚姻状况：</th>
           			 <td>
-          			 	<select class="select" id="worker_marriage" name="worker_marriage" nullmsg="婚姻状况不能为空！" datatype="*">
-      						<option value="">请选择已婚未婚</option>
-      						{foreach $marriage as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_marriage'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $marriage as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_marriage" name="worker_marriage" value="{$key}" {if isset($info) && $info['worker_marriage'] == $key}checked{/if} nullmsg="婚姻状况不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
         		<tr>
@@ -98,14 +83,9 @@
         		<tr>
           		     <th class="text-r" width="80">*教育程度：</th>
           			 <td>
-          			 	<select class="select" id="worker_education" name="worker_education" nullmsg="教育程度不能为空！" datatype="*">
-      						<option value="">请选择教育程度</option>
-      						{foreach $eduInfo as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_education'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $eduInfo as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_education" name="worker_education" value="{$key}" {if isset($info) && $info['worker_education'] == $key}checked{/if} nullmsg="教育程度不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
         		<tr>
@@ -152,39 +132,25 @@
         		<tr>
           		     <th class="text-r" width="80">*提供服务：</th>
           			 <td>
-          			 <select class="select" id="worker_service" name="worker_service" nullmsg="服务不能为空！" datatype="*">
-          			 <option value="">请选择服务</option>
-          			 {foreach $workerService as $key => $item}
-          			 <option value="{$key}" {if isset($info) && $info['worker_service'] == $key}selected{/if}>
-          			 {$item}
-      				 </option>
-          			 {/foreach}
+          			    {foreach $workerService as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_service" name="worker_service" value="{$key}" {if isset($info) && $info['worker_service'] == $key}checked{/if} nullmsg="服务不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*服务状态：</th>
           			 <td>
-          			 	<select class="select" id="worker_status" name="worker_status" nullmsg="服务状态不能为空！" datatype="*">
-      						<option value="">请选择服务状态</option>
-      						{foreach $workerStatus as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_status'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $workerStatus as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_status" name="worker_status" value="{$key}" {if isset($info) && $info['worker_status'] == $key}checked{/if} nullmsg="服务状态不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*服务模式：</th>
           			 <td>
-          			 	<select class="select" id="worker_service_mode" name="worker_service_mode" nullmsg="服务模式不能为空！" datatype="*">
-      						<option value="">请选择服务模式</option>
-      						{foreach $serviceMode as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['worker_service_mode'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			    {foreach $serviceMode as $key => $item}
+          			    <input type="radio" class="input-radio" id="worker_service_mode" name="worker_service_mode" value="{$key}" {if isset($info) && $info['worker_service_mode'] == $key}checked{/if} nullmsg="服务模式不能为空！" datatype="*">&nbsp;{$item}&nbsp;&nbsp;&nbsp;&nbsp;
+          			    {/foreach}
           			 </td>
         		</tr>
           		<tr>

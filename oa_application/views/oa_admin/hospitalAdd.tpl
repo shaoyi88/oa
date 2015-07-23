@@ -1,4 +1,4 @@
-<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  资料管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">驻点医院管理</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
+<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  机构医院管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">医院管理</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
 <div class="pd-20">
 	<form class="Huiform" id="form-role-add" action="{formatUrl('hospital/doAdd')}" method="post">
 		{if isset($info)}

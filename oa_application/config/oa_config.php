@@ -23,7 +23,7 @@ $config['menus'] = array(
 	array(
 		'module' => '护工管理',
 		'menu' => array(
-		    array('驻点医院护工', formatUrl('hospital/worker'), 'hospital_list'),
+		    array('机构医院护工', formatUrl('hospital/worker'), 'hospital_list'),
 			array('护工资料管理', formatUrl('worker/index'), 'worker_list'),
 			array('护工服务统计', formatUrl('worker/statis'), 'worker_stat'),
 			array('服务评价统计', formatUrl('worker/comment'), 'worker_comment'),
@@ -32,9 +32,9 @@ $config['menus'] = array(
 	),
 
 	array(
-		'module' => '驻点医院管理',
+		'module' => '机构医院管理',
 		'menu' => array(
-			array('驻点医院管理', formatUrl('hospital/index'), 'hospital_list'),
+			array('机构医院管理', formatUrl('hospital/index'), 'hospital_list'),
 		),
 		'right' => 'hospital'
 	),
@@ -315,15 +315,13 @@ $config['marriage'] = array(
 );
 
 $config['education'] = array(
-	'1' => '博士',
-	'2' => '硕士',
-	'3' => '本科',
-	'4' => '大专',
-	'5' => '中专',
-	'6' => '高中',
-	'7' => '初中',
-	'8' => '小学',
-	'9' => '不识字',
+	'1' => '本科',
+	'2' => '大专',
+	'3' => '中专',
+	'4' => '高中',
+	'5' => '初中',
+	'6' => '小学',
+	'7' => '不识字',
 );
 
 $config['worker_status'] = array(
