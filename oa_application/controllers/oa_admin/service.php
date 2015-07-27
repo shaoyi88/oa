@@ -27,7 +27,11 @@ class service extends OA_Controller
         $params =  $this->input->get();
         $this->load->model('OA_Appointment');
 
-        $this->send_json($this->OA_Appointment->getAppointment($params['type']));
+        $result = $this->OA_Appointment->getAppointment($params['type']);
+
+//        var_dump($result);
+
+        $this->send_json($result);
     }
 
     /*

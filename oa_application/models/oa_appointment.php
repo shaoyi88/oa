@@ -21,12 +21,24 @@ class OA_Appointment extends CI_Model
     }
 
     public function getAppointment($type='all'){
-        $this->db->select('s.id, s.confirm_time, s.contact_time, s.state,
-         s.relationship, s.name, s.phone, s.easy_time,a.province, a.city,
-          a.town, a.zone, a.stree, a.contact_name, a.contact_phone, u.nick_name, u.login_name');
+//        $this->db->select('s.id, s.confirm_time, s.contact_time, s.state,
+//         s.relationship, s.name, s.phone, s.easy_time,a.province, a.city,
+//          a.area,a.address, u.user_nickname, u.user_name, service_info.name as service_name');
+//        $this->db->from('yjy_service_appointment as s');
+//        $this->db->join('oa_address as a', 's.address_id = a.address_id');
+//        $this->db->join('yjy_service_info as service_info', 'service_info.id = s.service_id');
+//        $this->db->join('oa_user as u', 's.user_id = u.user_id');
+//        $this->db->order_by('s.id desc');
+
+        $this->db->select('s.id, s.confirm_time, s.contact_time, s.state,s.easy_time, a1.area_name as provinceName, a2.area_name as cityName, a3.area_name as areaName, a.address,
+        u.user_name as name, service_info.name as service_name, u.user_phone as phone');
         $this->db->from('yjy_service_appointment as s');
-        $this->db->join('yjy_user_address as a', 's.address_id = a.id');
-        $this->db->join('yjy_user as u', 's.user_id = u.id');
+        $this->db->join('oa_address as a', 's.address_id = a.address_id', 'left');
+        $this->db->join('oa_areas as a1', 'a.province = a1.area_id', 'left');
+        $this->db->join('oa_areas as a2', 'a.city = a2.area_id', 'left');
+        $this->db->join('oa_areas as a3', 'a.area = a3.area_id', 'left');
+        $this->db->join('oa_user as u', 's.user_id = u.user_id');
+        $this->db->join('yjy_service_info as service_info', 'service_info.id = s.service_id', 'left');
         $this->db->order_by('s.id desc');
 //        $this->db->limit(10);
 
@@ -51,7 +63,7 @@ class OA_Appointment extends CI_Model
             if(!empty($rows)){
                 return $rows;
             }else{
-                return false;
+                return $this->db->error();
             }
         }
     }

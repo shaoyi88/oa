@@ -27,9 +27,7 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
 
         var result = appointment.query({type:type, page:$scope.appPageIndex}, function(){
             for(var i=0; i < result.length; i++){
-                result[i]['address'] = result[i].province + '省' + result[i].city + '市'
-                + result[i].zone + result[i].town + '  ' + result[i].stree + '\n联系人：'
-                + result[i].contact_name + '\n联系电话：' + result[i].contact_phone;
+                result[i]['address'] = result[i]['provinceName'] + ' ' + result[i]['cityName'] + ' ' + result[i]['areaName'] + ' '+ result[i]['address'];
                 //result[i]['address'] = process_address(result[i]);
                 if(result[i].state == 1000){
                     result[i]['button'] = '确认';

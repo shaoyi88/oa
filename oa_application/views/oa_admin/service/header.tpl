@@ -14,5 +14,5 @@
         {*</div>*}
     {*</div>*}
 {*</div>*}
-<script type="text/javascript" src="/public/oa_admin/js/service/service.js"></script>
+{*<script type="text/javascript" src="/public/oa_admin/js/service/service.js"></script>*}
 

@@ -4,8 +4,6 @@
 
 (function($){
 
-    $('#reflesh-btn').on('click', function(){
-        location.reload(true);
-    });
+
 
 })(jQuery);
