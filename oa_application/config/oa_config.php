@@ -103,6 +103,14 @@ $config['menus'] = array(
 			array('添加类目', formatUrl('knowledge/add_title'), 'knowledge_add_title')
 		),
 		'right' => 'knowledge'
+	),
+	array(
+		'module' => '意见跟进管理',
+		'menu' => array(
+			array('意见管理', formatUrl('hospitaladvice/advice_list'), 'hospitaladvice_list'),
+			array('跟进管理', formatUrl('hospitaladvice/admin'), 'hospitaladvice_list'),
+		),
+		'right' => 'hospitaladvice'
 	)
 );
 
@@ -250,7 +258,18 @@ $config['rights'] = array(
 			array('添加类目', 'knowledge_add_title')
 		),
 		'right' => 'finance'
-	)
+	),
+	array(
+		'module' => '意见跟进管理',
+		'roles' => array(
+			array('意见管理', 'hospitaladvice_list'),
+			array('添加意见', 'hospitaladvice_add'),
+			array('删除意见', 'hospitaladvice_del'),
+			array('指派跟进', 'hospitaladvice_appoint'),
+			array('跟进反馈', 'hospitaladvice_follow'),
+		),
+		'right' => 'hospitaladvice'
+	),
 );
 
 $config['sex'] = array(
@@ -401,4 +420,13 @@ $config['order_bill_status'] = array(
 	'2' => '已出票',
 );
 
+//医院意见建议跟进状态
+$config['hospitaladvice_status'] = array(
+	'1' => '未指派',
+	'2' => '跟进中',
+	'3' => '已完结',
+	'4' => '已取消',
+);
+
 $config['workerservice_role'] = 3; //护工角色，可指派进行回访
+$config['hospitaladvice_role'] = 9; //意见跟进角色，可被指派跟进机构医院提出的建议意见
