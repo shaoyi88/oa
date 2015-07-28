@@ -10,11 +10,11 @@
       </tr>
       <tr>
         <th class="text-r" width="120">用户：</th>
-        <td>{$userInfo['user_name']}</td>
+        <td>{if isset($userInfo['user_name'])}{$userInfo['user_name']}{/if}</td>
       </tr>
       <tr>
        <th class="text-r" width="120">客户：</th>
-        <td>{$customerInfo['customer_name']}</td>
+        <td>{if isset($customerInfo['customer_name'])}{$customerInfo['customer_name']}{/if}</td>
       </tr>
       <tr>
        <th class="text-r" width="120">护工：</th>
