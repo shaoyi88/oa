@@ -79,7 +79,7 @@ class Hospitaladvice extends OA_Controller
 	 */
 	public function add()
 	{
-		$data = array();
+		$data = $ninfo = array();
 		$this->load->model('OA_Hospital');
 		$hospital = $this->OA_Hospital->queryByPid(0);
 		if($this->input->get('id')){
