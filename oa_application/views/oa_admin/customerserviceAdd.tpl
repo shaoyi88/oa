@@ -1,4 +1,4 @@
-<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  资料管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('customerservice/record')}">客服问题</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
+<nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  咨客管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('customerservice/record')}">客服问题</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
 <div class="pd-20">
 	<form class="Huiform" id="form-role-add" action="{formatUrl('customerservice/doAdd')}" method="post">
 		{if isset($info)}
