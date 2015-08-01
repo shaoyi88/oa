@@ -62,7 +62,7 @@
       	<td>{$k+1}</td>
         <td>{$nInfo[$item['hospital_id']]}</td>
         <td>{$nInfo[$item['stationary_id']]}</td>
-        <td>{$item['added_by']}</td>
+        <td>{$item['admin_name']}</td>
         <td>{$item['advice_content']}</td>
         <td>{$item['appointed']}</td>
         <td>{$item['feedback_content']}</td>

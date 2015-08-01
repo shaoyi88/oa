@@ -15,14 +15,13 @@ class Hospitaladvice extends OA_Controller
 	public function admin()
 	{
 		$data = $undeal = array();
-		$this->load->model('OA_Admin');
+		$this->load->model('OA_Hospitaladvice');
 		$role = $this->config->item('hospitaladvice_role');
-		$dataList = $this->OA_Admin->queryAdminByRole($role);
+		$dataList = $this->OA_Hospitaladvice->getfollowlist();
 		$this->load->model('OA_Department');
 		$dpname = $this->OA_Department->getDepartmentName();
 		$data['dataList'] = $dataList;
 		$data['dpname'] = $dpname;
-		$this->load->model('OA_Hospitaladvice');
 		$key['advice_status'] = 2;
 		$csList = $this->OA_Hospitaladvice->searchHp($key);
 		foreach($csList as $val){
@@ -45,7 +44,7 @@ class Hospitaladvice extends OA_Controller
 	public function advice_list()
 	{
 		$data = array();
-		if(checkRight('advice_list') === FALSE){
+		if(checkRight('hospitaladvice_list') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -96,6 +95,7 @@ class Hospitaladvice extends OA_Controller
 			if($data['info']['hospital_id']){
 				$ninfo = $this->OA_Hospital->queryByPid($data['info']['hospital_id']);
 			}
+			$data['hplist'] = $this->OA_Hospitaladvice->getfollowlist($data['info']['added_by']);
 		}else{
 			if(checkRight('hospitaladvice_add') === FALSE){
 				$this->showView('denied', $data);
@@ -103,9 +103,6 @@ class Hospitaladvice extends OA_Controller
 			}
 			$data['typeMsg'] = '新增';
 		}
-		$this->load->model('OA_Admin');
-		$role = $this->config->item('hospitaladvice_role');
-		$data['hplist'] = $this->OA_Admin->queryAdminByRole($role);
 		$data['hospitalInfo'] = $hospital;
 		$data['nInfo'] = $ninfo;
 		$this->showView('hospitaladviceAdd', $data);
@@ -145,7 +142,7 @@ class Hospitaladvice extends OA_Controller
 			}
 			$msg = '';
 			$data['added_time'] = strtotime('now');
-			$data['added_by'] = $this->session->userdata('admin_name');
+			$data['added_by'] = $this->session->userdata('admin_id');
 			if($this->OA_Hospitaladvice->add($data) === FALSE){
 				$msg = '?msg='.urlencode('创建失败');
 			}
@@ -160,7 +157,7 @@ class Hospitaladvice extends OA_Controller
 	public function doDel()
 	{
 		$data = array();
-		if(checkRight('customer_service_record') === FALSE){
+		if(checkRight('hospitaladvice_del') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
@@ -171,132 +168,4 @@ class Hospitaladvice extends OA_Controller
 		redirect(formatUrl('customerservice/record'));
 	}
 
-	/**
-	 *
-	 * 详情页面
-	 */
-	public function detail()
-	{
-		$data = array();
-		if(checkRight('customer_service_list') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
-		if($this->input->get('msg')){
-			$data['msg'] = $this->input->get('msg');
-		}
-		$id = $this->input->get('id');
-		$data['id'] = $id;
-		$this->load->model('OA_Customerservice');
-		$data['workerInfo'] = $this->OA_Customerservice->getCsInfo($id);
-		$data['csStatus'] = $this->config->item('customerservice_status');
-		$this->showView('customerserviceDetail', $data);
-	}
-
-	public function trace(){
-		$data = $postdata = array();
-		if(checkRight('customer_service_list') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
-		if($this->input->get('msg')){
-			$data['msg'] = $this->input->get('msg');
-		}
-		$this->load->model('OA_Customerservice');
-		$postdata = $this->input->post();
-		$dataList = $this->OA_Customerservice->searchCs($postdata);
-		$stat = $stattype = array();
-		foreach($dataList as $val){
-			if(!isset($stat[$val['added_by']][$val['cs_type']]['add'])){
-				$stat[$val['added_by']][$val['cs_type']]['add'] = 1;
-			}else{
-				$stat[$val['added_by']][$val['cs_type']]['add']++;
-			}
-			if(!empty($val['appointed'])){
-				if(!isset($stat[$val['appointed']][$val['cs_type']]['app'])){
-				    $stat[$val['appointed']][$val['cs_type']]['app'] = 1;
-			    }else{
-				    $stat[$val['appointed']][$val['cs_type']]['app']++;
-			    }
-			}
-			$stattype[] = $val['cs_type'];
-		}
-		if($postdata['cssingle']){
-			//查询时如果选择客服则仅显示该客服的数据
-            $singlestat = $stat[$postdata['cssingle']];
-            $stat = array();
-            $stat[$postdata['cssingle']] = $singlestat;
-		}
-		$data['dataList'] = $dataList;
-		$data['stat'] = $stat;
-		$data['stattype'] = $stattype;
-		$data['cstype'] = $this->config->item('customerservice_type');
-		$data['csstatus'] = $this->config->item('customerservice_status');
-		$data['admin'] = $this->session->userdata('admin_name');
-		$this->load->model('OA_Admin');
-		$role = $this->config->item('customerservice_role');
-		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
-		$this->showView('customerserviceTrace', $data);
-	}
-	/*
-	 * 统计分析
-	 *
-	*/
-	public function statistical(){
-		$data = $postdata = array();
-		if(checkRight('customer_service_list') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
-		if($this->input->get('msg')){
-			$data['msg'] = $this->input->get('msg');
-		}
-		$this->load->model('OA_Customerservice');
-		$postdata = $this->input->post();
-		if(!empty($postdata['sdate'])&&!empty($postdata['edate'])){
-            $d1 = strtotime($postdata['sdate']);
-            $d2 = strtotime($postdata['edate']);
-            $Days = ($d2-$d1)/86400;
-		}
-		$dataList = $this->OA_Customerservice->searchCs($postdata);
-		$stat = $stattype = $xy = array();
-		foreach($dataList as $val){
-			if(isset($Days)&&$Days<=31){
-			    if(!isset($stat[date('d',$val['added_time'])][$val['cs_type']])){
-				   $stat[date('m月d日',$val['added_time'])][$val['cs_type']] = 1;
-			    }else{
-				   $stat[date('m月d日',$val['added_time'])][$val['cs_type']]++;
-			    }
-			}else{
-				if(!isset($stat[date('m',$val['added_time'])][$val['cs_type']])){
-				   $stat[date('m月',$val['added_time'])][$val['cs_type']] = 1;
-			    }else{
-				   $stat[date('m月',$val['added_time'])][$val['cs_type']]++;
-			    }
-			}
-			$stattype[] = $val['cs_type'];
-  		}
-		$cstype = $this->config->item('customerservice_type');
-		foreach($stat as $k=>$v){
-			$xsets[] = $k;
-			foreach($stattype as $d){
-				if(isset($v[$d])){
-					$y[$d][] = $v[$d];
-				}else{
-					$y[$d][] = 0;
-				}
-			}
-		}
-		$ytxt = '[';
-		foreach($y as $key=>$ys){
-			$ytxt .= '{name: "'.$cstype[$key].'",data: '.json_encode($ys).',},';
-		}
-		$xy[0] = json_encode($xsets);
-		$xy[1] = $ytxt.']';
-		$data['xy'] = $xy;
-		$data['dataList'] = $stat;;
-		$data['cstype'] = $cstype;
-		$data['csstatus'] = $this->config->item('customerservice_status');
-		$this->showView('customerserviceStat', $data);
-	}
 }
