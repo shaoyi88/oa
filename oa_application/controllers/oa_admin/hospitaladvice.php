@@ -153,7 +153,7 @@ class Hospitaladvice extends OA_Controller
 			    	redirect(formatUrl('hospitaladvice/advice_list'));
 			    }
 			}
-			if(isset($data['feedback_content'])&&$data['feedback_content']){
+			if(isset($data['feedback_content'])){
 				$savedata['advice_id'] = $data['advice_id'];
 				$savedata['feedback_content'] = $data['feedback_content'];
 				$savedata['advice_status'] = $data['advice_status'];
