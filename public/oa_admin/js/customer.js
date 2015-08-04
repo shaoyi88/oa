@@ -22,8 +22,8 @@ var user = function(){
 				}
 			},
 		});
-		$('#customer_type').change(customerTypeChange);
-		$('#customer_service_type').change(customerServiceTypeChange);
+		$('.customer_type').click(customerTypeChange);
+		$('.customer_service_type').click(customerServiceTypeChange);
 		$('.del').click(del);
 		$('#addFollow').click(addFollow);
 		$('.delFollow').click(delFollow);

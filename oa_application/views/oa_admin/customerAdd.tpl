@@ -13,14 +13,10 @@
         		<tr>
           		     <th class="text-r" width="80">*性别：</th>
           			 <td>
-          			 	<select class="select" id="customer_sex" name="customer_sex" nullmsg="性别不能为空！" datatype="*">
-      						<option value="">请选择性别</option>
-      						{foreach $sexInfo as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['customer_sex'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			 	{foreach $sexInfo as $key => $item}
+          			 	<input type="radio" name="customer_sex" value="{$key}" nullmsg="性别不能为空！" datatype="*"
+          			 		{if isset($info) && $info['customer_sex'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          			 	{/foreach}			
           			 </td>
         		</tr>
         		<tr>
@@ -35,26 +31,20 @@
           		     <th class="text-r" width="80">*常用语言：</th>
           			 <td>
           			 	{foreach $languageInfo as $item}
-          			 		<p>
           			 			<input type="radio" name="customer_language" value="{$item}" class="customer_language"
           			 				{if isset($info) && ((!in_array($info['customer_language'], $languageInfo) && $item == '其他') || $info['customer_language'] == $item)}checked{/if}>{$item}
           			 			&nbsp;&nbsp;{if $item == '其他'}<input style="width:50%" name="other_language" type="text" class="input-text" id="other_language" value="{if isset($info)&&!in_array($info['customer_language'], $languageInfo)}{$info['customer_language']}{/if}">{/if}
-          			 		</p>
           			 	{/foreach}
           			 </td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*客户分组：</th>
           			 <td>
-          			 	<select class="select" id="customer_type" name="customer_type" nullmsg="客户分组不能为空！" datatype="*">
-      						<option value="">请选择客户分组</option>
-      						{foreach $groupInfo as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['customer_type'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
-          			 </td>
+          			 	{foreach $groupInfo as $key => $item}
+          			 	<input type="radio" name="customer_type" class="customer_type" value="{$key}" nullmsg="客户分组不能为空！" datatype="*"
+          			 		{if isset($info) && $info['customer_type'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          			 	{/foreach}
+          			 	</td>
         		</tr>
         		<tr id="tr_customer_address" {if isset($info)&&$info['customer_type']==1}{else}style="display:none"{/if}>
           		     <th class="text-r" width="80">*家庭地址：</th>
@@ -94,14 +84,10 @@
         		<tr>
           		     <th class="text-r" width="80">*服务分组：</th>
           			 <td>
-          			 	<select class="select" id="customer_service_type" name="customer_service_type" nullmsg="服务分组不能为空！" datatype="*">
-      						<option value="">请选择服务分组</option>
-      						{foreach $serviceTypeInfo as $key => $item}
-      						<option value="{$key}" {if isset($info) && $info['customer_service_type'] == $key}selected{/if}>
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
+          			 	{foreach $serviceTypeInfo as $key => $item}
+          			 	<input type="radio" name="customer_service_type" class="customer_service_type" value="{$key}" nullmsg="服务分组不能为空！" datatype="*"
+          			 		{if isset($info) && $info['customer_service_type'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          			 	{/foreach}
           			 </td>
         		</tr>
         		<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
@@ -121,11 +107,9 @@
           		     				<th class="text-r" width="80">个人特殊嗜好：</th>
           			 				<td>
           			 				{foreach $hobbyTypeInfo as $item}
-          			 				<p>
           			 				<input type="radio" name="customer_hobby" value="{$item}" class="customer_hobby"
           			 					{if isset($info) && $info['customer_hobby'] && ((!in_array($info['customer_hobby'], $hobbyTypeInfo) && $item == '其他') || $info['customer_hobby'] == $item)}checked{/if}>{$item}
           			 				&nbsp;&nbsp;{if $item == '其他'}<input style="width:50%" name="other_hobby" type="text" class="input-text" id="other_hobby" value="{if isset($info)&&!in_array($info['customer_hobby'], $hobbyTypeInfo)}{$info['customer_hobby']}{/if}">{/if}
-          			 				</p>
           			 				{/foreach}
           			 				</td>
         						</tr>
@@ -141,25 +125,19 @@
           		     				<th class="text-r" width="80">意识状态：</th>
           			 				<td>
           			 				{foreach $stateType as $item}
-          			 				<p>
           			 				<input type="radio" name="customer_state" value="{$item}" class="customer_state"
           			 				{if isset($info) && $info['customer_state'] && ((!in_array($info['customer_state'], $stateType) && $item == '其他') || $info['customer_state'] == $item)}checked{/if}>{$item}
           			 				&nbsp;&nbsp;{if $item == '其他'}<input style="width:50%" name="other_state" type="text" class="input-text" id="other_state" value="{if isset($info)&&!in_array($info['customer_state'], $stateType)}{$info['customer_state']}{/if}">{/if}
-          			 				</p>
           			 				{/foreach}
           			 				</td>
         						</tr>
         						<tr class="tr_service_info_1" {if isset($info)&&$info['customer_service_type']!=4}{else}style="display:none"{/if}>
           		     				<th class="text-r" width="80">自理能力：</th>
           							<td>
-          			 				<select  class="select" name="customer_selfcare_ability">
-      									<option value="">请选择自理能力</option>
-      									{foreach $selfcareAbilityType as $item}
-      										<option value="{$item}" {if isset($info) && $info['customer_selfcare_ability'] == $item}selected{/if}>
-      										{$item}
-      										</option>
-      									{/foreach}
-    								</select>
+          							{foreach $selfcareAbilityType as $key=>$item}
+          							<input type="radio" name="customer_selfcare_ability" value="{$key}"
+          			 					{if isset($info) && $info['customer_selfcare_ability'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          							{/foreach}
           			 				</td>
         						</tr>
         						<tr>
@@ -190,14 +168,10 @@
         						<tr>
           		     				<th class="text-r" width="80">服务级别：</th>
           			 				<td>
-          			 				<select class="select" name="customer_service_level1">
-      								<option value="">请选择服务级别</option>
-      								{foreach $serviceLevel1 as $key => $item}
-      								<option value="{$key}" {if isset($info) && $info['customer_service_type'] != 4 && $info['customer_service_level'] == $key}selected{/if}>
-      								{$item}
-      								</option>
-      								{/foreach}
-    								</select>
+          			 				{foreach $serviceLevel1 as $key => $item}
+          			 				<input type="radio" name="customer_service_level1" value="{$key}"
+          			 					{if isset($info) && $info['customer_service_type'] != 4 && $info['customer_service_level'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          			 				{/foreach}
           			 				</td>
         						</tr>
         					</tbody>
@@ -220,14 +194,10 @@
         						<tr>
           		     				<th class="text-r" width="80">服务级别：</th>
           			 				<td>
-          			 					<select class="select" name="customer_service_level2">
-      									<option value="">请选择服务级别</option>
-      									{foreach $serviceLevel2 as $key => $item}
-      									<option value="{$key}" {if isset($info) && $info['customer_service_type'] == 4 && $info['customer_service_level'] == $key}selected{/if}>
-      									{$item}
-      									</option>
-      									{/foreach}
-    								</select>
+          			 					{foreach $serviceLevel1 as $key => $item}
+          			 					<input type="radio" name="customer_service_level2" value="{$key}"
+          			 						{if isset($info) && $info['customer_service_type'] == 4 && $info['customer_service_level'] == $key}checked{/if}>{$item}&nbsp;&nbsp;
+          			 					{/foreach}
           			 				</td>
         						</tr>
         					</tbody>

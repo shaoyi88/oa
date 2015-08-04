@@ -320,7 +320,10 @@ class Order extends OA_Controller
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$data['order_status'] = $this->config->item('order_status');
 		$this->load->model('OA_WorkerOrder');
+		$this->load->model('OA_Hospital');
 		$data['workerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid);
+		$data['sexInfo'] = $this->config->item('sex');
+		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('orderDetail', $data);
 	}
 
