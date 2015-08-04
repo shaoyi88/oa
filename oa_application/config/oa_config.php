@@ -267,6 +267,8 @@ $config['rights'] = array(
 			array('删除意见', 'hospitaladvice_del'),
 			array('指派跟进', 'hospitaladvice_appoint'),
 			array('跟进反馈', 'hospitaladvice_follow'),
+			//可以看到全部意见
+			array('查看意见', 'hospitaladvice_all')
 		),
 		'right' => 'hospitaladvice'
 	),

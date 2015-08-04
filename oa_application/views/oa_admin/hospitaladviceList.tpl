@@ -15,6 +15,7 @@
       			</option>
       			{/foreach}
   		    </select>
+  		    {if checkRight('hospitaladvice_all')}
   		    &nbsp;&nbsp;
   		    <select name="appointed" class="select-box" style="width:10%">
                 <option value="">请选择跟进人</option>
@@ -26,6 +27,7 @@
   		    </select>
   		    &nbsp;&nbsp;
    			<input type="text" class="input-text" style="width:250px" placeholder="输入发起人姓名" id="keyword" name="keyword">
+    		{/if}
     		&nbsp;&nbsp;&nbsp;&nbsp;
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜意见建议</button>
   		</div>
@@ -38,11 +40,11 @@
   	</div>
   	{/if}
   	{if empty($dataList)}
-  		<div class="cl pd-5 bg-1 bk-gray">
+  		<div class="cl pd-5 bg-1 bk-gray" style="margin:5px 0">
   			<h2 class="text-c">暂无意见建议</h2>
   		</div>
   	{else}
-  		<table class="table table-border table-bordered table-hover table-bg">
+  		<table class="table table-border table-bordered table-hover table-bg" style="margin:5px 0">
     <thead>
       <tr class="text-c">
       	<th>序号</th>
@@ -53,7 +55,7 @@
         <th>跟进人</th>
         <th>反馈</th>
         <th>当前状态</th>
-        <th width="130">操作</th>
+        <th width="180">操作</th>
       </tr>
     </thead>
     <tbody>
@@ -69,15 +71,18 @@
         <td>{$hpstatus[$item['advice_status']]}</td>
         <td class="f-14">
         	 {if $item['advice_status']==1}
-        	     {if checkRight('hospitaladvice_add')}
+        	     {if $adminid==$item['added_by']}
         	     <a title="编辑" href="{formatUrl('hospitaladvice/add?id=')}{$item['advice_id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
+        	     {/if}
+        	     {if checkRight('hospitaladvice_appoint')}
+        	     &nbsp;<a title="指派" href="{formatUrl('hospitaladvice/add?id=')}{$item['advice_id']}&ap=1" class="btn btn-primary radius" style="text-decoration:none">指派</a>
         	     {/if}
         	 {elseif $item['advice_status']==2}
         	     {if $item['appointed']==$admin}
         	     <a title="反馈" href="{formatUrl('hospitaladvice/add?id=')}{$item['advice_id']}" class="btn btn-primary radius" style="text-decoration:none">反馈</a>
         	     {/if}
         	 {/if}
-        	 {if checkRight('hospitaladvice_del')}&nbsp;&nbsp;<a id="{$item['advice_id']}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}
+        	 {if checkRight('hospitaladvice_del')}&nbsp;<a id="{$item['advice_id']}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}
         </td>
       </tr>
       {/foreach}

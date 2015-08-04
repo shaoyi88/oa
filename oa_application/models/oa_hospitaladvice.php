@@ -25,12 +25,16 @@ class OA_Hospitaladvice extends CI_Model
 	 *
 	 * 获取意见建议
 	 */
-	public function getHp($offset, $limit)
+	public function getHp($offset, $limit, $nadmin, $admininfo)
 	{
 		$info = array();
 		$this->db->select('a.*,b.admin_name');
 		$this->db->from('oa_hospitaladvice as a');
 		$this->db->join('oa_admin as b', 'b.admin_id = a.added_by');
+		if($nadmin&&!empty($admininfo)){
+			$this->db->where('a.appointed', $admininfo['appointed']);
+		    $this->db->or_where('a.added_by', $admininfo['added_by']);
+		}
 		$this->db->group_by('a.advice_id');
 		$this->db->order_by('a.advice_id desc');
 		$query = $this->db->get($this->_table, $limit, $offset);
@@ -56,15 +60,25 @@ class OA_Hospitaladvice extends CI_Model
 	 */
 	public function searchHp($keyword=array())
 	{
-		if(isset($keyword['appointed'])&&$keyword['appointed']){
-			$this->db->where('appointed', $keyword['appointed']);
+		if($keyword['nadmin']){
+			if(isset($keyword['appointed'])&&$keyword['appointed']){
+			    $this->db->where('appointed', $keyword['appointed']);
+		    }
+		    if(isset($keyword['keyword'])&&$keyword['keyword']){
+		        $this->db->or_where('added_by', $keyword['added_by']);
+		    }
+		}else{
+			if(isset($keyword['appointed'])&&$keyword['appointed']){
+			    $this->db->where('appointed', $keyword['appointed']);
+		    }
+		    if(isset($keyword['advice_status'])&&$keyword['advice_status']){
+		        $this->db->where('advice_status', $keyword['advice_status']);
+		    }
+		    if(isset($keyword['keyword'])&&$keyword['keyword']){
+		        $this->db->where('added_by', $keyword['keyword']);
+		    }
 		}
-		if(isset($keyword['advice_status'])&&$keyword['advice_status']){
-		    $this->db->where('advice_status', $keyword['advice_status']);
-		}
-		if(isset($keyword['keyword'])&&$keyword['keyword']){
-		    $this->db->where('added_by', $keyword['keyword']);
-		}
+
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();
@@ -104,7 +118,13 @@ class OA_Hospitaladvice extends CI_Model
 	 */
 	public function getHpInfo($id)
 	{
-		$query = $this->db->get_where($this->_table, array('advice_id' => $id));
+		$this->db->select('a.*,b.admin_name');
+		$this->db->from('oa_hospitaladvice as a');
+		$this->db->join('oa_admin as b', 'b.admin_id = a.added_by');
+		$this->db->where('advice_id', $id);
+		$this->db->group_by('a.advice_id');
+		$this->db->order_by('a.advice_id desc');
+		$query = $this->db->get();
 		$info = array();
 		if($query){
 			$info = $query->row_array();
@@ -124,7 +144,7 @@ class OA_Hospitaladvice extends CI_Model
 
 	/**
 	 * 获取相关部门跟进人员
-	 * $id为发起意见建议者，为空时获取全部部门拥有跟进权限的人员
+	 * $id为admin_id，为空时获取全部部门拥有跟进权限的人员
 	 */
 	public function getfollowlist($id=''){
 		$adminlist = array();

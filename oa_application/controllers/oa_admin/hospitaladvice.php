@@ -15,14 +15,19 @@ class Hospitaladvice extends OA_Controller
 	public function admin()
 	{
 		$data = $undeal = array();
+		$nadmin = 0;
 		$this->load->model('OA_Hospitaladvice');
-		$role = $this->config->item('hospitaladvice_role');
-		$dataList = $this->OA_Hospitaladvice->getfollowlist();
+		$id = '';
+		if(checkRight('hospitaladvice_all') === FALSE){
+			$id = $this->session->userdata('admin_id');
+		}
+		$dataList = $this->OA_Hospitaladvice->getfollowlist($id);
 		$this->load->model('OA_Department');
 		$dpname = $this->OA_Department->getDepartmentName();
 		$data['dataList'] = $dataList;
 		$data['dpname'] = $dpname;
 		$key['advice_status'] = 2;
+		$key['nadmin'] = $nadmin;
 		$csList = $this->OA_Hospitaladvice->searchHp($key);
 		foreach($csList as $val){
 			if(!empty($val['appointed'])){
@@ -43,30 +48,41 @@ class Hospitaladvice extends OA_Controller
 	 */
 	public function advice_list()
 	{
-		$data = array();
+		$data = $post = $admininfo = array();
 		if(checkRight('hospitaladvice_list') === FALSE){
 			$this->showView('denied', $data);
 			exit;
 		}
+		$data['adminid'] = $this->session->userdata('admin_id');
+		$data['admin'] = $this->session->userdata('admin_name');
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
 		$this->load->model('OA_Hospitaladvice');
+		$nadmin = 0;
 		if($this->input->post()){
-			$dataList = $this->OA_Hospitaladvice->searchHp($this->input->post());
+			$post = $this->input->post();
+			if(checkRight('hospitaladvice_all') === FALSE){
+			    $nadmin = 1;
+			    $post['nadmin'] = $nadmin;
+			    $post['added_by'] =  $data['adminid'];
+			    $post['appointed'] =  $data['admin'];
+		    }
+			$dataList = $this->OA_Hospitaladvice->searchHp($post);
 		}else{
 			$offset = 0;
 			$pageUrl = '';
+			if(checkRight('hospitaladvice_all') === FALSE){
+			    $nadmin = 1;
+			    $admininfo['added_by'] =  $data['adminid'];
+			    $admininfo['appointed'] =  $data['admin'];
+		    }
 			page(formatUrl('hospitaladvice/advice_list').'?', $this->OA_Hospitaladvice->getHpCount(), PER_COUNT, $offset, $pageUrl);
-			$dataList = $this->OA_Hospitaladvice->getHp($offset, PER_COUNT);
+			$dataList = $this->OA_Hospitaladvice->getHp($offset, PER_COUNT, $nadmin, $admininfo);
 			$data['pageUrl'] = $pageUrl;
 		}
 		$data['dataList'] = $dataList;
 		$data['hpstatus'] = $this->config->item('hospitaladvice_status');
-		$data['admin'] = $this->session->userdata('admin_name');
-		$this->load->model('OA_Admin');
-		$role = $this->config->item('hospitaladvice_role');
-		$data['hplist'] = $this->OA_Admin->queryAdminByRole($role);
 		$this->load->model('OA_Hospital');
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('hospitaladviceList', $data);
@@ -96,6 +112,11 @@ class Hospitaladvice extends OA_Controller
 				$ninfo = $this->OA_Hospital->queryByPid($data['info']['hospital_id']);
 			}
 			$data['hplist'] = $this->OA_Hospitaladvice->getfollowlist($data['info']['added_by']);
+			$data['ap'] = 0;
+			if($this->input->get('ap')){
+				$data['typeMsg'] = '指派';
+				$data['ap'] = $this->input->get('ap');
+			}
 		}else{
 			if(checkRight('hospitaladvice_add') === FALSE){
 				$this->showView('denied', $data);
@@ -124,6 +145,13 @@ class Hospitaladvice extends OA_Controller
 			}
 			if(isset($data['appointed'])&&$data['appointed']){
 			    $data['advice_status'] = 2;
+			    if($data['ap']==1){
+			    	$savedata['advice_id'] = $data['advice_id'];
+				    $savedata['appointed'] = $data['appointed'];
+				    $savedata['advice_status'] = $data['advice_status'];
+			    	$this->OA_Hospitaladvice->update($savedata);
+			    	redirect(formatUrl('hospitaladvice/advice_list'));
+			    }
 			}
 			if(isset($data['feedback_content'])){
 				$savedata['advice_id'] = $data['advice_id'];

@@ -120,21 +120,16 @@ class Worker extends OA_Controller
             $age++;
         }
 		$data['worker_age'] = $age;
-		if(!empty($_FILES)){
-            //上传头像
-		    $config['upload_path'] =   './upload/ico/'; //存放路径
-            $config['allowed_types'] = 'gif|jpg|jpeg|png|bmp';
-            $config['max_size'] = '2048'; //最大2M
-            $config['encrypt_name'] = TRUE;
-            $this->load->library('upload', $config);
-            if(!$this->upload->do_upload('worker_icon')){
-                echo $this->upload->display_errors();
-			    exit;
-            }else{
-                $upload_data = $this->upload->data();  //文件信息
-                $data['worker_icon'] = $upload_data['file_name'];
-            }
-		}
+        //上传头像
+		$config['upload_path'] =   './upload/ico/'; //存放路径
+        $config['allowed_types'] = 'gif|jpg|jpeg|png|bmp';
+        $config['max_size'] = '2048'; //最大2M
+        $config['encrypt_name'] = TRUE;
+        $this->load->library('upload', $config);
+        if($this->upload->do_upload('worker_icon')){
+            $upload_data = $this->upload->data();  //文件信息
+            $data['worker_icon'] = $upload_data['file_name'];
+        }
 		if(isset($data['worker_id'])&&is_numeric($data['worker_id'])){
 			if(checkRight('worker_edit') === FALSE){
 				$this->showView('denied', $data);

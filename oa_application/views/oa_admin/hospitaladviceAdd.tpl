@@ -3,13 +3,14 @@
 	<form class="Huiform" id="form-role-add" action="{formatUrl('hospitaladvice/doAdd')}" method="post">
 		{if isset($info)}
 		<input name="advice_id" type="hidden" value="{$info['advice_id']}">
+		<input name="ap" type="hidden" value="{$ap}">
 		{/if}
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       		    {if isset($info)}
       		    <tr>
           		     <th class="text-r" width="100">发起人：</th>
-          			 <td>{$info['added_by']}</td>
+          			 <td>{$info['admin_name']}</td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="100">发起时间：</th>
@@ -40,7 +41,7 @@
         		</tr>
         		<tr>
           		     <th class="text-r" width="100">*意见建议：</th>
-          			 <td><input name="advice_content" class="input-text" id="advice_content" type="text" value="{if isset($info)}{$info['advice_content']}{/if}" nullmsg="内容不能为空！" datatype="*"></td>
+          			 <td><textarea name="advice_content" class="textarea" id="advice_content" nullmsg="内容不能为空！" datatype="*">{if isset($info)}{$info['advice_content']}{/if}</textarea></td>
         		</tr>
         		{if isset($info)&&$info['advice_status']==1&&$appointright}
         		<tr>
@@ -61,7 +62,7 @@
         		{if $info['advice_status']==2}
         		<tr>
           		     <th class="text-r" width="100">反馈：</th>
-          			 <td><input name="feedback_content" class="input-text" id="feedback_content" type="text" value="{$info['feedback_content']}" nullmsg="反馈不能为空！" datatype="*"></td>
+          			 <td><textarea name="feedback_content" class="input-text" id="feedback_content" nullmsg="反馈不能为空！" datatype="*">{if isset($info)}{$info['feedback_content']}{/if}</textarea></td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="100">意见建议状态：</th>
@@ -83,14 +84,6 @@
           			 <td>未指派</td>
         		</tr>
         		{/if}
-        		<tr>
-      		         <th class="text-r" width="100">发起人：</th>
-      		         <td>{$info['added_by']}</td>
-      		    </tr>
-      		    <tr>
-      		         <th class="text-r" width="100">发起时间：</th>
-      		         <td>{date('Y-m-d H:i:s',$info['added_time']+8*3600)}</td>
-      		    </tr>
         		{/if}
           		<tr>
           			<th></th>
