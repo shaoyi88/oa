@@ -6,6 +6,8 @@
 		<input id="timeUnit" type="hidden" value="{$timeUnit}">
 		<input id="order_fee" type="hidden" value="{$order_fee}">
 		<input id="order_advance_payment" type="hidden" value="{$order_advance_payment}">
+		<input name="customer_name" type="hidden" value="{$customerInfo['customer_name']}">
+		<input name="user_id" type="hidden" value="{$userInfo['user_id']}">
 		<table class="table table-border table-bordered table-bg">
       		<tbody>
       			<tr>

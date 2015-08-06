@@ -174,6 +174,7 @@ class Order extends OA_Controller
 				if($this->OA_Order->add($data) === FALSE){
 					$msg = '?msg='.urlencode('创建失败');
 				}
+				$this->_orderNotify($data);
 			}else{
 				$msg = '?msg='.urlencode('该客户已存在订单，请勿重复新增');
 			}
@@ -237,6 +238,7 @@ class Order extends OA_Controller
 		$addOrderInfo['admin_name'] = $this->userName;
 		$addOrderInfo['add_time'] = time();
 		$this->OA_Order->add($addOrderInfo);
+		$this->_orderNotify($addOrderInfo);
 		redirect(formatUrl('order/index'));
 	}
 
@@ -260,7 +262,7 @@ class Order extends OA_Controller
 			redirect(formatUrl('order/index?msg='.urlencode('该订单不可取消')));
 		}else{
 			$data['order_id'] = $oid;
-			$data['order_status'] = 4;
+			$data['order_status'] = 5;
 			$this->OA_Order->update($data);
 			redirect(formatUrl('order/index?msg='.urlencode('取消订单成功')));
 		}
@@ -282,7 +284,7 @@ class Order extends OA_Controller
 		$orderInfo = $this->OA_Order->getOrderInfo($oid);
 		if(empty($orderInfo)){
 			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
-		}else if($orderInfo['order_status'] != 4){
+		}else if($orderInfo['order_status'] != 5){
 			redirect(formatUrl('order/index?msg='.urlencode('该订单不可删除')));
 		}else{
 			$this->OA_Order->del($oid);
@@ -321,7 +323,7 @@ class Order extends OA_Controller
 		$data['order_status'] = $this->config->item('order_status');
 		$this->load->model('OA_WorkerOrder');
 		$this->load->model('OA_Hospital');
-		$data['workerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid);
+		$data['workerList'] = $this->OA_WorkerOrder->getOrderWorkers($oid, TRUE);
 		$data['sexInfo'] = $this->config->item('sex');
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$this->showView('orderDetail', $data);
@@ -541,9 +543,11 @@ class Order extends OA_Controller
 			$info['order_no'] = $data['order_no'];
 			$info['collection_type'] = $data['collection_type'];
 			$info['collection_amount'] = $data['collection_amount_1'];
+			$data['collection_amount'] = $info['collection_amount'];
 			$info['collection_status'] = 1;
 			$info['bill_status'] = 1;
 			$info['add_time'] = time();
+			$data['add_time'] = $info['add_time'];
 			$this->OA_OrderCollection->add($info);
 		}else if($data['collection_type'] == 2){//结算逻辑
 			$this->load->model('OA_WorkerOrder');
@@ -577,9 +581,11 @@ class Order extends OA_Controller
 			$info['order_no'] = $data['order_no'];
 			$info['collection_type'] = $data['collection_type'];
 			$info['collection_amount'] = $data['collection_amount_2'];
+			$data['collection_amount'] = $info['collection_amount'];
 			$info['collection_status'] = 1;
 			$info['bill_status'] = 1;
 			$info['add_time'] = time();
+			$data['add_time'] = $info['add_time'];
 			$this->OA_OrderCollection->add($info);
 			//修改订单状态
 			$updateOrder['order_id'] = $data['order_id'];
@@ -588,6 +594,65 @@ class Order extends OA_Controller
 			$updateOrder['order_total_cost'] = $orderInfo['order_advance_payment'] + $data['collection_amount_2'];
 			$this->OA_Order->update($updateOrder);
 		}
+		$this->_collectionNotify($data);
 		redirect(formatUrl('order/index'));
+	}
+	
+	/**
+	 * 
+	 * 订单创建的短信与微信通知
+	 * @param unknown_type $data
+	 */
+	private function _orderNotify($data)
+	{
+		$this->load->model('OA_User');
+		$userInfo = $this->OA_User->getUserInfo($data['user_id']);
+		$customer_service_type = $this->config->item('customer_service_type');
+		$order_service_mode = $this->config->item('order_service_mode');
+		$order_fee_unit = $this->config->item('order_fee_unit');
+		//发送微信通知
+		if($userInfo['wechat_openid']){			
+        	$templateid = '_6dzSfbD6Jk1UQdk424zE88mR1n8sK2vbAtNoBQxayQ';
+        	$content = array(
+            	"first"    => array("value" => "根据评估结果，您的订单已创建\n订单号：".$data['order_no'], "color" => '#000000'),
+            	"keyword1" => array("value" => $customer_service_type[$data['service_type']]."\n服务方式：".$order_service_mode[$data['service_mode']][0]."\n收费标准：".$data['order_fee']."元/".$order_fee_unit[$data['order_fee_unit']], "color" => '#000000'),
+            	"keyword2" => array("value" => date('Y-m-d H:i:s', $data['order_start_time'])."开始服务", "color" => '#000000'),
+            	"remark"   => array("value" => "请您尽快确认订单信息", "color" => '#000000')
+        	);
+        	$this->load->helper('weixin');
+        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+		}
+		//发送短信通知
+		if($userInfo['user_phone']){
+			//发送短信消息，暂未添加
+		}
+	}
+	
+	/**
+	 * 
+	 * 收款的短信与微信通知
+	 * @param unknown_type $data
+	 */
+	private function _collectionNotify($data)
+	{
+		$this->load->model('OA_User');
+		$userInfo = $this->OA_User->getUserInfo($data['user_id']);
+		$order_collection_type = $this->config->item('order_collection_type');
+		//发送微信通知
+		if($userInfo['wechat_openid']){		
+			$templateid = '4wsEh-wT0nOhimM-_RBtanVFO57O0ufK-laqzv5oNhM';
+        	$content = array(
+            	"first"    => array("value" => "您好，您有一笔费用需要支付", "color" => '#000000'),
+            	"keyword1" => array("value" => $data['order_no'], "color" => '#000000'),
+            	"keyword2" => array("value" => $data['collection_amount']."元\n收款分类：".$order_collection_type[$data['collection_type']]."\n客户姓名：".$data['customer_name'], "color" => '#000000'),
+            	"keyword3"   => array("value" => date('Y-m-d H:i:s', $data['add_time']), "color" => '#000000')
+        	);
+        	$this->load->helper('weixin');
+        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+		}
+		//发送短信通知
+		if($userInfo['user_phone']){
+			//发送短信消息，暂未添加
+		}
 	}
 }

@@ -121,6 +121,7 @@ class Finance extends OA_Controller
 			else if($collectInfo['collection_type']==2){
 				//修改订单状态
 			    $updateOrder['order_status'] = 4;
+			    $this->_orderFinishNotify($collectInfo['order_id']);
 			}else{
 				$this->showView('denied', $data);
 			    exit;
@@ -388,6 +389,51 @@ class Finance extends OA_Controller
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$this->showView('financeBalanceDetail', $data);
+	}
+	
+	/**
+	 * 
+	 * 订单完成的短信与微信通知
+	 * @param unknown_type $data
+	 */
+	private function _orderFinishNotify($orderId)
+	{
+		//订单信息
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfo($orderId);
+		$customer_service_type = $this->config->item('customer_service_type');
+		//用户信息
+		$this->load->model('OA_User');
+		$userInfo = $this->OA_User->getUserInfo($orderInfo['user_id']);
+		//客户信息
+		$this->load->model('OA_Customer');
+		$customerInfo = $this->OA_Customer->getCustomerInfo($orderInfo['customer_id']);
+		//护工信息
+		$this->load->model('OA_WorkerOrder');
+		$workerList = $this->OA_WorkerOrder->getOrderWorkers($orderId, TRUE);
+		$worker = '';
+		foreach($workerList as $item){
+			$worker .= $item['worker_name'].',';
+		}
+		$worker = substr($worker, 0, -1);
+		
+		
+		//发送微信通知
+		if($userInfo['wechat_openid']){		
+			$templateid = 'In11qPyTxu9yapDLbIwx_hSQL2bIMHlPJOEQidmN2FU';
+        	$content = array(
+            	"first"    => array("value" => "您好，您的服务订单已完成。请您对我们的服务作出评价。", "color" => '#000000'),
+            	"keyword1" => array("value" => $customer_service_type[$orderInfo['service_type']]."\n客户姓名：".$customerInfo['customer_name']."\n护工姓名：".$worker, "color" => '#000000'),
+            	"keyword2" => array("value" => date('Y-m-d H:i:s', $orderInfo['order_end_time']), "color" => '#000000'),
+            	"remark"   => array("value" => "感谢您的支持，我们将会做得更好，提供更优质地服务！", "color" => '#000000')
+        	);
+        	$this->load->helper('weixin');
+        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+		}
+		//发送短信通知
+		if($userInfo['user_phone']){
+			//发送短信消息，暂未添加
+		}
 	}
 
 }
