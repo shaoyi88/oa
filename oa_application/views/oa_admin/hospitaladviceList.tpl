@@ -7,7 +7,7 @@
 <div class="pd-20">
 	<form class="Huiform" action="{formatUrl('hospitaladvice/advice_list')}" method="post">
   		<div class="text-c">
-  		    <select name="cs_status" class="select-box" style="width:10%">
+  		    <select name="advice_status" class="select-box" style="width:10%">
                 <option value="">请选择状态</option>
                 {foreach $hpstatus as $key => $item}
       			<option value="{$key}">

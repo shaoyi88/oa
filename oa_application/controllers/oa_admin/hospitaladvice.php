@@ -64,10 +64,10 @@ class Hospitaladvice extends OA_Controller
 			$post = $this->input->post();
 			if(checkRight('hospitaladvice_all') === FALSE){
 			    $nadmin = 1;
-			    $post['nadmin'] = $nadmin;
 			    $post['added_by'] =  $data['adminid'];
 			    $post['appointed'] =  $data['admin'];
 		    }
+		    $post['nadmin'] = $nadmin;
 			$dataList = $this->OA_Hospitaladvice->searchHp($post);
 		}else{
 			$offset = 0;
@@ -81,6 +81,11 @@ class Hospitaladvice extends OA_Controller
 			$dataList = $this->OA_Hospitaladvice->getHp($offset, PER_COUNT, $nadmin, $admininfo);
 			$data['pageUrl'] = $pageUrl;
 		}
+		$id = '';
+		if(checkRight('hospitaladvice_all') === FALSE){
+			$id = $this->session->userdata('admin_id');
+		}
+		$data['hplist'] = $this->OA_Hospitaladvice->getfollowlist($id);
 		$data['dataList'] = $dataList;
 		$data['hpstatus'] = $this->config->item('hospitaladvice_status');
 		$this->load->model('OA_Hospital');

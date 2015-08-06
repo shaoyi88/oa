@@ -60,25 +60,29 @@ class OA_Hospitaladvice extends CI_Model
 	 */
 	public function searchHp($keyword=array())
 	{
+		$this->db->select('a.*,b.admin_name');
+		$this->db->from('oa_hospitaladvice as a');
+		$this->db->join('oa_admin as b', 'b.admin_id = a.added_by');
 		if($keyword['nadmin']){
 			if(isset($keyword['appointed'])&&$keyword['appointed']){
-			    $this->db->where('appointed', $keyword['appointed']);
+			    $this->db->where('a.appointed', $keyword['appointed']);
 		    }
 		    if(isset($keyword['keyword'])&&$keyword['keyword']){
-		        $this->db->or_where('added_by', $keyword['added_by']);
+		        $this->db->or_where('b.admin_name', $keyword['added_by']);
 		    }
 		}else{
 			if(isset($keyword['appointed'])&&$keyword['appointed']){
-			    $this->db->where('appointed', $keyword['appointed']);
+			    $this->db->where('a.appointed', $keyword['appointed']);
 		    }
 		    if(isset($keyword['advice_status'])&&$keyword['advice_status']){
-		        $this->db->where('advice_status', $keyword['advice_status']);
+		        $this->db->where('a.advice_status', $keyword['advice_status']);
 		    }
 		    if(isset($keyword['keyword'])&&$keyword['keyword']){
-		        $this->db->where('added_by', $keyword['keyword']);
+		        $this->db->where('b.admin_name', $keyword['keyword']);
 		    }
 		}
-
+        $this->db->group_by('a.advice_id');
+		$this->db->order_by('a.advice_id desc');
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();
