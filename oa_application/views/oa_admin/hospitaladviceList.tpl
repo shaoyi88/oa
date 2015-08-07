@@ -44,17 +44,17 @@
   			<h2 class="text-c">暂无意见建议</h2>
   		</div>
   	{else}
-  		<table class="table table-border table-bordered table-hover table-bg" style="margin:5px 0">
+  		<table class="table table-border table-bordered table-hover table-bg" style="margin:5px 0;table-layout:fixed;">
     <thead>
       <tr class="text-c">
-      	<th>序号</th>
-        <th>医院</th>
-        <th>科室</th>
-        <th>发起人</th>
+      	<th width="40">序号</th>
+        <th width="80">医院</th>
+        <th width="80">科室</th>
+        <th width="50">发起人</th>
         <th>意见或建议</th>
-        <th>跟进人</th>
+        <th width="50">跟进人</th>
         <th>反馈</th>
-        <th>当前状态</th>
+        <th width="60">当前状态</th>
         <th width="180">操作</th>
       </tr>
     </thead>
