@@ -190,10 +190,16 @@ class Customerservice extends OA_Controller
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
+		$this->load->model('OA_Admin');
 		$this->load->model('OA_Customerservice');
 		$postdata = $this->input->post();
 		$dataList = $this->OA_Customerservice->searchCs($postdata);
 		$stat = $stattype = array();
+		$role = $this->config->item('customerservice_role');
+		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
+		foreach($data['cslist'] as $da){
+			$stat[$da['admin_name']] = array();
+		}
 		foreach($dataList as $val){
 			if(!isset($stat[$val['added_by']][$val['cs_type']]['add'])){
 				$stat[$val['added_by']][$val['cs_type']]['add'] = 1;
@@ -221,9 +227,6 @@ class Customerservice extends OA_Controller
 		$data['cstype'] = $this->config->item('customerservice_type');
 		$data['csstatus'] = $this->config->item('customerservice_status');
 		$data['admin'] = $this->session->userdata('admin_name');
-		$this->load->model('OA_Admin');
-		$role = $this->config->item('customerservice_role');
-		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
 		$this->showView('customerserviceTrace', $data);
 	}
 	/*
@@ -265,6 +268,7 @@ class Customerservice extends OA_Controller
 			$stattype[] = $val['cs_type'];
   		}
 		$cstype = $this->config->item('customerservice_type');
+		$y = $xsets = array();
 		foreach($stat as $k=>$v){
 			$xsets[] = $k;
 			foreach($stattype as $d){
