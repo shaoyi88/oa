@@ -28,6 +28,7 @@
     <thead>
       <tr class="text-c">
       	<th>订单编号</th>
+      	<th>客户名字</th>
         <th>服务类型</th>
         <th>服务模式</th>
         <th>收费</th>
@@ -43,6 +44,7 @@
       {foreach $dataList as $item}
       <tr class="text-c">
       	<td><a class="c-primary" title="详情" href="{formatUrl('order/detail?oid=')}{$item['order_id']}"><u class="c-primar">{$item['order_no']}</u></a></td>
+      	<td>{$item['customer_name']}</td>
         <td>{if $item['service_type']}{$serviceTypeInfo[$item['service_type']]}{else}暂无{/if}</td>
         <td>{$order_service_mode[$item['service_mode']][0]}</td>
         <td>{$item['order_fee']}元/{$order_fee_unit[$item['order_fee_unit']]}</td>
@@ -52,10 +54,10 @@
         <td>{if $item['order_total_cost']}{$item['order_total_cost']}元{else}未结算{/if}</td>
         <td>{$order_status[$item['order_status']]}</td>
         <td>
-        	 {if checkRight('order_set_worker') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius" title="指派护工" href="{formatUrl('order/setWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">指派护工</a>{/if}
+        	 {if checkRight('order_set_worker') && ($item['order_status'] == 1 || $item['order_status'] == 6)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="指派护工" href="{formatUrl('order/setWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">指派护工</a>{/if}
         	 {if checkRight('order_change_worker') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="更换护工" href="{formatUrl('order/changeWorker?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">更换护工</a>{/if}
-        	 {if checkRight('order_collection') && $item['order_status'] == 2}&nbsp;&nbsp;<a class="btn btn-primary radius" title="收款" href="{formatUrl('order/collection?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">收款</a>{/if}
-        	 {if checkRight('order_edit') && ($item['order_status'] == 1 || $item['order_status'] == 2)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="编辑" href="{formatUrl('order/add?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">编辑</a>{/if}
+        	 {if checkRight('order_collection') && ($item['order_status'] == 2 || $item['order_status'] == 6)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="收款" href="{formatUrl('order/collection?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">收款</a>{/if}
+        	 {if checkRight('order_edit') && ($item['order_status'] == 1 || $item['order_status'] == 2 || $item['order_status'] == 6)}&nbsp;&nbsp;<a class="btn btn-primary radius" title="编辑" href="{formatUrl('order/add?oid=')}{$item['order_id']}" style="text-decoration:none;margin-bottom:10px">编辑</a>{/if}
         	 {if checkRight('order_cancel') && $item['order_status'] == 1}&nbsp;&nbsp;<a class="btn btn-primary radius cancel" oid="{$item['order_id']}" title="取消" href="javascript:;" style="text-decoration:none;margin-bottom:10px">取消</a>{/if}
         	 {if checkRight('order_del') && $item['order_status'] == 5}&nbsp;&nbsp;<a class="btn btn-primary radius del" oid="{$item['order_id']}" title="删除" href="javascript:;" style="text-decoration:none;margin-bottom:10px">删除</a>{/if}
         </td>

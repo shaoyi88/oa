@@ -25,6 +25,7 @@ class OA_User extends CI_Model
 	public function getUser($offset, $limit)
 	{
 		$info = array();
+		$this->db->order_by('user_id','DESC');
 		$query = $this->db->get($this->_table, $limit, $offset);
 		if($query){
 			$info = $query->result_array();

@@ -59,7 +59,8 @@ class OA_Order extends CI_Model
 	public function getOrder($offset, $limit)
 	{
 		$info = array();
-		$query = $this->db->get($this->_table, $limit, $offset);
+		$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id order by order_id desc limit $offset,$limit";
+		$query = $this->db->query($sql);
 		if($query){
 			$info = $query->result_array();
 		}

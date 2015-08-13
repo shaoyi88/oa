@@ -25,6 +25,7 @@ class OA_Customer extends CI_Model
 	public function getCustomer($offset, $limit)
 	{
 		$info = array();
+		$this->db->order_by('customer_id','DESC');
 		$query = $this->db->get($this->_table, $limit, $offset);
 		if($query){
 			$info = $query->result_array();

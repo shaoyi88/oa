@@ -71,6 +71,7 @@
       		</tr> 
     	</thead>
     	{foreach $workerList as $item}
+    	<tr>
         	<td class="text-c">{$item['worker_name']}</td>
         	<td class="text-c">{$nInfo[$item['worker_hospital']]}&nbsp;&nbsp;{$nInfo[$item['worker_stationary']]}</td>
         	<td class="text-c">{$item['worker_phone']}</td>
@@ -80,6 +81,7 @@
         	<td class="text-c">{date('Y-m-d H:i:s', $item['start_time'])}</td>
         	<td class="text-c">{if $item['end_time']}{date('Y-m-d H:i:s', $item['start_time'])}{else}服务进行中{/if}</td>
         	<td class="text-c">{if $item['salary']}{$item['salary']}{else}未结算{/if}</td>
+        </tr>
         {/foreach}
     </table>
 </div>
