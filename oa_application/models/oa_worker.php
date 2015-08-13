@@ -27,6 +27,7 @@ class OA_Worker extends CI_Model
 	public function getWorker($offset, $limit)
 	{
 		$info = array();
+		$this->db->order_by('worker_id', 'DESC');
 		$query = $this->db->get($this->_table, $limit, $offset);
 		if($query){
 			$info = $query->result_array();
@@ -69,6 +70,7 @@ class OA_Worker extends CI_Model
 		$this->db->where('worker_no', $keyword);
 		$this->db->or_where('worker_name', $keyword);
 		$this->db->or_where('worker_phone', $keyword);
+		$this->db->order_by('worker_id', 'DESC');
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();
