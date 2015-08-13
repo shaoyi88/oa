@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 //加载微信sdk
-define('WECHATSDK_PATH', THIRD_PATH.'Wechatsdk/');
+define('WECHATSDK_PATH', THIRD_PATH.'wechat-master/');
 
 use Overtrue\Wechat\Server;//微信接入验证sdk
 use Overtrue\Wechat\Message;//回复信息类
@@ -11,7 +11,7 @@ use Overtrue\Wechat\Notice;//微信模板信息
 use Overtrue\Wechat\Auth; //获取用户信息
 //use Overtrue\Wechat\Message;//微信多客服信息
 
-class Wechat extends OA_Controller
+class Wx extends OA_Controller
 {
 
     protected function initialize()//     初始化变量
@@ -26,11 +26,13 @@ class Wechat extends OA_Controller
     private $appsecret;
     public function __construct(){
         parent::__construct();
-        $this->appId = 'wx86b3751ad43f4062'; //一家依测试帐号
-        $this->appsecret = 'f52a587fefed285df9244f310eee8a34';
-        $this->encodingAESKey = 'V636dnTxFRxFb0qxwMtFComCPaOwkqtGBU5D8rbrbTE';
-        $this->token = 'yijiayi';
-        $this->windOpenid = 'o2DIYuMhcf3mBzpN3RZ_Rh9jiflU';
+        $this->config->load('yijiayi_conf', TRUE);
+        $this->yijiayi_conf = $this->config->item('yijiayi_conf');
+        $this->appId            = $this->yijiayi_conf['appId']; //一家依测试帐号
+        $this->appsecret        = $this->yijiayi_conf['appSecret'];
+        $this->encodingAESKey   = $this->yijiayi_conf['encodingAESKey'];
+        $this->token            = $this->yijiayi_conf['token'];
+        $this->windOpenid       = 'o2DIYuMhcf3mBzpN3RZ_Rh9jiflU';
     }
 
     //微信接入，信息处理
@@ -41,7 +43,7 @@ class Wechat extends OA_Controller
         });
 
         $server->on('event', 'subscribe', function($event){//关注事件
-            return Message::make('text')->content('你好，欢迎关注一家依公众号！');
+            return Message::make('text')->content('谢谢你这么好看还关注我！从今往后，我们彼此都要努力，我负责跟你说些健康、母婴、养老资讯等方面的内容，你负责学习，拍砖，灌水，转发！ 然后。。。你会更加健康好看！');
         });
 
         $server->on('event','Click',function($click){//点击事件
@@ -62,36 +64,17 @@ class Wechat extends OA_Controller
                 case '1':
                     return Message::make('text')->content('小程已经很努力啦！');break;
 
-                case 'wind':
-                    return Message::make('text')->content('程序员正在玩命开发中!');break;
+                case 'openid':
+                    return Message::make('text')->content($message['FromUserName']);
+                    break;
 
                 case '客服':
-                    return Message::make('text')->content('请等待，客服马上就来了!');break;
-                    return Message::make('transfer');break;
-
-                case '2222':
-                    $openid = $message['FromUserName'];
-                    $templateid = 'OwlWliZpdl0O3cm7C5GJP9k1LW2I3E2fyt1mz37GDOA';
-                    $data =  array(
-                        "first"    => "张三您好，您的最近一期健康报告已生成，详情如下。",
-                        "keyword1" => "2014年7月21日 18:36",
-                        "keyword2" => "各项指标均不正常，请进一步检查。总体评分为零",
-                        "remark"   => "欢迎再次购买！",
-                    );
-                    $this->templateSend($openid,$templateid,'',$data);break;
-                case '3333':
-                    $openid1 = $message['FromUserName'];
-                    $templateid1 = 'nP4fAUPrJc-r4RLHmSytRAfsc7EfvYxe-uQp-F-6Sik';
-                    $url1 = 'http://www.baidu.com';
-                    $data1 = array(
-                        "first"    => "张三您好，您的最近一期健康报告已生成，详情如下。",
-                        "keynote1" => "2014年7月21日 18:36",
-                        "keynote2" => "各项指标均不正常，请进一步检查。总体评分为零",
-                        "keynote3"   => "欢迎再次购买！",
-                        "keynote4"   => "欢迎再次购买！",
-                        "remark"   => "欢迎再次购买！",
-                    );
-                    $this->templateSend($openid1,$templateid1,$url1,$data1);break;
+                    Message::make('text')->content('请等待，客服马上就来了!');
+                    return Message::make('transfer');
+                    break;
+                case 'wind':
+                    return $this->cheng();
+                break;
                 default:
             }
         });
@@ -117,41 +100,30 @@ class Wechat extends OA_Controller
     }
 
     /*
-     *授权页面获取用户信息cd
+     *授权页面获取用户信息
     */
     public function getUserMsg(){
         $tourl = $this->input->get('url');
         $auth = new Auth($this->appId,$this->appsecret);
         $userMsg = $auth->authorize($to = null, $scope = 'snsapi_userinfo', $state = 'STATE');
-
-//        $token = $auth->refresh_token;// 获取本次授权后的 refresh_token
-//        log_message('info',$token);
         $msg = '?openid='.$userMsg['openid'].'&nickname='.$userMsg['nickname'].'&sex='.$userMsg['sex'].'&language='.$userMsg['language'].'&city='.$userMsg['city'].'&province='.$userMsg['province'].'&country='.$userMsg['country'].'&headimgurl='.$userMsg['headimgurl'].'&privilege='.$userMsg['privilege'];
-
         redirect($tourl.$msg);
     }
 
+    //测试模板发送
     public function cheng(){
-        $res = $this->input->get();
-        print_r($res);
-        $openid1 = $res['openid'];
+        $openid1 = $this->windOpenid;
         $templateid1 = 'nP4fAUPrJc-r4RLHmSytRAfsc7EfvYxe-uQp-F-6Sik';
         $url1 = 'http://www.baidu.com';
         $data1 = array(
-            "first"    => "张三您好，您的最近一期健康报告已生成，详情如下。",
+            "first"    => "您好，您的最近一期健康报告已生成，详情如下。",
             "keynote1" => "2014年7月21日 18:36",
             "keynote2" => "各项指标均不正常，请进一步检查。总体评分为零",
-            "keynote3"   => "欢迎再次购买！",
-            "keynote4"   => "欢迎再次购买！",
-            "remark"   => "欢迎再次购买！",
+            "keynote3"   => "别再纠结了！",
+            "keynote4"   => "快点拨打120吧！",
+            "remark"   => "点击查看更多",
         );
-        echo $this->templateSend($openid1,$templateid1,$url1,$data1);
-
+        $this->templateSend($openid1,$templateid1,$url1,$data1);
     }
-
-    public function getToken(){
-
-    }
-
 }
 ?>
