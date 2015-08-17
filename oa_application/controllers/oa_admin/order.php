@@ -345,7 +345,7 @@ class Order extends OA_Controller
 		$orderInfo = $this->OA_Order->getOrderInfo($oid);
 		if(empty($orderInfo)){
 			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
-		}else if($orderInfo['order_status'] != 1 || $orderInfo['order_status'] != 6){
+		}else if($orderInfo['order_status'] != 1 && $orderInfo['order_status'] != 6){
 			redirect(formatUrl('order/index?msg='.urlencode('该订单不可指派护工')));
 		}
 		$order_service_mode = $this->config->item('order_service_mode');
@@ -495,7 +495,7 @@ class Order extends OA_Controller
 		$orderInfo = $this->OA_Order->getOrderInfo($oid);
 		if(empty($orderInfo)){
 			redirect(formatUrl('order/index?msg='.urlencode('订单不存在')));
-		}else if($orderInfo['order_status'] != 2 || $orderInfo['order_status'] != 6){
+		}else if($orderInfo['order_status'] != 2 && $orderInfo['order_status'] != 6){
 			redirect(formatUrl('order/index?msg='.urlencode('该订单不可收款')));
 		}
 		$data['orderInfo'] = $orderInfo;
