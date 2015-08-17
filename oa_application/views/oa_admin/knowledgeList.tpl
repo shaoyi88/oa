@@ -14,7 +14,7 @@
   	{/if}
   	{if empty($knowledgeTree)}
   		<div class="cl pd-5 bg-1 bk-gray">
-  			<h2 class="text-c">暂无用户</h2>
+  			<h2 class="text-c">无内容</h2>
   		</div>
   	{else}
 	<div class="col-3 dTree">
@@ -33,14 +33,16 @@
 		<table class="table table-border table-bg table-bordered table-hover">
 			<thead>
         		<tr class="text-c">
-          		<th>知识库详细内容</th>
-          		<th width="70">操作</th>
+                    <th width="140">标题</th>
+          		    <th>知识库详细内容</th>
+          		    <th width="70">操作</th>
         		</tr>
       		</thead>
 			<tbody>
 				{foreach $content as $item}
 					<tr class="text-c">
-        				<td class="text-l">标题：{$item['info_title']}&nbsp;&nbsp;&nbsp;&nbsp;详细内容:{$item['info_detail']}</td>
+                        <td>{$item['info_title']}</td>
+        				<td class="text-l">{$item['info_detail']}</td>
           				<td class="f-14">
           				{if checkRight('admin_edit')}<a class="edit" title="编辑" href="{formatUrl('knowledge/contentChange?id=')}{$item['info_id']}" style="text-decoration:none"><i class="icon-edit"></i></a>{/if}
           				{if checkRight('admin_del')}<a aid="{$item['cat_id']}" pid="{$item['info_id']}" title="删除" href="javascript:;" class="ml-5 del" style="text-decoration:none"><i class="icon-trash"></i></a>{/if}
