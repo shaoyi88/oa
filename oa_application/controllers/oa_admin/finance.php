@@ -432,7 +432,11 @@ class Finance extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			//发送短信消息，暂未添加
+			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$templateid = '936939';
+			$content = '#name#='.$userInfo['user_name'].'&#type#='.$customer_service_type[$orderInfo['service_type']].'&#detail#=完成。请您对我们的服务作出评价。感谢您的支持，我们将会做得更好，提供更优质地服务！';
+			$this->load->helper('sms');
+			tpl_send_sms($apikey, $templateid, $content, $userInfo['user_phone']);
 		}
 	}
 

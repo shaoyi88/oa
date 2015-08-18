@@ -624,7 +624,11 @@ class Order extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			//发送短信消息，暂未添加
+			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$templateid = '936939';
+			$content = '#name#='.$userInfo['user_name'].',根据评估结果&#type#='.$customer_service_type[$data['service_type']].'&#detail#=创建,订单号:'.$data['order_no'].',请您登录微信尽快确认订单信息！';
+			$this->load->helper('sms');
+			tpl_send_sms($apikey, $templateid, $content, $userInfo['user_phone']);
 		}
 	}
 	
@@ -652,7 +656,11 @@ class Order extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			//发送短信消息，暂未添加
+			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$templateid = '937417';
+			$content = '#name#='.$userInfo['user_name'].'&#type#='.$order_collection_type[$data['collection_type']].'&#number#='.$data['order_no'].'&#money#='.$data['collection_amount'];
+			$this->load->helper('sms');
+			print_r(tpl_send_sms($apikey, $templateid, $content, $userInfo['user_phone']));exit;
 		}
 	}
 }
