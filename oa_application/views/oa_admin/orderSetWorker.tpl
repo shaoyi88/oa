@@ -5,6 +5,7 @@
 	{else}
 	<form class="Huiform" id="form-role-add" action="{formatUrl('order/doSetWorker')}" method="post">
 		<input type="hidden" name="order_id" id="order_id" value="{$orderInfo['order_id']}" />
+		<input type="hidden" name="customer_id" id="customer_id" value="{$orderInfo['customer_id']}" />
 		<input type="hidden" name="start_time" id="start_time" value="{$orderInfo['order_start_time']}" />
 		<table class="table table-border table-bordered table-bg">
       		<tbody>

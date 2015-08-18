@@ -1,6 +1,6 @@
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  资料管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('customer/index')}">客户健康管理</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
 <div class="pd-20">
-	<form class="Huiform" id="form-role-add" action="{formatUrl('customer/doAdd')}" method="post">
+	<form class="Huiform" id="addNewForm" action="{formatUrl('customer/doAdd')}" method="post">
 		{if isset($info)}
 		<input name="customer_id" type="hidden" value="{$info['customer_id']}">
 		{/if}

@@ -28,6 +28,7 @@ class OA_Finance extends CI_Model
 	public function getBill($offset, $limit)
 	{
 		$info = array();
+		$this->db->order_by('bill_id','DESC');
 		$query = $this->db->get($this->_bill, $limit, $offset);
 		if($query){
 			$info = $query->result_array();
@@ -165,6 +166,7 @@ class OA_Finance extends CI_Model
 		$this->db->from('oa_order_collection as a');
 		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
         $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
+        $this->db->order_by('a.collection_id','DESC');
 		$query = $this->db->get('', $limit, $offset);
 		if($query){
 			$info = $query->result_array();

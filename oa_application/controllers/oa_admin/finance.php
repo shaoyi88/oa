@@ -414,6 +414,14 @@ class Finance extends OA_Controller
 		$worker = '';
 		foreach($workerList as $item){
 			$worker .= $item['worker_name'].',';
+			//短信通知护工
+			if($item['worker_phone']){
+				$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+				$templateid = '936669';
+				$content = '#name#='.$customerInfo['customer_name'];
+				$this->load->helper('sms');
+				tpl_send_sms($apikey, $templateid, $content, $item['worker_phone']);
+			}
 		}
 		$worker = substr($worker, 0, -1);
 		

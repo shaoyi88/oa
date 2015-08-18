@@ -378,6 +378,7 @@ class Order extends OA_Controller
 			$order = $data;
 			$order['worker_id'] = $item;
 			$order['status'] = 1;
+			unset($order['customer_id']);
 			$workerList[] = $item;
 			$workerOrder[] = $order;
 		}
@@ -385,6 +386,7 @@ class Order extends OA_Controller
 		// 更新护工状态
 		$this->load->model('OA_Worker');
 		$this->OA_Worker->updateBatch($workerList, array('worker_status'=>1));
+		$this->_workerNotify($data);
 		redirect(formatUrl('order/index'));
 	}
 
@@ -437,9 +439,9 @@ class Order extends OA_Controller
 			exit;
 		}
 		$data = $this->input->post();
+		$data['start_time'] = time();
 		$this->load->model('OA_Order');
 		$orderInfo = $this->OA_Order->getOrderInfo($data['order_id']);
-		$curTime = time();
 		// 增加替换的护工订单记录
 		$this->load->model('OA_WorkerOrder');
 		$this->load->model('OA_Worker');
@@ -448,7 +450,7 @@ class Order extends OA_Controller
 			$order = array();
 			$order['order_id'] = $data['order_id'];
 			$order['worker_id'] = $item;
-			$order['start_time'] = $curTime;
+			$order['start_time'] = $data['start_time'];
 			$order['status'] = 1;
 			$workerList[] = $item;
 			$workerOrder[] = $order;
@@ -462,10 +464,10 @@ class Order extends OA_Controller
 		foreach($info as $item)
 		{
 			if($item['order_id'] == $data['order_id']){  //结算当前订单
-				$workerTime = $curTime - $item['start_time'];
+				$workerTime = $data['start_time'] - $item['start_time'];
 				$order = array();
 				$order['id'] = $item['id'];
-				$order['end_time'] = $curTime;
+				$order['end_time'] = $data['start_time'];
 				$order['status'] = 0;
 				$order['salary'] = calculateOrderCost($orderInfo, $workerTime);
 				$this->OA_WorkerOrder->update($order);
@@ -476,6 +478,7 @@ class Order extends OA_Controller
 		// 更新被替换的护工状态
 		$updateWorker = array_diff($data['cur_worker_id'], $hasOrderWorker);
 		$this->OA_Worker->updateBatch($updateWorker, array('worker_status'=>2));
+		$this->_workerNotify($data);
 		redirect(formatUrl('order/index'));
 	}
 
@@ -660,7 +663,36 @@ class Order extends OA_Controller
 			$templateid = '937417';
 			$content = '#name#='.$userInfo['user_name'].'&#type#='.$order_collection_type[$data['collection_type']].'&#number#='.$data['order_no'].'&#money#='.$data['collection_amount'];
 			$this->load->helper('sms');
-			print_r(tpl_send_sms($apikey, $templateid, $content, $userInfo['user_phone']));exit;
+			tpl_send_sms($apikey, $templateid, $content, $userInfo['user_phone']);
+		}
+	}
+	
+	/**
+	 * 
+	 * 护工短信通知
+	 * @param unknown_type $data
+	 */
+	private function _workerNotify($data)
+	{
+		$this->load->model('OA_Customer');
+		$customerInfo = $this->OA_Customer->getCustomerInfo($data['customer_id']);
+		if($customerInfo['customer_type'] == 1){
+			$address = $customerInfo['customer_address'];
+		}else{
+			$this->load->model('OA_Hospital');	
+			$hospitalInfo = $this->OA_Hospital->getNameList();
+			$address = $hospitalInfo[$customerInfo['customer_hospital']].'-'.$hospitalInfo[$customerInfo['customer_hospital_department']].'-'.$customerInfo['customer_bed_no'].'床位';
+		}
+		foreach($data['worker_id'] as $worker_id){
+			$this->load->model('OA_Worker');
+			$workerInfo = $this->OA_Worker->getWorkerInfo($worker_id);
+			if($workerInfo['worker_phone']){
+				$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+				$templateid = '936671';
+				$content = '#name#='.$workerInfo['worker_name'].'&#kuhu#='.$customerInfo['customer_name'].'&#time#='.date('Y-m-d H:i:s', $data['start_time']).'&#address#='.$address;
+				$this->load->helper('sms');
+				tpl_send_sms($apikey, $templateid, $content, $workerInfo['worker_phone']);
+			}
 		}
 	}
 }

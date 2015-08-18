@@ -1,13 +1,14 @@
 var user = function(){
 	var form;
 	var addFollowForm;
+	var listForm;
 	
 	var init = function(){
 		addFollowForm = $("#addFollowForm").Validform({
 			tiptype : 4,
 			tipSweep : true
 		});
-		form = $(".Huiform").Validform({
+		form = $("#addNewForm").Validform({
 			tiptype : 4,
 			tipSweep : true,
 			beforeSubmit:function(curform){
@@ -22,6 +23,11 @@ var user = function(){
 				}
 			},
 		});
+		listForm = $(".Huiform").Validform({
+			tiptype : 4,
+			tipSweep : true
+		});
+		
 		$('.customer_type').click(customerTypeChange);
 		$('.customer_service_type').click(customerServiceTypeChange);
 		$('.del').click(del);
