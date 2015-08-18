@@ -17,6 +17,7 @@
           			 		{$info['customer_name']}
           			 	{else}
           			 	<input style="width:200px" type="text" class="input-text" id="customer_name" name="customer_name" value="" nullmsg="客户名字不能为空！" datatype="s" autocomplete="off">
+      					&nbsp;&nbsp;&nbsp;&nbsp;提示：目前只可创建<font style="color:red">居家照护类型</font>且<font style="color:red">服务进行中</font>的客户
       					<div style="position:relative;">
       						<div class="auto-complete-result"></div>
       					</div>
