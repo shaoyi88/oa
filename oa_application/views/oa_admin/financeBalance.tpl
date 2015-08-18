@@ -32,19 +32,12 @@
     		<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> 搜护工</button>
   		</div>
   	</form>
-  	{if checkRight('worker_add')}
-	<div class="cl pd-5 bg-1 bk-gray" style="margin:10px 0">
-    	<span class="l">
-      		<a class="btn btn-primary radius" href="{formatUrl('worker/add')}"><i class="icon-plus"></i>添加</a>
-    	</span>
-  	</div>
-  	{/if}
   	{if empty($dataList)}
-  		<div class="cl pd-5 bg-1 bk-gray">
+  		<div class="cl pd-5 bg-1 bk-gray" style="margin:10px 0">
   			<h2 class="text-c">暂无数据</h2>
   		</div>
   	{else}
-  		<table class="table table-border table-bordered table-hover table-bg">
+  		<table class="table table-border table-bordered table-hover table-bg" style="margin:10px 0">
     <thead>
       <tr class="text-c">
       	<th>医院</th>
