@@ -108,6 +108,9 @@ class OA_Finance extends CI_Model
 		if(isset($data['worker_stationary'])&&$data['worker_stationary']){
 			$this->db->where('worker_stationary', $data['worker_stationary']);
 		}
+		if(isset($data['keyword'])&&$data['keyword']){
+			$this->db->where('worker_name', $data['keyword']);
+		}
 		$this->db->where('a.status', 0);
         $this->db->join('oa_worker as b', 'b.worker_id = a.worker_id');
         $this->db->join('oa_hospital as c', 'c.wb_id = b.worker_hospital');
