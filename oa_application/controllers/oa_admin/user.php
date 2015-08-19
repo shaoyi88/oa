@@ -196,4 +196,25 @@ class User extends OA_Controller
 		}
 	}
 	
+	/**
+	 * 
+	 * 用户统计
+	 */
+	public function stat()
+	{
+		$data = array();
+		if(checkRight('user_stat') === FALSE){
+			$this->showView('denied', $data);
+			exit;
+		}
+		//用户统计
+		$this->load->model('OA_User');
+		$data['userCount'] = $this->OA_User->getUserCount();
+		if($this->input->post('dayNum')){
+			$dayNum = $this->input->post('dayNum');
+			$data['dayNum'] = $dayNum;
+			$data['userCountDayNum'] = $this->OA_User->getUserCountByTime(strtotime("-".$dayNum." day"));
+		}
+		$this->showView('userStat', $data);
+	}
 }

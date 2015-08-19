@@ -234,53 +234,39 @@ class Customer extends OA_Controller
 			$this->showView('denied', $data);
 			exit;
 		}
-		$this->load->model('OA_User');
-		$data['userCount'] = $this->OA_User->getUserCount();
-		if($this->input->post('dayNum')){
-			$dayNum = $this->input->post('dayNum');
-			$data['dayNum'] = $dayNum;
-			$data['userCountDayNum'] = $this->OA_User->getUserCountByTime(strtotime("-".$dayNum." day"));
-		}
-		$this->load->model('OA_Customer');
-		$data['customerCount'] = $this->OA_Customer->getCustomerCount();
-		$data['tabType'] = 0;
+		//初始化变量
+		$data = $this->input->post();
 		$data['groupInfo'] = $this->config->item('customer_group');
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
 		$this->load->model('OA_Hospital');	
-		$hospitalInfo = $departmentInfo = array();
-		$hospitalInfo = $this->OA_Hospital->queryByPid(0);	
-		if($this->input->post('tabType')){
-			$data['tabType'] = $this->input->post('tabType');
-			$queryData = $this->input->post();
-			unset($queryData['tabType']);
-			if(!$queryData['customer_type']){
-				unset($queryData['customer_type']);
-			}else{
-				$data['customer_type'] = $queryData['customer_type'];
-			}
-			if(!$queryData['customer_service_type']){
-				unset($queryData['customer_service_type']);
-			}else{
-				$data['customer_service_type'] = $queryData['customer_service_type'];
-			}
-			if(!$queryData['customer_hospital']){
-				unset($queryData['customer_hospital']);
-			}else{
-				$data['customer_hospital'] = $queryData['customer_hospital'];
-				$departmentInfo = $this->OA_Hospital->queryByPid($data['customer_hospital']);	
-			}
-			if(!$queryData['customer_hospital_department']){
-				unset($queryData['customer_hospital_department']);
-			}else{
-				$data['customer_hospital_department'] = $queryData['customer_hospital_department'];
-			}
-			if(!empty($queryData)){
-				$data['queryCustomerCount'] = $this->OA_Customer->getCustomerCountByKey($queryData);
-			}
-		}
 		$data['hospitalNameInfo'] = $this->OA_Hospital->getNameList();
-		$data['hospitalInfo'] = $hospitalInfo;
-		$data['departmentInfo'] = $departmentInfo;
+		$data['hospitalInfo'] = $this->OA_Hospital->queryByPid(0);	
+		if(!empty($data['customer_hospital'])){
+			$data['departmentInfo'] = $this->OA_Hospital->queryByPid($data['customer_hospital']);	
+		}
+		//客户统计
+		$this->load->model('OA_Customer');
+		$statInfo = $this->OA_Customer->stat($data);
+		$customerTypeNum = $customerHospitalNum = $customerHospitalDepartmentNum = array();  //统计项行数
+		$customerTypeSum = $customerHospitalSum = $customerHospitalDepartmentSum = array();  //统计项小结数
+		$sum = 0;
+		foreach($statInfo as $item){
+			$customerTypeNum[$item['customer_type']] = isset($customerTypeNum[$item['customer_type']]) ? $customerTypeNum[$item['customer_type']]+1 : 1;
+			$customerHospitalNum[$item['customer_hospital']] = isset($customerHospitalNum[$item['customer_hospital']]) ? $customerHospitalNum[$item['customer_hospital']]+1 : 1;
+			$customerHospitalDepartmentNum[$item['customer_hospital_department']] = isset($customerHospitalDepartmentNum[$item['customer_hospital_department']]) ? $customerHospitalDepartmentNum[$item['customer_hospital_department']]+1 : 1;
+			$customerTypeSum[$item['customer_type']] = isset($customerTypeSum[$item['customer_type']]) ? $customerTypeSum[$item['customer_type']]+$item['sum'] : $item['sum'];
+			$customerHospitalSum[$item['customer_hospital']] = isset($customerHospitalSum[$item['customer_hospital']]) ? $customerHospitalSum[$item['customer_hospital']]+$item['sum'] : $item['sum'];
+			$customerHospitalDepartmentSum[$item['customer_hospital_department']] = isset($customerHospitalDepartmentSum[$item['customer_hospital_department']]) ? $customerHospitalDepartmentSum[$item['customer_hospital_department']]+$item['sum'] : $item['sum'];
+			$sum += $item['sum'];
+		}
+		$data['customerTypeNum'] = $customerTypeNum;
+		$data['customerHospitalNum'] = $customerHospitalNum;
+		$data['customerHospitalDepartmentNum'] = $customerHospitalDepartmentNum;
+		$data['customerTypeSum'] = $customerTypeSum;
+		$data['customerHospitalSum'] = $customerHospitalSum;
+		$data['customerHospitalDepartmentSum'] = $customerHospitalDepartmentSum;
+		$data['sum'] = $sum;
+		$data['statInfo'] = $statInfo;
 		$this->showView('customerStat', $data);
 	}
 }

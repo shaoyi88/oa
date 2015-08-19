@@ -14,6 +14,7 @@ $config['menus'] = array(
 		'module' => '资料管理',
 		'menu' => array(
 			array('用户信息管理', formatUrl('user/index'), 'user_list'),
+			array('用户统计分析', formatUrl('user/stat'), 'user_stat'),
 			array('客户健康管理', formatUrl('customer/index'), 'customer_list'),
 			array('客户统计分析', formatUrl('customer/stat'), 'customer_stat')
 		),
@@ -150,6 +151,7 @@ $config['rights'] = array(
 			array('客户健康删除', 'customer_del', TRUE),
 			array('用户与客户关注增加', 'follow_add'),
 			array('用户与客户关注删除', 'follow_del', TRUE),
+			array('用户统计分析',  'user_stat'),
 			array('客户统计分析',  'customer_stat')
 		),
 		'right' => 'record'

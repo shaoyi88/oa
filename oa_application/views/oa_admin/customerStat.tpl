@@ -5,107 +5,78 @@
 </div>
 {/if}
 <div class="pd-20">
-	<div class="HuiTab">
-    	<div class="tabBar cl"><span>用户统计</span><span>客户统计</span></div>
-    	<div class="tabCon">
-    		<form class="Huiform pd-20" action="{formatUrl('customer/stat')}" method="post">
-  				<div class="text-c"> 
-   					<input nullmsg="搜索信息不可为空！" datatype="n" type="text" class="input-text" style="width:250px" placeholder="输入天数" name="dayNum">
-    				&nbsp;&nbsp;&nbsp;&nbsp;
-    				<button type="submit" class="btn btn-success" id="" name=""><i class="icon-search"></i> N天内活跃用户</button>
-  				</div>
-  			</form>
-  			<table class="table table-border table-bordered table-bg">
-    			<thead>
-      				<tr>
-        				<th scope="col" colspan="7">信息统计</th>
-      				</tr>
-    			</thead>
-    			<tbody>
-      				<tr class="text-c">
-        				<td width="20%">用户总数</td>
-        				<td>{$userCount}</td>
-      				</tr>
-      				{if isset($userCountDayNum)}
-      					<tr class="text-c">
-        					<td><font style="color:red">{$dayNum}</font>天内活跃用户总数</td>
-        					<td>{$userCountDayNum}</td>
-      					</tr>
-      				{/if}
-    			</tbody>
-  			</table>
-    	</div>
-    	<div class="tabCon">
-    		<form class="Huiform pd-20" action="{formatUrl('customer/stat')}" method="post">
-  				<div class="text-c"> 
-  					<input type="hidden" name="tabType" value="1">
-   					<select class="select" id="customer_type" name="customer_type" style="width:15%;height:30px">
-      					<option value="">请选择客户分组</option>
-      					{foreach $groupInfo as $key => $item}
-      					<option value="{$key}" {if isset($customer_type) && $customer_type == $key}selected{/if}>
-      					{$item}
-      					</option>
-      					{/foreach}
-    				</select>
-    				&nbsp;&nbsp;&nbsp;&nbsp;
-    				<span id="hospitalInfo" {if isset($customer_type) && $customer_type == 2}{else}style="display:none"{/if}>
-    				<select target="customer_hospital_department"  style="width:15%;height:30px" class="select" id="customer_hospital" name="customer_hospital">
-      					<option value="">请选择医院</option>
-      					{foreach $hospitalInfo as $item}
-      					<option value="{$item['wb_id']}" {if isset($customer_hospital) && $customer_hospital == $item['wb_id']}selected{/if}>
-      					{$item['stationary_name']}
-      					</option>
-      					{/foreach}
-    				</select>
-    				&nbsp;&nbsp;&nbsp;&nbsp;
-    				<select style="width:15%;height:30px" class="select" id="customer_hospital_department" name="customer_hospital_department">
-      					<option value="">请选择科室</option>
-      					{foreach $departmentInfo as $item}
-      					<option value="{$item['wb_id']}" {if isset($customer_hospital_department) && $customer_hospital_department == $item['wb_id']}selected{/if}>
-      					{$item['stationary_name']}
-      					</option>
-      					{/foreach}
-    				</select>
-    				&nbsp;&nbsp;&nbsp;&nbsp;
-    				</span>
-    				<select class="select" id="customer_service_type" name="customer_service_type" style="width:15%;height:30px">
-      					<option value="">请选择服务分组</option>
-      					{foreach $serviceTypeInfo as $key => $item}
-      					<option value="{$key}" {if isset($customer_service_type) && $customer_service_type == $key}selected{/if}>
-      					{$item}
-      					</option>
-      					{/foreach}
-    				</select>
-    				&nbsp;&nbsp;&nbsp;&nbsp;
-    				<button type="submit" class="btn btn-success" id="" name="" style="width:15%;"><i class="icon-search"></i>搜索</button>
-  				</div>
-  			</form>
-  			<table class="table table-border table-bordered table-bg">
-    			<thead>
-      				<tr>
-        				<th scope="col" colspan="7">信息统计</th>
-      				</tr>
-    			</thead>
-    			<tbody>
-      				<tr class="text-c">
-        				<td width="20%">客户总数</td>
-        				<td>{$customerCount}</td>
-      				</tr>
-      				{if isset($queryCustomerCount)}
-      				<tr class="text-c">
-        				<td><font style="color:red">
-        				{if isset($customer_type)}{$groupInfo[$customer_type]}{/if}
-        				{if isset($customer_hospital)}_{$hospitalNameInfo[$customer_hospital]}{/if}
-        				{if isset($customer_hospital_department)}_{$hospitalNameInfo[$customer_hospital_department]}{/if}
-        				{if isset($customer_service_type)}&nbsp;&nbsp;{$serviceTypeInfo[$customer_service_type]}{/if}
-        				</font>客户总数</td>
-        				<td>{$queryCustomerCount}</td>
-      				</tr>
-      				{/if}
-    			</tbody>
-  			</table>
-    	</div>
-	</div>
+    <form class="Huiform pd-20" action="{formatUrl('customer/stat')}" method="post">
+  		<div class="text-c"> 
+   			<select class="select" id="customer_type" name="customer_type" style="width:15%;height:30px">
+      			<option value="">请选择客户分组</option>
+      			{foreach $groupInfo as $key => $item}
+      			<option value="{$key}" {if isset($customer_type) && $customer_type == $key}selected{/if}>
+      			{$item}
+      			</option>
+      			{/foreach}
+    		</select>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		<span id="hospitalInfo" {if isset($customer_type) && $customer_type == 2}{else}style="display:none"{/if}>
+    		<select target="customer_hospital_department"  style="width:15%;height:30px" class="select" id="customer_hospital" name="customer_hospital">
+      			<option value="">请选择医院</option>
+      			{foreach $hospitalInfo as $item}
+      			<option value="{$item['wb_id']}" {if isset($customer_hospital) && $customer_hospital == $item['wb_id']}selected{/if}>
+      			{$item['stationary_name']}
+      			</option>
+      			{/foreach}
+    		</select>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		<select style="width:15%;height:30px" class="select" id="customer_hospital_department" name="customer_hospital_department">
+      			<option value="">请选择科室</option>
+      			{foreach $departmentInfo as $item}
+      			<option value="{$item['wb_id']}" {if isset($customer_hospital_department) && $customer_hospital_department == $item['wb_id']}selected{/if}>
+      			{$item['stationary_name']}
+      			</option>
+      			{/foreach}
+    		</select>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		</span>
+    		<select class="select" id="customer_service_type" name="customer_service_type" style="width:15%;height:30px">
+      			<option value="">请选择服务分组</option>
+      			{foreach $serviceTypeInfo as $key => $item}
+      			<option value="{$key}" {if isset($customer_service_type) && $customer_service_type == $key}selected{/if}>
+      			{$item}
+      			</option>
+      			{/foreach}
+    		</select>
+    		&nbsp;&nbsp;&nbsp;&nbsp;
+    		<button type="submit" class="btn btn-success" id="" name="" style="width:15%;"><i class="icon-search"></i>搜索</button>
+  		</div>
+  	</form>
+  	<table class="table table-border table-bordered table-hover table-bg">
+  		<thead>
+      		<tr class="text-c">
+      			<th>客户分组</th>
+      			<th>医院</th>
+      			<th>科室</th>
+        		<th>服务分组</th>
+        		<th>数量</th>
+      		</tr>
+    	</thead>
+    	<tbody>
+    		{foreach $statInfo as $k=>$stat}
+    		<tr class="text-c">
+    			{if !isset($showCustomerType[$stat['customer_type']])}<td rowspan="{$customerTypeNum[$stat['customer_type']]}">{$groupInfo[$stat['customer_type']]}({$customerTypeSum[$stat['customer_type']]})</td>{/if}
+    			{if !isset($showCustomerHospital[$stat['customer_hospital']])}<td rowspan="{$customerHospitalNum[$stat['customer_hospital']]}">{if $stat['customer_hospital']==0}NAN{else}{$hospitalNameInfo[$stat['customer_hospital']]}({$customerHospitalSum[$stat['customer_hospital']]}){/if}</td>{/if}
+    			{if !isset($showCustomerHospitalDepartment[$stat['customer_hospital_department']])}<td rowspan="{$customerHospitalDepartmentNum[$stat['customer_hospital_department']]}">{if $stat['customer_hospital_department']==0}NAN{else}{$hospitalNameInfo[$stat['customer_hospital_department']]}({$customerHospitalDepartmentSum[$stat['customer_hospital_department']]}){/if}</td>{/if}
+    			<td>{$serviceTypeInfo[$stat['customer_service_type']]}</td>
+    			<td>{$stat['sum']}</td>
+    			{capture}{$showCustomerType[$stat['customer_type']]=1}{/capture}
+    			{capture}{$showCustomerHospital[$stat['customer_hospital']]=1}{/capture}
+    			{capture}{$showCustomerHospitalDepartment[$stat['customer_hospital_department']]=1}{/capture}
+    		</tr>
+    		{/foreach}
+    		<tr class="text-c">
+    			<td colspan="4">总计</td>
+    			<td>{$sum}</td>
+    		</tr>
+    	</tbody>
+  	</table>
 </div>
 <script type="text/template" id="departmentTpl">
 <option value="">请选择科室</option>	
@@ -116,6 +87,5 @@
 <%/departmentList%>
 </script>
 <input type="hidden" id="getDepartmentUrl" value="{formatUrl('hospital/getDepartment')}"></input>
-<input type="hidden" id="tabType" value="{$tabType}">
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/customerStat.js"></script>

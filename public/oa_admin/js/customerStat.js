@@ -1,6 +1,5 @@
 var stat = function(){
 	var init = function(){
-		$.Huitab(".HuiTab .tabBar span",".HuiTab .tabCon","current","click",$('#tabType').val());
 		$(".Huiform").Validform({
 			tiptype : 4,
 			tipSweep : true

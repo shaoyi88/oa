@@ -120,4 +120,32 @@ class OA_Customer extends CI_Model
 		$this->db->where('customer_id', $customer_id);
 		$this->db->delete($this->_table); 
 	} 
+	
+	/**
+	 * 
+	 * 统计
+	 * @param unknown_type $data
+	 */
+	public function stat($data)
+	{
+		$sql = 'select customer_type,customer_hospital,customer_hospital_department,customer_service_type,COUNT(*) as sum FROM oa_customer where 1=1';
+		if(!empty($data['customer_type'])){
+			$sql .= ' and customer_type='.$data['customer_type'];
+		}
+		if(!empty($data['customer_service_type'])){
+			$sql .= ' and customer_service_type='.$data['customer_service_type'];
+		}
+		if(!empty($data['customer_hospital'])){
+			$sql .= ' and customer_hospital='.$data['customer_hospital'];
+		}
+		if(!empty($data['customer_hospital_department'])){
+			$sql .= ' and customer_hospital_department='.$data['customer_hospital_department'];
+		}
+		$sql .= ' GROUP BY customer_type,customer_hospital,customer_hospital_department,customer_service_type';
+		$query = $this->db->query($sql);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }
