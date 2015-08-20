@@ -435,8 +435,9 @@ class Finance extends OA_Controller
             	"keyword2" => array("value" => date('Y-m-d H:i:s', $orderInfo['order_end_time']), "color" => '#000000'),
             	"remark"   => array("value" => "感谢您的支持，我们将会做得更好，提供更优质地服务！", "color" => '#000000')
         	);
+        	$url = "http://subcribe.ecare-easy.com/Service/wechat/my_order_detail?order_id=".$orderId;
         	$this->load->helper('weixin');
-        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+        	templateSend($userInfo['wechat_openid'], $templateid, $url, $content);
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){

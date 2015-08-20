@@ -87,7 +87,7 @@ class OA_Order extends CI_Model
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
 		}
-		return TRUE;
+		return $this->db->insert_id();
 	}
 	
 	/**

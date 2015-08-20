@@ -171,10 +171,12 @@ class Order extends OA_Controller
 				$data['admin_id'] = $this->userId;
 				$data['admin_name'] = $this->userName;
 				$data['add_time'] = time();
-				if($this->OA_Order->add($data) === FALSE){
+				if(($oid = $this->OA_Order->add($data)) === FALSE){
 					$msg = '?msg='.urlencode('创建失败');
+				}else{
+					$data['order_id'] = $oid;
+					$this->_orderNotify($data);
 				}
-				$this->_orderNotify($data);
 			}else{
 				$msg = '?msg='.urlencode('该客户已存在订单，请勿重复新增');
 			}
@@ -237,7 +239,8 @@ class Order extends OA_Controller
 		$addOrderInfo['admin_id'] = $this->userId;
 		$addOrderInfo['admin_name'] = $this->userName;
 		$addOrderInfo['add_time'] = time();
-		$this->OA_Order->add($addOrderInfo);
+		$oid = $this->OA_Order->add($addOrderInfo);
+		$addOrderInfo['order_id'] = $oid;
 		$this->_orderNotify($addOrderInfo);
 		redirect(formatUrl('order/index'));
 	}
@@ -622,8 +625,9 @@ class Order extends OA_Controller
             	"keyword2" => array("value" => date('Y-m-d H:i:s', $data['order_start_time'])."开始服务", "color" => '#000000'),
             	"remark"   => array("value" => "请您尽快确认订单信息", "color" => '#000000')
         	);
+        	$url = "http://subcribe.ecare-easy.com/Service/wechat/my_order_detail?order_id=".$data['order_id'];
         	$this->load->helper('weixin');
-        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+        	templateSend($userInfo['wechat_openid'], $templateid, $url, $content);
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
@@ -654,8 +658,9 @@ class Order extends OA_Controller
             	"keyword2" => array("value" => $data['collection_amount']."元\n收款分类：".$order_collection_type[$data['collection_type']]."\n客户姓名：".$data['customer_name'], "color" => '#000000'),
             	"keyword3"   => array("value" => date('Y-m-d H:i:s', $data['add_time']), "color" => '#000000')
         	);
+        	$url = "http://subcribe.ecare-easy.com/Service/wechat/my_order_detail?order_id=".$data['order_id'];
         	$this->load->helper('weixin');
-        	templateSend($userInfo['wechat_openid'], $templateid, '', $content);
+        	templateSend($userInfo['wechat_openid'], $templateid, $url, $content);
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
