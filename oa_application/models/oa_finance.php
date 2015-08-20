@@ -154,8 +154,18 @@ class OA_Finance extends CI_Model
 	 */
 	public function getCollectCount()
 	{
-
-		return $this->db->count_all_results($this->_collect);
+		$info = array();
+		$this->db->select('a.*,b.order_status,c.customer_name');
+		$this->db->from('oa_order_collection as a');
+		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
+        $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
+		$query = $this->db->get();
+		$num = 0;
+		if($query){
+			$info = $query->result_array();
+			$num = count($info);
+		}
+		return $num;
 	}
 
 	/**
@@ -186,7 +196,7 @@ class OA_Finance extends CI_Model
 	{
 		$this->db->select('a.*,b.order_status,c.customer_name');
 		$this->db->from('oa_order_collection as a');
-		$this->db->where('user_name', $keyword);
+		$this->db->where('customer_name', $keyword);
 		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
         $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
 		$query = $this->db->get();

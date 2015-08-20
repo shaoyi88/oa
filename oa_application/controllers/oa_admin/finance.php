@@ -155,6 +155,7 @@ class Finance extends OA_Controller
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$data['amount_capitalized'] = get_amount_capitalized($data['collectInfo']['collection_amount']);
+		$data['admin'] = $this->session->userdata('admin_name');
 		$this->showView('financeCollectionPrn', $data);
 	}
 
@@ -390,9 +391,9 @@ class Finance extends OA_Controller
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$this->showView('financeBalanceDetail', $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 订单完成的短信与微信通知
 	 * @param unknown_type $data
 	 */
@@ -424,10 +425,10 @@ class Finance extends OA_Controller
 			}
 		}
 		$worker = substr($worker, 0, -1);
-		
-		
+
+
 		//发送微信通知
-		if($userInfo['wechat_openid']){		
+		if($userInfo['wechat_openid']){
 			$templateid = 'In11qPyTxu9yapDLbIwx_hSQL2bIMHlPJOEQidmN2FU';
         	$content = array(
             	"first"    => array("value" => "您好，您的服务订单已完成。请您对我们的服务作出评价。", "color" => '#000000'),
