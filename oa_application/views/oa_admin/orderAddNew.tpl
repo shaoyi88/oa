@@ -3,51 +3,6 @@
 	<form id="addNewForm" id="form-role-add" action="{formatUrl('order/doAddNew')}" method="post">
 		<table class="table table-border table-bordered table-bg">
       		<tbody> 
-      			<tr>
-      				<th colspan="2" class="text-c" style="background-color: #f5fafe;">用户信息</th>
-      			</tr>
-      			<tr>
-          		     <th class="text-r" width="80">*姓名：</th>
-          			 <td><input name="user_name" type="text" class="input-text" id="user_name" nullmsg="姓名不能为空！" datatype="s"></td>
-        		</tr>
-      			<tr>
-          		     <th class="text-r" width="80">*手机：</th>
-          			 <td><input name="user_phone" type="text" class="input-text" id="user_phone" errormsg="请输入正确的手机号码！" nullmsg="手机不能为空！" datatype="m"></td>
-        		</tr>
-        		<tr>
-          		     <th class="text-r" width="80">*性别：</th>
-          			 <td>
-          			 	<select class="select" id="user_sex" name="user_sex" nullmsg="性别不能为空！" datatype="*">
-      						<option value="">请选择性别</option>
-      						{foreach $sexInfo as $key => $item}
-      						<option value="{$key}">
-      						{$item}
-      						</option>
-      						{/foreach}
-    					</select>
-          			 </td>
-        		</tr>
-        		<tr>
-          		     <th class="text-r" width="80">*地区：</th>
-          			 <td>
-          			 	<select target="user_city" style="width:30%" class="select" id="user_province" name="user_province" nullmsg="省份不能为空！" datatype="*">
-          			 		<option value="">请选择</option>	
-          			 		{foreach $provinceInfo as $item}
-      							<option value="{$item['area_id']}" >
-      								{$item['area_name']}
-      							</option>
-      						{/foreach}
-          			 	</select>
-          			 	<select style="width:30%" class="select" id="user_city" name="user_city" nullmsg="市区不能为空！" datatype="*">
-          			 		<option value="">请选择</option>	
-          			 		{foreach $cityInfo as $item}
-      							<option value="{$item['area_id']}">
-      								{$item['area_name']}
-      							</option>
-      						{/foreach}
-          			 	</select>
-          			 </td>
-        		</tr>
         		<tr>
       				<th colspan="2" class="text-c" style="background-color: #f5fafe;">客户信息</th>
       			</tr>
@@ -55,10 +10,6 @@
           		     <th class="text-r" width="80">*姓名：</th>
           			 <td><input name="customer_name" type="text" class="input-text" id="customer_name" nullmsg="姓名不能为空！" datatype="s"></td>
         		</tr>
-        		<tr>
-      				<td class="text-r" width="80">*关系：</td>
-      				<td><input name="relationship" type="text" class="input-text" id="relationship" value="" nullmsg="关系不能为空！" datatype="s"></td>
-      			</tr>
         		<tr>
           		     <th class="text-r" width="80">*性别：</th>
           			 <td>
@@ -150,6 +101,55 @@
       						</option>
       						{/foreach}
     					</select>
+          			 </td>
+        		</tr>
+        		<tr>
+      				<th colspan="2" class="text-c" style="background-color: #f5fafe;">用户信息</th>
+      			</tr>
+      			<tr>
+          		     <th class="text-r" width="80">*姓名：</th>
+          			 <td><input name="user_name" type="text" class="input-text" id="user_name" nullmsg="姓名不能为空！" datatype="s"></td>
+        		</tr>
+        		<tr>
+      				<th class="text-r" width="80">*关系：</th>
+      				<td><input name="relationship" type="text" class="input-text" id="relationship" value="" nullmsg="关系不能为空！" datatype="s"></td>
+      			</tr>
+      			<tr>
+          		     <th class="text-r" width="80">*手机：</th>
+          			 <td><input name="user_phone" type="text" class="input-text" id="user_phone" errormsg="请输入正确的手机号码！" nullmsg="手机不能为空！" datatype="m"></td>
+        		</tr>
+        		<tr>
+          		     <th class="text-r" width="80">*性别：</th>
+          			 <td>
+          			 	<select class="select" id="user_sex" name="user_sex" nullmsg="性别不能为空！" datatype="*">
+      						<option value="">请选择性别</option>
+      						{foreach $sexInfo as $key => $item}
+      						<option value="{$key}">
+      						{$item}
+      						</option>
+      						{/foreach}
+    					</select>
+          			 </td>
+        		</tr>
+        		<tr>
+          		     <th class="text-r" width="80">*地区：</th>
+          			 <td>
+          			 	<select target="user_city" style="width:30%" class="select" id="user_province" name="user_province" nullmsg="省份不能为空！" datatype="*">
+          			 		<option value="">请选择</option>	
+          			 		{foreach $provinceInfo as $item}
+      							<option value="{$item['area_id']}" >
+      								{$item['area_name']}
+      							</option>
+      						{/foreach}
+          			 	</select>
+          			 	<select style="width:30%" class="select" id="user_city" name="user_city" nullmsg="市区不能为空！" datatype="*">
+          			 		<option value="">请选择</option>	
+          			 		{foreach $cityInfo as $item}
+      							<option value="{$item['area_id']}">
+      								{$item['area_name']}
+      							</option>
+      						{/foreach}
+          			 	</select>
           			 </td>
         		</tr>
       			<tr>
