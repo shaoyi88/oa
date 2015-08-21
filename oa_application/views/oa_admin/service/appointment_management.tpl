@@ -35,7 +35,7 @@
             <tr >
                 <td>{{$index + 1}}</td>
                 <td>{{appointment.name}}</td>
-                <td>{{appointment.service_name}}</td>
+                <td>{{appointment.service_type_str}}</td>
                 <td>{{appointment.phone}}</td>
                 <td>{{appointment.relationship}}</td>
                 <td>{{appointment.easy_time}}</td>

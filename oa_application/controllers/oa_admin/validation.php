@@ -54,13 +54,14 @@ class Validation extends OA_Controller
     public function valid(){
         log_message('info', 'Enter valid');
 
+
         // 监听所有类型
         $this->server->on('message', function($message) {
             log_message('info',$message);
             $user_info = Validation::get_user_info($message['FromUserName']);
 
-            log_message('info', $user_info);
-            log_message('info', '23');
+
+
             return Message::make('text')->content('您的消息我们已收到！');
         });
 
@@ -68,16 +69,20 @@ class Validation extends OA_Controller
         // 监听关注事件
         $this->server->on('event', 'subscribe', function($event) {
 
-            log_message('info','收到关注事件，关注者openid: ' . $event['FromUserName']);
+            log_message('info','收到关注事件，关注者openid: ' . $event['FromUserName'].'223');
 
-            return Message::make('text')->content('感谢您关注');
+//            $welcome_word = $this->wechat_conf['words']['welcome'];
+
+//            log_message('info', $welcome_word);
+
+            return Message::make('text')->content('谢谢你这么好看还关注我！从今往后，我们彼此都要努力，我负责跟你说些健康、母婴、养老资讯等方面的内容，你负责学习，拍砖，灌水，转发！ 然后。。。你会更加健康好看！');
         });
 
 
         // 监听取消关注事件
         $this->server->on('event', 'unsubscribe', function($event) {
 
-            log_message('info','收到关注事件，关注者openid: ' . $event['FromUserName']);
+            log_message('info','收到取消关注事件，关注者openid: ' . $event['FromUserName']);
 
             return Message::make('text')->content('感谢您关注');
         });
@@ -94,6 +99,36 @@ class Validation extends OA_Controller
         $appId = $this->config->item('appId');
         var_dump($menus);
         var_dump($menus['subcribe_menus']);
+    }
+
+    public function set_service_menus(){
+        $service_conf = $this->wechat_conf['service'];
+//        var_dump($service_conf);
+        $menuR = new Menu($service_conf['appId'], $service_conf['secret']);
+        $target = array();
+
+        $menus = $this->wechat_conf['service_menus'];
+        foreach($menus as $menu){
+            $item = new MenuItem($menu['name'], $menu['type'], $menu['key']);
+
+            if(!empty($menu['buttons'])){
+                $buttons = array();
+
+                $buttons_item = $menu['buttons'];
+
+                foreach($buttons_item as $button){
+                    $buttons[] = new MenuItem($button['name'], $button['type'], $button['key']);
+                }
+
+                $item->buttons($buttons);
+            }
+
+            $target[] = $item;
+        }
+
+        $menuR->set($target); // 失败会抛出异常
+
+        echo '设置成功';
     }
 
     public function set_menus(){
