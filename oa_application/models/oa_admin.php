@@ -132,4 +132,20 @@ class OA_Admin extends CI_Model
 		}
 		return $info;
 	}
+	
+	/**
+	 * 
+	 * 通过手机查找
+	 * @param unknown_type $phone
+	 */
+	public function queryAdminByPhone($phone)
+	{
+		$this->db->where('admin_phone', $phone);
+		$info = array();
+		$query = $this->db->get($this->_table);
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }

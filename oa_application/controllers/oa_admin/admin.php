@@ -107,8 +107,13 @@ class Admin extends OA_Controller
 			$data['reg_time'] = time();
 			$this->load->model('OA_Admin');
 			$msg = '';
-			if($this->OA_Admin->add($data) === FALSE){
-				$msg = '&msg='.urlencode('创建失败');
+			$adminInfo = $this->OA_Admin->queryAdminByPhone($data['admin_phone']);
+			if(empty($adminInfo)){
+				if($this->OA_Admin->add($data) === FALSE){
+					$msg = '&msg='.urlencode('创建失败');
+				}
+			}else{
+				$msg = '&msg='.urlencode('该系统用户已存在，请勿重复新增');
 			}
 			redirect(formatUrl('admin/index?pid='.$data['admin_department'].$msg));
 		}

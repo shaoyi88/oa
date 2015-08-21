@@ -105,8 +105,13 @@ class User extends OA_Controller
 			$data = $this->input->post();
 			$msg = '';
 			$this->load->model('OA_User');
-			if($this->OA_User->add($data) === FALSE){
-				$msg = '?msg='.urlencode('创建失败');
+			$userInfo = $this->OA_User->searchUser($data['user_phone']);
+			if(empty($userInfo)){
+				if($this->OA_User->add($data) === FALSE){
+					$msg = '?msg='.urlencode('创建失败');
+				}
+			}else{
+				$msg = '?msg='.urlencode('该用户已存在，请勿重复新增');
 			}
 			redirect(formatUrl('user/index'.$msg));
 		}
