@@ -249,7 +249,6 @@ $config['rights'] = array(
         'module' => '预约服务管理',
         'roles' => array(
             array('预约单管理', 'service_appointment_management'),
-            array('用户管理', 'service_user_management')
         ),
         'right' => 'service'
     ),
