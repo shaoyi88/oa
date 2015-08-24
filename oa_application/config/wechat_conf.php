@@ -75,10 +75,16 @@ $config['subcribe_menus'] = array(
                 'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/new_user_center',
                 'buttons'      => null,
             ),
+//            array(
+//                'name'      => '我的预约',
+//                'type'      => 'view',
+//                'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/my_appointment',
+//                'buttons'      => null,
+//            ),
             array(
                 'name'      => '我的预约',
-                'type'      => 'view',
-                'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/my_appointment',
+                'type'      => 'click',
+                'key'      => 'CUSTOMER_SERVICE',
                 'buttons'      => null,
             ),
             array(
@@ -229,10 +235,16 @@ $config['service_menus'] = array(
                 'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/my_appointment',
                 'buttons'      => null,
             ),
+//            array(
+//                'name'      => '服务查询',
+//                'type'      => 'view',
+//                'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/new_my_service',
+//                'buttons'      => null,
+//            ),
             array(
-                'name'      => '服务查询',
-                'type'      => 'view',
-                'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/new_my_service',
+                'name'      => '联系客服',
+                'type'      => 'click',
+                'key'      => 'CUSTOMER_SERVICE',
                 'buttons'      => null,
             ),
             array(

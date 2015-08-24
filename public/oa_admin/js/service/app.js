@@ -24,7 +24,6 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
     }
     
     $scope.loadAppointment = function(type){
-
         var result = appointment.query({type:type, page:$scope.appPageIndex}, function(){
             for(var i=0; i < result.length; i++){
                 result[i]['address'] = result[i]['provinceName'] + ' ' + result[i]['cityName'] + ' ' + result[i]['areaName'] + ' '+ result[i]['address'];
@@ -43,23 +42,9 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
                     result[i]['btnClass'] = 'disabled ';
                 }
 
-                switch (parseInt(result[i]['service_type'])){
-                    case 1:
-                        result['service_type_str'] = '居家照护';
-                        break;
-                    case 2:
-                        result['service_type_str'] = '医疗陪护';
-                        break;
-                    case 3:
-                        result['service_type_str'] = '陪诊';
-                        break;
-                    case 4:
-                        result['service_type_str'] = '月嫂服务';
-                        break;
-
-                }
             }
             $scope.appointments = result;
+
         });
 
 
