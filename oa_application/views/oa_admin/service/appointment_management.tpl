@@ -8,8 +8,6 @@
     <ul class="cl">
             <li class="current"><a href="#" ng-click="clickLoadAppointment('all', $event)">全部</a></li>
             <li><a href="#" ng-click="clickLoadAppointment('unprocessed', $event)">未处理</a></li>
-            {*<li><a href="#">准备派遣</a></li>*}
-            {*<li><a href="#">服务中</a></li>*}
             <li><a href="#" ng-click="clickLoadAppointment('processed', $event)">完成</a></li>
         </ul>
     </nav>
@@ -21,12 +19,9 @@
             <th class="text-align-center">联系人</th>
             <th class="text-align-center">服务类型</th>
             <th class="text-align-center">联系电话</th>
-            <th class="text-align-center">与被服务者的关系</th>
-            <th class="text-align-center">方便联系的时间段</th>
             <th class="text-align-center">服务地址</th>
             <th class="text-align-center">创建时间</th>
             <th class="text-align-center">联系时间</th>
-            {*<th class="text-align-center">订单状态</th>*}
             <th class="text-align-center">处理</th>
         </tr>
         </thead>
@@ -35,12 +30,10 @@
             <tr >
                 <td>{{$index + 1}}</td>
                 <td>{{appointment.name}}</td>
-                <td>{{appointment.service_type_str}}</td>
+                <td>{{appointment.service_type_name}}</td>
                 <td>{{appointment.phone}}</td>
-                <td>{{appointment.relationship}}</td>
-                <td>{{appointment.easy_time}}</td>
                 <td>{{appointment.address}}</td>
-                <td>{{appointment.confirm_time}}</td>
+                <td>{{appointment.create_time_str}}</td>
                 <td>{{appointment.contact_time}}</td>
 
                 <td><div class="btn  radius" ng-click="changeStatus($index)" ng-class="appointment.btnClass">{{appointment.button}}</div></td>

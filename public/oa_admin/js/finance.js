@@ -11,6 +11,7 @@ var finance = function(){
         $('.cancollect').click(cancollect);
         $('.goprint').click(goprint);
         $('.confirmbill').click(confirmbill);
+        $('#prn_bill_no').click(billnoinput);
 	};
 
 	var del = function(event){
@@ -63,8 +64,18 @@ var finance = function(){
 	};
 
 	var goprint = function(){
+	    var billno = $("#bill_no_input").val();
+	    $("#bill_no_input").hide();
+		$("#prn_bill_no").html(billno);
+		$("#prn_bill_no").show();
 	    $("#print_area").printArea();
-	}
+	};
+
+	var billnoinput = function(){
+	    $("#prn_bill_no").empty();
+		$("#prn_bill_no").hide();
+		$("#bill_no_input").show().focus();
+	};
 
 	var cancollect = function(event){
 		var coid = $(event.currentTarget).attr('coid');

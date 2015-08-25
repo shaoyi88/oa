@@ -93,7 +93,7 @@ $config['menus'] = array(
         'module' => '预约服务管理',
         'menu' => array(
             array('预约单管理', formatUrl('service/appointment_management'), 'service_appointment_manager'),
-            array('用户管理', formatUrl('service/user_management'), 'service_user_management')
+//            array('用户管理', formatUrl('service/user_management'), 'service_user_management')
         ),
         'right' => 'service'
     ),
@@ -249,7 +249,6 @@ $config['rights'] = array(
         'module' => '预约服务管理',
         'roles' => array(
             array('预约单管理', 'service_appointment_management'),
-            array('用户管理', 'service_user_management')
         ),
         'right' => 'service'
     ),

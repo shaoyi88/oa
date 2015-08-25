@@ -28,10 +28,20 @@ class service extends OA_Controller
         $this->load->model('OA_Appointment');
 
         $result = $this->OA_Appointment->getAppointment($params['type']);
+        $return  = array();
+        $serviceTypeConf = $this->config->item('customer_service_type');
+        foreach($result as $r){
+            $r = (array)$r;
+            $r['service_type_name'] = $serviceTypeConf[$r['service_type']];
+            try{
+                $r['create_time_str'] = date('Y-m-d H:i:s', $r['create_time']);
+            }catch (Exception $e){
 
-//        var_dump($result);
+            }
+            $return[] = $r;
+        }
 
-        $this->send_json($result);
+        $this->send_json($return);
     }
 
     /*

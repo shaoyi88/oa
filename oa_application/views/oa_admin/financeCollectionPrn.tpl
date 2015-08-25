@@ -16,7 +16,7 @@
   {literal}.top5{top:320px;left:220px;}{/literal}
   {literal}.top6{top:360px;left:200px;}{/literal}
   </style>
-  <p class="top0"><input type="text" placeholder="请输入票据号" id="bill_no"></p>
+  <p class="top0"><span id="prn_bill_no" style="display:none;"></span><input type="text" placeholder="请输入票据号" id="bill_no_input"></p>
 
   <p class="top1">{date('Y',time()+8*60*60)}</p>
   <p class="top1" style="left:138px;">{date('m',time()+8*60*60)}</p>
@@ -66,4 +66,4 @@
 </div>
 <input type="hidden" id="billConfirm" value="{formatUrl('finance/confirmBill')}"></input>
 <script type="text/javascript" src="/public/common/js/jquery.jPrintArea.js?v=102"></script>
-<script type="text/javascript" src="/public/oa_admin/js/finance.js?v=102"></script>
+<script type="text/javascript" src="/public/oa_admin/js/finance.js?v=103"></script>
