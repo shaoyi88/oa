@@ -14,7 +14,7 @@
         		</tr>
         		<tr>
           		     <th class="text-r" width="100">发起时间：</th>
-          			 <td>{date('Y-m-d',$info['added_time']+86400)}</td>
+          			 <td>{date('Y-m-d H:i:s',$info['added_time']+28800)}</td>
         		</tr>
         		{/if}
         		<tr>

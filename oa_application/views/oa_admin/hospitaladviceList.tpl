@@ -48,13 +48,15 @@
     <thead>
       <tr class="text-c">
       	<th width="40">序号</th>
-        <th width="80">医院</th>
-        <th width="80">科室</th>
+        <th width="60">医院</th>
+        <th width="60">科室</th>
         <th width="50">发起人</th>
+        <th width="80">发起时间</th>
         <th>意见或建议</th>
         <th width="50">跟进人</th>
         <th>反馈</th>
         <th width="60">当前状态</th>
+        <th width="80">解决时间</th>
         <th width="180">操作</th>
       </tr>
     </thead>
@@ -65,10 +67,12 @@
         <td>{$nInfo[$item['hospital_id']]}</td>
         <td>{$nInfo[$item['stationary_id']]}</td>
         <td>{$item['admin_name']}</td>
+        <td>{date('Y-m-d H:i:s',$item['added_time']+28800)}</td>
         <td>{$item['advice_content']}</td>
         <td>{$item['appointed']}</td>
         <td>{$item['feedback_content']}</td>
         <td>{$hpstatus[$item['advice_status']]}</td>
+        <td>{if $item['advice_status']==3}{date('Y-m-d H:i:s',$item['feedback_time']+28800)}{/if}</td>
         <td class="f-14">
         	 {if $item['advice_status']==1}
         	     {if $adminid==$item['added_by']}
