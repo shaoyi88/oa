@@ -11,26 +11,79 @@
       			<tr>
           		     <th class="text-r" width="150px">*被更换护工：</th>
           		     <td>
-          		     	{foreach $curWorkerList as $item}
-          		     	<input type="checkbox" name="cur_worker_id[]" value="{$item['worker_id']}" nullmsg="被更换护工不能为空！" datatype="*">&nbsp;{$item['worker_name']}&nbsp;&nbsp;&nbsp;&nbsp;
-          		     	{/foreach}
+          		     	<table class="table table-border table-bordered table-hover table-bg">
+    						<thead>
+      							<tr class="text-c">
+      								<th></th>
+        							<th>编号</th>
+        							<th>姓名</th>
+        							<th>医院科室</th>
+        							<th>手机</th>
+        							<th>性别</th>
+        							<th>年龄</th>
+        							<th>工作经验</th>
+        							<th>工作状态</th>
+      							</tr>
+    						</thead>
+    						<tbody>
+    							{foreach $curWorkerList as $item}
+    							 <tr class="text-c">
+    							 	<td>
+    							 		<input type="checkbox" name="cur_worker_id[]" value="{$item['worker_id']}" nullmsg="被更换护工不能为空！" datatype="*">
+    							 	</td>
+      								<td>{$item['worker_no']}</td>
+        							<td>{$item['worker_name']}</td>
+        							<td>{$nInfo[$item['worker_hospital']]}&nbsp;&nbsp;{$nInfo[$item['worker_stationary']]}</td>
+        							<td>{$item['worker_phone']}</td>
+        							<td>{$sexInfo[$item['worker_sex']]}</td>
+        							<td>{$item['worker_age']}</td>
+       			 					<td>{$item['worker_experience']}</td>
+        							<td>{$wstatus[$item['worker_status']]}</td>
+        						</tr>
+        						{/foreach}
+    						</tbody>
+    					</table>
           		     </td>
           		</tr>   
         		<tr>
           		     <th class="text-r" width="150px">*更换护工：</th>
           		     <td>
-          		     	{if $isMult}
-          		     		{foreach $workerList as $item}
-          		     		<input type="checkbox" name="worker_id[]" value="{$item['worker_id']}" nullmsg="护工不能为空！" datatype="*">&nbsp;{$item['worker_name']}&nbsp;&nbsp;&nbsp;&nbsp;
-          		     		{/foreach}
-          		     	{else}
-          		     	<select style="width:30%" class="select" name="worker_id[]" nullmsg="护工不能为空！" datatype="*">
-          		     		<option value="">请选择护工</option>	
-          		     		{foreach $workerList as $item}
-          		     		<option value="{$item['worker_id']}">{$item['worker_name']}</option>	
-          		     		{/foreach}
-          		     	</select>
-          		     	{/if}
+          		     	<table class="table table-border table-bordered table-hover table-bg">
+    						<thead>
+      							<tr class="text-c">
+      								<th></th>
+        							<th>编号</th>
+        							<th>姓名</th>
+        							<th>医院科室</th>
+        							<th>手机</th>
+        							<th>性别</th>
+        							<th>年龄</th>
+        							<th>工作经验</th>
+        							<th>工作状态</th>
+      							</tr>
+    						</thead>
+    						<tbody>
+    							{foreach $workerList as $item}
+    							 <tr class="text-c">
+    							 	<td>
+    							 		{if $isMult}
+    							 		<input type="checkbox" name="worker_id[]" value="{$item['worker_id']}" nullmsg="护工不能为空！" datatype="*">
+    							 		{else}
+    							 		<input type="radio" name="worker_id[]" value="{$item['worker_id']}" nullmsg="护工不能为空！" datatype="*">
+    							 		{/if}
+    							 	</td>
+      								<td>{$item['worker_no']}</td>
+        							<td>{$item['worker_name']}</td>
+        							<td>{$nInfo[$item['worker_hospital']]}&nbsp;&nbsp;{$nInfo[$item['worker_stationary']]}</td>
+        							<td>{$item['worker_phone']}</td>
+        							<td>{$sexInfo[$item['worker_sex']]}</td>
+        							<td>{$item['worker_age']}</td>
+       			 					<td>{$item['worker_experience']}</td>
+        							<td>{$wstatus[$item['worker_status']]}</td>
+        						</tr>
+        						{/foreach}
+    						</tbody>
+    					</table>
           		     </td>
           		</tr>   
         		<tr>

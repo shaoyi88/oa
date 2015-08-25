@@ -356,6 +356,10 @@ class Order extends OA_Controller
 		$data['workerList'] = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2]);
 		$data['isMult'] = $order_service_mode[$orderInfo['service_mode']][3];
 		$data['orderInfo'] = $orderInfo;
+		$data['sexInfo'] = $this->config->item('sex');
+		$this->load->model('OA_Hospital');
+		$data['nInfo'] = $this->OA_Hospital->getNameList();
+		$data['wstatus'] = $this->config->item('worker_status');
 		$this->showView('orderSetWorker', $data);
 	}
 
@@ -427,6 +431,10 @@ class Order extends OA_Controller
 		}
 		$data['isMult'] = $order_service_mode[$orderInfo['service_mode']][3];
 		$data['orderInfo'] = $orderInfo;
+		$data['sexInfo'] = $this->config->item('sex');
+		$this->load->model('OA_Hospital');
+		$data['nInfo'] = $this->OA_Hospital->getNameList();
+		$data['wstatus'] = $this->config->item('worker_status');
 		$this->showView('orderChangeWorker', $data);
 	}
 

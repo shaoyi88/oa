@@ -221,6 +221,7 @@
 </script>
 <input type="hidden" id="getDepartmentUrl" value="{formatUrl('hospital/getDepartment')}"></input>
 <input type="hidden" id="getAreasUrl" value="{formatUrl('areas/getAreas')}"></input>
+<input type="hidden" id="getUserUrl" value="{formatUrl('user/getUser')}"></input>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/common/js/date/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/order.js"></script>

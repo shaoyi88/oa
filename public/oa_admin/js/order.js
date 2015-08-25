@@ -6,7 +6,7 @@ var order = function(){
 		addNewForm = $("#addNewForm").Validform({
 			tiptype : 4,
 			tipSweep : true,
-			beforeSubmit:function(curform){
+			callback:function(curform){
 				var customer_language = $('.customer_language:checked').val();
 				var other_language = $('#other_language').val();
 				if(typeof customer_language == 'undefined'){
@@ -16,6 +16,21 @@ var order = function(){
 					layer.msg('其他语言必须填写');
 					return false;
 				}
+				var getUserUrl = $('#getUserUrl').val()+'?key='+$('#user_phone').val();
+				$.ajax({
+		            type: "GET",
+		            url: getUserUrl,
+		            dataType: "json",
+		            success: function(data){
+		            	 if(data.status == 1){
+		            		 layer.msg('该用户已存在，请勿重复新增');
+		 					return false;
+		            	 }else{
+		            		 curform[0].submit();
+		            	 }
+		            }
+		        });
+				return false;
 			}
 		});
 		form = $(".Huiform").Validform({
@@ -52,6 +67,7 @@ var order = function(){
 		$('#user_province').change(areaChange);
 		$('#customer_type').change(customerTypeChange);
 		$('#customer_hospital').change(hospitalChange);
+		$('#user_phone_for_new')
 	};
 	
 	var hospitalChange = function(event){
