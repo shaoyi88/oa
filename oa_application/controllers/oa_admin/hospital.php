@@ -165,7 +165,6 @@ class Hospital extends OA_Controller
 	public function worker(){
 		$this->load->model('OA_Hospital');
 		$data['hospitalTree'] = $this->OA_Hospital->getListTree(0);
-		$adminList = array();
 		$workerList = array();
 		if(isset($data['hospitalTree'][0]['wb_id'])){
 			$pid = $data['hospitalTree'][0]['wb_id'];
