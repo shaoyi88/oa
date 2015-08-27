@@ -5,7 +5,7 @@
 </div>
 {/if}
 <div class="pd-20">
-	{if checkRight('admin_add')}
+	{if checkRight('admin_add') && isset($pid)}
 	<div class="cl pd-5 bg-1 bk-gray" style="margin-bottom:10px">
     	<span class="l">
       		<a class="btn btn-primary radius" href="{formatUrl('admin/add?did=')}{$pid}"><i class="icon-plus"></i>添加</a>
@@ -14,7 +14,7 @@
   	{/if}
   	{if empty($departmentTree)}
   		<div class="cl pd-5 bg-1 bk-gray">
-  			<h2 class="text-c">暂无用户</h2>
+  			<h2 class="text-c">暂无用户，请先建立组织部门数据</h2>
   		</div>
   	{else}
 	<div class="col-3 dTree">
