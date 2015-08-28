@@ -12,9 +12,9 @@
  	{else}
  		<img class="avatar size-XL l" src="/public/oa_admin/images/user.png">
  	{/if}
-  <dl style="margin-left:80px;color:#fff;width:200px;">
+  <dl style="margin-left:80px;color:#fff;">
     <dt class="wdblock"><span class="f-18 f-l">{$workerInfo['worker_name']}</span><span class="wdblock f-l commentl" style="margin-left:10px;background-position: 0 100%;"><span class="wdblock commentl" style="width:{if isset($commentlevel['sumale'])}{sprintf('%.2f',($commentlevel['sumale']+$commentlevel['sumple']+$commentlevel['sumdle'])/(3*$commentlevel['ccw'])*16)}{else}0{/if}px;"></span></span></dt>
-  	<dd class="pt-10 f-12 f-l wdblock">服务状态：{$workerStatus[$workerInfo['worker_status']]}</dd>
+  	<dd class="pt-10 f-12 f-l wdblock">服务状态：{$workerStatus[$workerInfo['worker_status']]}{if !empty($workerOrderInfo)}&nbsp;&nbsp;|&nbsp;当前服务订单：{foreach $workerOrderInfo as $k=>$w}<a href="{formatUrl('order/detail?oid=')}{$w['order_id']}" style="color:#fff;text-decoration:underline;">订单{$k+1}</a>；{/foreach}{/if}</dd>
   	<dd class="pt-10 f-12 f-l wdblock">服务分类：{$workerService[$workerInfo['worker_service']]}</dd>
   </dl>
 </div>
@@ -81,7 +81,7 @@
         <td>
         {if !empty($comment)}
         {foreach $comment as $k=>$c}
-        <p>{$k+1}、{$c['comment_content']}&nbsp;&nbsp;<span style="color:#999;">{date('Y-m-d',$c['comment_time']+86400)}</span></p>
+        <p>{$k+1}、{$c['comment_content']}&nbsp;&nbsp;<span style="color:#999;">{date('Y-m-d',$c['comment_time']+8*3600)}</span></p>
         {/foreach}
         {else}
         暂无

@@ -189,6 +189,9 @@ class Worker extends OA_Controller
 		$data['hideTitle'] = $hideTitle;
 		$wid = $this->input->get('wid');
 		$data['wid'] = $wid;
+		if(!is_numeric($wid)){
+			redirect(formatUrl('worker/index'));
+		}
 		$this->load->model('OA_Worker');
 		$data['workerInfo'] = $this->OA_Worker->getWorkerInfo($wid);
 		$data['sexInfo'] = $this->config->item('sex');
@@ -208,6 +211,9 @@ class Worker extends OA_Controller
 		$data['nInfo'] = $this->OA_Hospital->getNameList();
 		$data['comment'] = $this->OA_Worker->getCommentList($wid);
 		$data['commentlevel'] = $this->OA_Worker->getCommentLevel($wid);
+		$this->load->model('OA_Workerorder');
+		$workerid = array($wid);
+		$data['workerOrderInfo'] = $this->OA_Workerorder->getOrderByWorkerId($workerid);
 		$this->showView('workerDetail', $data);
 	}
 
