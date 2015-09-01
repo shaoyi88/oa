@@ -39,7 +39,7 @@ var customerservice = function(){
 	                     }
                          for(var i=0;i<len;i++){
                              if(i<5){ //对应上面只显示最近5单
-                                 text += '<tr class="text-c"><td><input type="radio" name="cs_user_order" value="'+data[i]['order_id']+'"></td><td><a class="c-primary" title="详情" href="'+orderDetail+'?oid='+data[i]['order_id']+'"><u class="c-primar">'+data[i]['order_no']+'</u></a></td><td>客户名字</td><td>'+data[i]['service_type']+'</td><td>'+data[i]['service_mode']+'</td><td>'+data[i]['order_fee_unit']+'</td><td>'+data[i]['order_start_time']+'</td><td>'+data[i]['order_end_time']+'</td><td>'+data[i]['order_advance_payment']+'</td><td>'+data[i]['order_total_cost']+'</td><td>'+data[i]['order_status']+'</td><tr>';
+                                 text += '<tr class="text-c"><td><input type="radio" name="cs_user_order" value="'+data[i]['order_id']+'"></td><td><a class="c-primary" title="详情" href="'+orderDetail+'?oid='+data[i]['order_id']+'"><u class="c-primar">'+data[i]['order_no']+'</u></a></td><td>'+data[i]['customer_name']+'</td><td>'+data[i]['service_type']+'</td><td>'+data[i]['service_mode']+'</td><td>'+data[i]['order_fee_unit']+'</td><td>'+data[i]['order_start_time']+'</td><td>'+data[i]['order_end_time']+'</td><td>'+data[i]['order_advance_payment']+'</td><td>'+data[i]['order_total_cost']+'</td><td>'+data[i]['order_status']+'</td><tr>';
                              }
                          }
 	                 }else{
