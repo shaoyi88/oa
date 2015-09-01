@@ -36,11 +36,11 @@
       </tr>
       <tr>
       	<th class="text-r" width="120">添加时间：</th>
-        <td>{date('Y-m-d H:i:s',$collectInfo['add_time'])}</td>
+        <td>{date('Y-m-d H:i:s',$collectInfo['add_time']+8*3600)}</td>
       </tr>
       <tr>
       	<th class="text-r" width="120">付款时间：</th>
-        <td>{if isset($collectInfo['payment_time'])}{date('Y-m-d H:i:s',$collectInfo['payment_time'])}{/if}</td>
+        <td>{if isset($collectInfo['payment_time'])}{date('Y-m-d H:i:s',$collectInfo['payment_time']+8*3600)}{/if}</td>
       </tr>
     </tbody>
   </table>

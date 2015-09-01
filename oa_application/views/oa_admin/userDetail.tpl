@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <th class="text-r">地区：</th>
-        <td>{$areasInfo[$userInfo['user_province']]}&nbsp;&nbsp;{$areasInfo[$userInfo['user_city']]}</td>
+        <td>{if $userInfo['user_province']}{$areasInfo[$userInfo['user_province']]}{/if}&nbsp;&nbsp;{if $userInfo['user_province']}{$areasInfo[$userInfo['user_city']]}{/if}</td>
       </tr>
       <tr>
         <th class="text-r">最近访问时间：</th>
@@ -179,7 +179,7 @@
       				<td>*所在地区：</td>
         			<td>
         				<select target="city" class="select" id="province" name="province" nullmsg="省份不能为空！" datatype="*">
-          					<option value="">请选择</option>	
+          					<option value="">请选择</option>
           					{foreach $provinceInfo as $item}
       							<option value="{$item['area_id']}">
       							{$item['area_name']}
@@ -187,10 +187,10 @@
       						{/foreach}
         				</select>
         				<select target="area" class="select" id="city" name="city" nullmsg="市区不能为空！" datatype="*">
-          					<option value="">请选择</option>	
+          					<option value="">请选择</option>
           				</select>
           				<select class="select" id="area" name="area" nullmsg="县区不能为空！" datatype="*">
-          					<option value="">请选择</option>	
+          					<option value="">请选择</option>
           				</select>
         			</td>
       			</tr>
@@ -211,7 +211,7 @@
 	</form>
 </div>
 <script type="text/template" id="areaTpl">
-<option value="">请选择</option>	
+<option value="">请选择</option>
 <%#areaList%>
 	<option value="<%area_id%>">
 	<%area_name%>

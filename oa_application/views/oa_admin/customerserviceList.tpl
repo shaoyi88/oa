@@ -54,22 +54,24 @@
   		<table class="table table-border table-bordered table-hover table-bg">
     <thead>
       <tr class="text-c">
-      	<th>工单号</th>
-        <th>用户电话</th>
-        <th>问题类型</th>
+      	<th width="40">序号</th>
+        <th width="100">用户电话</th>
+        <th width="60">用户姓名</th>
+        <th width="80">问题类型</th>
         <th>问题内容</th>
         <th>问题处理</th>
-        <th>当前状态</th>
-        <th>指派给</th>
-        <th>记录人</th>
-        <th width="130">操作</th>
+        <th width="80">当前状态</th>
+        <th width="60">指派给</th>
+        <th width="60">记录人</th>
+        <th width="180">操作</th>
       </tr>
     </thead>
     <tbody>
-      {foreach $dataList as $item}
+      {foreach $dataList as $key=>$item}
       <tr class="text-c">
-      	<td>{$item['cs_no']}</td>
+      	<td>{$key+1}</td>
         <td>{$item['cs_user_phone']}</td>
+        <td>{if isset($item['cs_user_name'])}{$item['cs_user_name']}{/if}</td>
         <td>{$cstype[$item['cs_type']]}</td>
         <td>{$item['cs_content']}</td>
         <td>{$item['cs_treatment']}</td>
@@ -77,13 +79,14 @@
         <td>{$item['appointed']}</td>
         <td>{$item['added_by']}</td>
         <td class="f-14">
+             <a title="查看详情" href="{formatUrl('customerservice/detail?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">详情</a>
         	 {if $item['cs_status']==1}
         	     {if checkRight('customer_service_record')}
-        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
+        	     &nbsp;&nbsp;<a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
         	     {/if}
         	 {elseif $item['cs_status']<4}
         	     {if $item['appointed']==$admin}
-        	     <a title="编辑" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">编辑</a>
+        	     &nbsp;&nbsp;<a title="处理" href="{formatUrl('customerservice/add?id=')}{$item['id']}" class="btn btn-primary radius" style="text-decoration:none">处理</a>
         	     {/if}
         	 {/if}
         	 {if checkRight('customer_service_record')}&nbsp;&nbsp;<a id="{$item['id']}" title="删除" href="javascript:;" class="btn btn-primary radius del" style="text-decoration:none">删除</a>{/if}

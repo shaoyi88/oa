@@ -85,7 +85,7 @@ class Customerservice extends OA_Controller
 				exit;
 			}
 			$id = $this->input->get('id');
-			$data['typeMsg'] = '处理';
+			$data['typeMsg'] = '编辑/处理';
 			$this->load->model('OA_Customerservice');
 			$data['info'] = $this->OA_Customerservice->getCsInfo($id);
 			$data['csstatus'] = $this->config->item('customerservice_status');
@@ -100,6 +100,10 @@ class Customerservice extends OA_Controller
 		$role = $this->config->item('customerservice_role');
 		$data['cslist'] = $this->OA_Admin->queryAdminByRole($role);
         $data['cstype'] = $this->config->item('customerservice_type');
+        $data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['order_service_mode'] = $this->config->item('order_service_mode');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$data['order_status'] = $this->config->item('order_status');
 		$this->showView('customerserviceAdd', $data);
 	}
 
@@ -176,8 +180,14 @@ class Customerservice extends OA_Controller
 		$id = $this->input->get('id');
 		$data['id'] = $id;
 		$this->load->model('OA_Customerservice');
-		$data['workerInfo'] = $this->OA_Customerservice->getCsInfo($id);
-		$data['csStatus'] = $this->config->item('customerservice_status');
+		$data['info'] = $this->OA_Customerservice->getCsInfo($id);
+		$data['csstatus'] = $this->config->item('customerservice_status');
+		$data['cstype'] = $this->config->item('customerservice_type');
+		$data['typeMsg'] = '详情';
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['order_service_mode'] = $this->config->item('order_service_mode');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$data['order_status'] = $this->config->item('order_status');
 		$this->showView('customerserviceDetail', $data);
 	}
 
@@ -290,5 +300,36 @@ class Customerservice extends OA_Controller
 		$data['cstype'] = $cstype;
 		$data['csstatus'] = $this->config->item('customerservice_status');
 		$this->showView('customerserviceStat', $data);
+	}
+
+  	/*
+	 * 获取客户相关订单
+	 *
+	*/
+    public function getUserOrder()
+	{
+		$user_phone = 0;
+		if($this->input->get('user_phone')){
+			$user_phone = $this->input->get('user_phone');
+		}
+		$this->load->model('OA_Order');
+		$orderInfo = $this->OA_Order->getOrderInfoByUserPhone($user_phone);
+		$info = array();
+		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
+		$data['order_service_mode'] = $this->config->item('order_service_mode');
+		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
+		$data['order_status'] = $this->config->item('order_status');
+		foreach($orderInfo as $v){
+			$v['service_type'] = $data['serviceTypeInfo'][$v['service_type']];
+			$v['service_mode'] = $data['order_service_mode'][$v['service_mode']][0];
+			$v['order_fee_unit'] = $data['order_fee_unit'][$v['order_fee_unit']];
+			$v['order_start_time'] = date('Y-m-d H:i:s',$v['order_start_time']);
+			$v['order_end_time'] = $v['order_end_time']?date('Y-m-d H:i:s',$v['order_end_time']):'未结束';
+			$v['order_advance_payment'] = $v['order_advance_payment']?$v['order_advance_payment']:'暂无';
+			$v['order_total_cost'] = $v['order_total_cost']?$v['order_total_cost']:'未结算';
+			$v['order_status'] = $data['order_status'][$v['order_status']];
+			$info[] = $v;
+		}
+		$this->send_json($info);
 	}
 }

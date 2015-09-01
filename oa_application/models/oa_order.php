@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * 
+ *
  * 订单模型类
  * @author Administrator
  *
@@ -9,7 +9,7 @@
 class OA_Order extends CI_Model
 {
 	private $_table = 'oa_order';
-	
+
 	/**
 	 * 初始化
 	 */
@@ -17,9 +17,9 @@ class OA_Order extends CI_Model
 	{
 		parent::__construct();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 搜索订单
 	 * @param unknown_type $keyword
 	 */
@@ -35,9 +35,9 @@ class OA_Order extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 通过客户名搜索订单(条件：进行中的订单，服务类型居家照护或医疗陪护，服务模式不为多对一)
 	 * @param unknown_type $customerName
 	 */
@@ -51,9 +51,9 @@ class OA_Order extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 获取订单
 	 */
 	public function getOrder($offset, $limit)
@@ -66,32 +66,32 @@ class OA_Order extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 获取订单总数
 	 */
 	public function getOrderCount()
 	{
 		return $this->db->count_all_results($this->_table);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 增加
 	 * @param unknown_type $data
 	 */
 	public function add($data)
 	{
-		$this->db->insert($this->_table, $data); 
+		$this->db->insert($this->_table, $data);
 		if($this->db->affected_rows() <= 0){
 			return FALSE;
 		}
 		return $this->db->insert_id();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 获取订单信息
 	 * @param unknown_type $order_id
 	 */
@@ -104,9 +104,9 @@ class OA_Order extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 获取客户id获取订单信息
 	 * @param unknown_type $customer_id
 	 */
@@ -121,27 +121,43 @@ class OA_Order extends CI_Model
 		}
 		return $info;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 更新订单
 	 * @param unknown_type $data
 	 */
 	public function update($data)
 	{
-		
+
         $this->db->where('order_id', $data['order_id']);
-		$this->db->update($this->_table, $data); 
+		$this->db->update($this->_table, $data);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * 删除
 	 * @param unknown_type $ids
 	 */
 	public function del($order_id)
 	{
 		$this->db->where('order_id', $order_id);
-		$this->db->delete($this->_table); 
-	} 
+		$this->db->delete($this->_table);
+	}
+
+	/**
+	 *
+	 * 根据客户手机获取订单信息
+	 * @param unknown_type $user_phone
+	 */
+	public function getOrderInfoByUserPhone($user_phone)
+	{
+		$sql = "select * from `oa_order` as o left join `oa_user` as c on o.user_id = c.user_id left join `oa_customer` as v on o.customer_id = v.customer_id where user_phone=".$user_phone." order by order_id desc";
+		$query = $this->db->query($sql);
+		$info = array();
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+	}
 }

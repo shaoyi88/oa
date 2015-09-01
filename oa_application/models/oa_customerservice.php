@@ -9,6 +9,7 @@
 class OA_Customerservice extends CI_Model
 {
 	private $_table = 'oa_customerservice';
+	private $_order = 'oa_order';
 
 	/**
 	 * 初始化
@@ -110,6 +111,11 @@ class OA_Customerservice extends CI_Model
 		$info = array();
 		if($query){
 			$info = $query->row_array();
+		}
+		if($info['cs_user_order']){
+			$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id where order_id=".$info['cs_user_order'];
+			$orderquery = $this->db->query($sql);
+			$info['orderinfo'] = $orderquery->row_array();
 		}
 		return $info;
 	}

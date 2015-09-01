@@ -90,7 +90,7 @@
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*身份证号：</th>
-          			 <td><input name="worker_idnumber" type="text" class="input-text" id="worker_idnumber" value="{if isset($info)}{$info['worker_idnumber']}{/if}" nullmsg="身份证号不能为空！" datatype="n"></td>
+          			 <td><input name="worker_idnumber" type="text" class="input-text" id="worker_idnumber" value="{if isset($info)}{$info['worker_idnumber']}{/if}" nullmsg="身份证号不能为空！" datatype="*"></td>
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*户籍地址：</th>
