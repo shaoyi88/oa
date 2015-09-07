@@ -195,9 +195,8 @@ class Nursing extends OA_Controller
 			$hospitalNameInfo = $this->OA_Hospital->getNameList();
 			$data['customer_address'] = $hospitalNameInfo[$customerInfo['customer_hospital']].'-'.$hospitalNameInfo[$customerInfo['customer_hospital_department']].'-'.$customerInfo['customer_bed_no'];
 		}
-		$workerservice_role = $this->config->item('workerservice_role');
 		$this->load->model('OA_Admin');
-		$data['adminList'] = $this->OA_Admin->queryAdminByRole($workerservice_role);
+		$data['adminList'] = $this->OA_Admin->queryReturnAdmin();
 		$this->showView('returnAdd', $data);
 	}
 	

@@ -15,10 +15,10 @@
           			 </td>
         		</tr>
         		<tr>
-          		     <th class="text-r" width="200">*回访人:</th>
+          		     <th class="text-r" width="200">*回访护士:</th>
           			 <td>
           			 	<select style="width:30%" class="select" id="executive_admin_id" name="executive_admin_id" nullmsg="回访人不能为空！" datatype="*">
-          		     		<option value="">请选择回访人</option>	
+          		     		<option value="">请选择回访护士</option>	
           		     		{foreach $adminList as $item}
       							<option value="{$item['admin_id']}">
       								{$item['admin_name']}

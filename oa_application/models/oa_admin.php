@@ -9,6 +9,7 @@
 class OA_Admin extends CI_Model
 {
 	private $_table = 'oa_admin';
+	private $_roleTable = 'oa_role';
 	
 	/**
 	 * 初始化
@@ -147,5 +148,21 @@ class OA_Admin extends CI_Model
 			$info = $query->result_array();
 		}
 		return $info;
+	}
+	
+	/**
+	 * 查询可指派回访的用户
+	 * Enter description here ...
+	 */
+	public function queryReturnAdmin()
+	{
+		$sql = "select * from `$this->_table` where admin_role in (select id from `$this->_roleTable` where role_rights like '%nursing_return_register%')";
+		$query = $this->db->query($sql);
+		$info = array();
+		if($query){
+			$info = $query->result_array();
+		}
+		return $info;
+		
 	}
 }
