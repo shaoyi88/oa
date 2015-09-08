@@ -31,7 +31,7 @@ class OA_Appointment extends CI_Model
         $this->db->join('oa_areas as a2', 'a.city = a2.area_id', 'left');
         $this->db->join('oa_areas as a3', 'a.area = a3.area_id', 'left');
         $this->db->join('oa_hospital as h1', 'h1.wb_id = s.hospital_id', 'left');
-        $this->db->join('oa_hospital as h2', 'h1.wb_id = s.department_id', 'left');
+        $this->db->join('oa_hospital as h2', 'h2.wb_id = s.department_id', 'left');
 //        $this->db->join('oa_user as u', 's.user_id = u.user_id');
 //        $this->db->join('yjy_service_info as service_info', 'service_info.id = s.service_id', 'left');
         $this->db->order_by('s.id desc');

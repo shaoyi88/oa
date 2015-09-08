@@ -26,7 +26,6 @@ serviceModule.controller('serviceCtrl', ['$scope', '$resource', function($scope,
     $scope.loadAppointment = function(type){
         var result = appointment.query({type:type, page:$scope.appPageIndex}, function(){
             for(var i=0; i < result.length; i++){
-                console.log(result[i]);
                 result[i]['addressgit '] = result[i]['provinceName'] + ' ' + result[i]['cityName'] + ' ' + result[i]['areaName'] + ' '+ result[i]['address'];
                 //result[i]['address'] = process_address(result[i]);
                 if(result[i].state == 1000){
