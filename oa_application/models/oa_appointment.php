@@ -23,13 +23,15 @@ class OA_Appointment extends CI_Model
     public function getAppointment($type='all'){
 
 
-        $this->db->select('s.id, s.confirm_time, s.contact_time, s.state,s.easy_time, a1.area_name as provinceName, a2.area_name as cityName, a3.area_name as areaName, a.address,
+        $this->db->select('s.id, s.other_address, h1.stationary_name as hospitalName, h2.stationary_name as departmentName, s.confirm_time, s.contact_time, s.state,s.easy_time, a1.area_name as provinceName, a2.area_name as cityName, a3.area_name as areaName, a.address,
         s.name as name, s.phone as phone, service_type, s.create_time');
         $this->db->from('yjy_service_appointment as s');
         $this->db->join('oa_address as a', 's.address_id = a.address_id', 'left');
         $this->db->join('oa_areas as a1', 'a.province = a1.area_id', 'left');
         $this->db->join('oa_areas as a2', 'a.city = a2.area_id', 'left');
         $this->db->join('oa_areas as a3', 'a.area = a3.area_id', 'left');
+        $this->db->join('oa_hospital as h1', 'h1.wb_id = s.hospital_id', 'left');
+        $this->db->join('oa_hospital as h2', 'h1.wb_id = s.department_id', 'left');
 //        $this->db->join('oa_user as u', 's.user_id = u.user_id');
 //        $this->db->join('yjy_service_info as service_info', 'service_info.id = s.service_id', 'left');
         $this->db->order_by('s.id desc');

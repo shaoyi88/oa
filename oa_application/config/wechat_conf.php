@@ -39,6 +39,12 @@ $config['subcribe_menus'] = array(
                 'buttons' => null,
             ),
             array(
+                'name' => '一家依合伙人',
+                'type' => 'view',
+                'key' => 'http://subcribe.ecare-easy.com/partner/index/index',
+                'buttons' => null,
+            ),
+            array(
                 'name' => '月嫂服务',
                 'type' => 'view',
                 'key' => 'http://subcribe.ecare-easy.com/Service/wechat/babysitter_service',
@@ -56,6 +62,8 @@ $config['subcribe_menus'] = array(
                 'key' => 'http://subcribe.ecare-easy.com/Service/wechat/home_care',
                 'buttons' => null,
             ),
+
+
         )
     ),
     array(
@@ -99,6 +107,7 @@ $config['subcribe_menus'] = array(
                 'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/advice',
                 'buttons'      => null,
             ),
+
             array(
                 'name'      => '关于一家依',
                 'type'      => 'view',
@@ -193,6 +202,12 @@ $config['service_menus'] = array(
                 'buttons' => null,
             ),
             array(
+                'name' => '一家依合伙人',
+                'type' => 'view',
+                'key' => 'http://subcribe.ecare-easy.com/partner/index/index',
+                'buttons' => null,
+            ),
+            array(
                 'name' => '月嫂服务',
                 'type' => 'view',
                 'key' => 'http://subcribe.ecare-easy.com/Service/wechat/babysitter_service',
@@ -210,6 +225,7 @@ $config['service_menus'] = array(
                 'key' => 'http://subcribe.ecare-easy.com/Service/wechat/home_care',
                 'buttons' => null,
             ),
+
         )
     ),
     array(
@@ -229,6 +245,7 @@ $config['service_menus'] = array(
                 'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/new_user_center',
                 'buttons'      => null,
             ),
+
             array(
                 'name'      => '我的预约',
                 'type'      => 'view',
@@ -253,6 +270,7 @@ $config['service_menus'] = array(
                 'key'      => 'http://subcribe.ecare-easy.com/Service/wechat/advice',
                 'buttons'      => null,
             ),
+
             array(
                 'name'      => '关于一家依',
                 'type'      => 'view',
