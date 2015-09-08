@@ -38,6 +38,8 @@ class service extends OA_Controller
             }catch (Exception $e){
 
             }
+
+            $r['address_str'] = $r['provinceName'] . $r['cityName'] . $r['areaName'] . $r['address'] . $r['hospitalName'] .$r['departmentName'] . $r['other_address'];
             $return[] = $r;
         }
 
