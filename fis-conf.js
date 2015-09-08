@@ -12,7 +12,7 @@ fis.config.merge({
 		    },
 		    {
 		    	reg : 'public/common/**',
-		    	useHash : false
+		    	useCompile : false
 		    },
 		    {
                 reg : '**.png',
