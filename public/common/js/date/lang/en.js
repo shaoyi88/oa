@@ -12,3 +12,4 @@ timeStr: "Time",
 quickStr: "Quick Selection",
 err_1: 'MinDate Cannot be bigger than MaxDate!'
 }
+
