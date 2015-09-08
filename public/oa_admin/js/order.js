@@ -47,9 +47,7 @@ var order = function(){
 		$('#user_key').keyup(userChange);
 		$('#customer_id').change(customerChange);
 		$('#order_start_time').focus(function(){
-			var myDate = new Date();
-			var mytime=myDate.toLocaleDateString();  
-			WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:mytime});
+			WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'});
 		});
 		$('#order_end_time').focus(function(){
 			var myDate = new Date();
