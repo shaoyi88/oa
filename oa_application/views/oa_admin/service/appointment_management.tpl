@@ -32,7 +32,7 @@
                 <td>{{appointment.name}}</td>
                 <td>{{appointment.service_type_name}}</td>
                 <td>{{appointment.phone}}</td>
-                <td>{{appointment.address}}</td>
+                <td>{{appointment.address_str}}</td>
                 <td>{{appointment.create_time_str}}</td>
                 <td>{{appointment.contact_time}}</td>
 
