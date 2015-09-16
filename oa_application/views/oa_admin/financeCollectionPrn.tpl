@@ -36,7 +36,7 @@
   <p class="top4" style="left:420px;">{if $collectInfo['order_end_time']>0}{if $collectInfo['order_fee_unit']==1}{round(($collectInfo['order_end_time']-$collectInfo['order_start_time'])/(86400*30),1)}{/if}{if $collectInfo['order_fee_unit']==2}{round(($collectInfo['order_end_time']-$collectInfo['order_start_time'])/86400,1)}{/if}{if $collectInfo['order_fee_unit']==3}{round(($collectInfo['order_end_time']-$collectInfo['order_start_time'])/3600,1)}{/if}{/if}</p>
   <p class="top4" style="left:590px;">{$collectInfo['collection_amount']}{if $collectInfo['collection_type']==1}<br/>（预付款）{/if}</p>
 
-  <!--<p class="top5">{if isset($amount_capitalized[7])}{$amount_capitalized[7]}{*含角分，万是第7位*){else}零{/if}</p> -->
+  <!--<p class="top5">{if isset($amount_capitalized[7])}{$amount_capitalized[7]}{*含角分，万是第7位*}{else}零{/if}</p> -->
   <p class="top5" style="left:245px;">{if isset($amount_capitalized[6])}{$amount_capitalized[6]}{else}零{/if}</p>
   <p class="top5" style="left:285px;">{if isset($amount_capitalized[5])}{$amount_capitalized[5]}{else}零{/if}</p>
   <p class="top5" style="left:330px;">{if isset($amount_capitalized[4])}{$amount_capitalized[4]}{else}零{/if}</p>
