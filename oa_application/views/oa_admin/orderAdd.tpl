@@ -4,7 +4,7 @@
 		{if isset($info)}
 		<input name="order_id" type="hidden" value="{$info['order_id']}">
 		{else}
-		<input type="hidden" name="user_id" id="user_id" value="" />
+		<input type="hidden" name="customer_id" id="customer_id" value="" />
 		<input type="hidden" name="service_type" id="service_type" value="" />
 		{/if}
 		<table class="table table-border table-bordered table-bg">
@@ -18,31 +18,31 @@
         		</tr>
       			{/if}
       			<tr>
-          		     <th class="text-r" width="200">{if !isset($userInfo)}*{/if}用户ID/姓名/微信号/昵称/手机：</th>
-          			 <td>
-          			 	{if isset($userInfo)}
-          			 		{$userInfo['user_name']}
-          			 	{else}
-          			 	<input style="width:200px" type="text" class="input-text" id="user_key" value="" nullmsg="用户不能为空！" datatype="*" autocomplete="off">
-          			 	<span style="margin-left:10px;">用户不存在？请点击<a style="color:red" href="{formatUrl('order/addNew')}">这里</a></span>
-      					<div style="position:relative;">
-      						<div class="auto-complete-result"></div>
-      					</div>
-      					{/if}
-          			 </td>
-        		</tr>
-        		<tr>
-          		     <th class="text-r">{if !isset($userInfo)}*{/if}客户：</th>
+          		     <th class="text-r">{if !isset($userInfo)}*客户ID/姓名：{else}客户：{/if}</th>
           		     <td>
           		     	{if isset($customerInfo)}
           			 		{$customerInfo['customer_name']}
           			 	{else}
-          		     	<select style="width:30%" class="select" id="customer_id" name="customer_id" nullmsg="客户不能为空！" datatype="*">
-          		     		<option value="">请选择客户</option>	
-          		     	</select>
+          		     	<input style="width:200px" type="text" class="input-text" id="customer_key" value="" nullmsg="客户不能为空！" datatype="*" autocomplete="off">
+          			 	<span style="margin-left:10px;">客户不存在？请点击<a style="color:red" href="{formatUrl('order/addNew')}">这里</a></span>
+      					<div style="position:relative;">
+      						<div class="auto-complete-result"></div>
+      					</div>
           		     	{/if}
           		     </td>
           		</tr>  
+      			<tr>
+          		     <th class="text-r" width="200">{if !isset($userInfo)}*{/if}用户：</th>
+          			 <td>
+          			 	{if isset($userInfo)}
+          			 		{$userInfo['user_name']}
+          			 	{else}
+          			 	<select style="width:30%" class="select" id="user_id" name="user_id" nullmsg="客户不能为空！" datatype="*">
+          		     		<option value="">请选择用户</option>	
+          		     	</select>
+      					{/if}
+          			 </td>
+        		</tr>
           		<tr>
           		     <th class="text-r">{if !isset($info) || $info['order_status'] == 1}*{/if}服务模式：</th>
           		     <td>  
@@ -103,23 +103,23 @@
         </table>
 	</form>
 </div>
-<script type="text/template" id="userTpl">
+<script type="text/template" id="customerTpl">
 <ul>
-<%#userList%>
-<li uid="<%user_id%>"><%user_name%>_<%user_phone%></li>
-<%/userList%>
+<%#customerList%>
+<li cid="<%customer_id%>" type="<%customer_service_type%>"><%customer_name%>(<%customer_age%>岁)</li>
+<%/customerList%>
 </ul>
 </script>
-<script type="text/template" id="customerTpl">
-<option value="">请选择客户</option>	
-<%#customerList%>
-	<option value="<%customer_id%>" type="<%customer_service_type%>">
-	<%customer_name%>
+<script type="text/template" id="userTpl">
+<option value="">请选择用户</option>	
+<%#userList%>
+	<option value="<%user_id%>">
+	<%user_name%>
 	</option>
-<%/customerList%>
+<%/userList%>
 </script>
 <script type="text/javascript" src="/public/common/js/date/WdatePicker.js"></script>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
-<input type="hidden" id="getUserUrl" value="{formatUrl('user/getUser')}"></input>
-<input type="hidden" id="getFollowCustomerUrl" value="{formatUrl('follow/getFollowCustomer')}"></input>
+<input type="hidden" id="getCustomerUrl" value="{formatUrl('customer/getCustomer')}"></input>
+<input type="hidden" id="getFollowUserUrl" value="{formatUrl('follow/getFollowUser')}"></input>
 <script type="text/javascript" src="/public/oa_admin/js/order.js"></script>

@@ -44,8 +44,8 @@ var order = function(){
 				}	
 			}
 		});
-		$('#user_key').keyup(userChange);
-		$('#customer_id').change(customerChange);
+		$('#customer_key').keyup(customerChange);
+		$('#user_id').change(userChange);
 		$('#order_start_time').focus(function(){
 			WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'});
 		});
@@ -173,54 +173,52 @@ var order = function(){
 		});
 	};
 	
-	var customerChange = function(event){
-		var customer_id = $(event.currentTarget).val();
-		if(customer_id == ''){
-			$('#service_type').val('');
+	var userChange = function(event){
+		var user_id = $(event.currentTarget).val();
+		if(user_id == ''){
 			$('#submitAddOrder').addClass('disabled');
 		}else{
-			var service_type = $(event.currentTarget).find('option:selected').attr('type');
-			$('#service_type').val(service_type);
 			$('#submitAddOrder').removeClass('disabled');
 		}
 	};
 	
-	var userChange = function(event){		
-		var userKey = $(event.currentTarget).val();
-		var getUserUrl = $('#getUserUrl').val()+'?key='+userKey;
+	var customerChange = function(event){		
+		var customerKey = $(event.currentTarget).val();
+		var getCustomerUrl = $('#getCustomerUrl').val()+'?key='+customerKey;
 		$('.auto-complete-result').html('').hide();
-		$('#user_id').val('');
+		$('#customer_id').val('');
 		$('#submitAddOrder').addClass('disabled');
-		var template = Hogan.compile($('#customerTpl').html(),{delimiters:'<% %>'});
-		$('#customer_id').html(template.render({customerList:[]}));
-		if(userKey == ''){
+		var template = Hogan.compile($('#userTpl').html(),{delimiters:'<% %>'});
+		$('#user_id').html(template.render({userList:[]}));
+		if(customerKey == ''){
 			return;
 		}
 		$.ajax({
             type: "GET",
-            url: getUserUrl,
+            url: getCustomerUrl,
             dataType: "json",
             success: function(data){
             	if(data.status == 1){
-            		var template = Hogan.compile($('#userTpl').html(),{delimiters:'<% %>'});
-            		$('.auto-complete-result').html(template.render({userList:data.userList})).show();
+            		var template = Hogan.compile($('#customerTpl').html(),{delimiters:'<% %>'});
+            		$('.auto-complete-result').html(template.render({customerList:data.customerList})).show();
             		$('.auto-complete-result').find('li').hover(function(event){
             			$(event.currentTarget).addClass('focus');
             		},function(event){
             			$(event.currentTarget).removeClass('focus');
             		}).click(function(event){
-            			$('#user_id').val($(event.currentTarget).attr('uid'));
-            			$('#user_key').val($(event.currentTarget).html());
+            			$('#customer_id').val($(event.currentTarget).attr('cid'));
+            			$('#service_type').val($(event.currentTarget).attr('type'));
+            			$('#customer_key').val($(event.currentTarget).html());
             			$('.auto-complete-result').hide();
-            			var getFollowCustomerUrl = $('#getFollowCustomerUrl').val()+'?uid='+$(event.currentTarget).attr('uid');
+            			var getFollowUserUrl = $('#getFollowUserUrl').val()+'?cid='+$(event.currentTarget).attr('cid');
             			$.ajax({
             	            type: "GET",
-            	            url: getFollowCustomerUrl,
+            	            url: getFollowUserUrl,
             	            dataType: "json",
             	            success: function(data){
             	            	if(data.status == 1){
-            	            		var template = Hogan.compile($('#customerTpl').html(),{delimiters:'<% %>'});
-            	            		$('#customer_id').html(template.render({customerList:data.customerList}));
+            	            		var template = Hogan.compile($('#userTpl').html(),{delimiters:'<% %>'});
+            	            		$('#user_id').html(template.render({userList:data.userList}));
             	            	}
             	            }
             	        });
