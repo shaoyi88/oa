@@ -435,3 +435,4 @@ $config['hospitaladvice_status'] = array(
 
 $config['workerservice_role'] = 3; //护工角色，可指派进行回访
 $config['hospitaladvice_role'] = 9; //意见跟进角色，可被指派跟进机构医院提出的建议意见
+$config['log_path_dir'] = '';
