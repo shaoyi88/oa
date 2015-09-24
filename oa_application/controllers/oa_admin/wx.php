@@ -37,13 +37,35 @@ class Wx extends OA_Controller
 
     //微信接入，信息处理
     public function index(){
+		$this->load->model('Oa_User');
         $server = new Server($this->appId,$this->token,$this->encodingAESKey);
         $server->on('event', function($event) {
+			$up_data['wechat_openid']		=	$event['FromUserName'];
+			$up_data['focus_status']		=	2;
+			$this->Oa_User->updateforopenid($up_data);
             log_message('info',$event);
         });
 
         $server->on('event', 'subscribe', function($event){//关注事件
-            return Message::make('text')->content('谢谢你这么好看还关注我！从今往后，我们彼此都要努力，我负责跟你说些健康、母婴、养老资讯等方面的内容，你负责学习，拍砖，灌水，转发！ 然后。。。你会更加健康好看！');
+			//加入会员信息表操作，标示会员关注状态
+			$this->load->model('Oa_User');
+			$result	=	$this->Oa_User->selForwxid($event['FromUserName']);
+
+			if($result){
+				
+			  $up_data['user_id']		=	$result['user_id'];
+			  $up_data['focus_status']	=	1;
+			  $this->Oa_User->update($up_data);
+			}else{
+				   $data = array(
+						'wechat_openid' => $event['FromUserName'],
+						'focus_status'=>1
+					);
+					$this->Oa_User->add($data);
+			}
+			
+            return Message::make('text')->content('亲，欢迎关注一家依，一家依致力于成为华南地区最受尊敬的居家养老、康复护理公司，提供居家照护、康复护理、医院陪护、月子照护等康复护理服务，如需预约，请点击“服务预约”。
+同时，一家依正在进行“最潮老爸老妈“评选活动，即将到来的重阳节，给老爸老妈送上一份大礼吧，除了能免费享受一家依一年的健康管理服务外，还能让老爸老妈享受一晚四季酒店江景房的尊贵服务哦。<a href="http://subcribe.ecare-easy.com/health/activity/enroll">来报名参加吧</a>！');
         });
 
         $server->on('event','Click',function($click){//点击事件
