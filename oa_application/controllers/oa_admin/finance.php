@@ -417,7 +417,7 @@ class Finance extends OA_Controller
 			$worker .= $item['worker_name'].',';
 			//短信通知护工
 			if($item['worker_phone']){
-				$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+				$apikey = $this->config->item('smsApiKey');
 				$templateid = '936669';
 				$content = '#name#='.$customerInfo['customer_name'];
 				$this->load->helper('sms');
@@ -442,7 +442,7 @@ class Finance extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$apikey = $this->config->item('smsApiKey');
 			$templateid = '936939';
 			$content = '#name#='.$userInfo['user_name'].'&#type#='.$customer_service_type[$orderInfo['service_type']].'&#detail#=完成。请您对我们的服务作出评价。感谢您的支持，我们将会做得更好，提供更优质地服务！';
 			$this->load->helper('sms');

@@ -639,7 +639,7 @@ class Order extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$apikey = $this->config->item('smsApiKey');
 			$templateid = '936939';
 			$content = '#name#='.$userInfo['user_name'].',根据评估结果&#type#='.$customer_service_type[$data['service_type']].'&#detail#=创建,订单号:'.$data['order_no'].',请您登录微信尽快确认订单信息！';
 			$this->load->helper('sms');
@@ -672,7 +672,7 @@ class Order extends OA_Controller
 		}
 		//发送短信通知
 		if($userInfo['user_phone']){
-			$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+			$apikey = $this->config->item('smsApiKey');
 			$templateid = '937417';
 			$content = '#name#='.$userInfo['user_name'].'&#type#='.$order_collection_type[$data['collection_type']].'&#number#='.$data['order_no'].'&#money#='.$data['collection_amount'];
 			$this->load->helper('sms');
@@ -700,7 +700,7 @@ class Order extends OA_Controller
 			$this->load->model('OA_Worker');
 			$workerInfo = $this->OA_Worker->getWorkerInfo($worker_id);
 			if($workerInfo['worker_phone']){
-				$apikey = 'cf34160f4719430181a3d387f9dda3c8';
+				$apikey = $this->config->item('smsApiKey');
 				$templateid = '936671';
 				$content = '#name#='.$workerInfo['worker_name'].'&#kuhu#='.$customerInfo['customer_name'].'&#time#='.date('Y-m-d H:i:s', $data['start_time']).'&#address#='.$address;
 				$this->load->helper('sms');
