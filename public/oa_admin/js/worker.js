@@ -97,6 +97,7 @@ var worker = function(){
 	            dataType: "json",
 	            success: function(data){
 	                 if(data.length>0){
+	                     $('.cityselect li').remove();
 	            	     for(var i=0;i<data.length;i++){
 	            	         $('.cityselect').append('<li id="'+data[i]['area_id']+'">'+data[i]['area_name']+'</li>');
 	            	     }
