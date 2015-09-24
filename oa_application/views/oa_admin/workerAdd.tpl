@@ -1,3 +1,9 @@
+  <style type="text/css">
+  {literal}.cityselect{display:none;background:#FFF;border:1px solid #ccc;}{/literal}
+  {literal}.cityselect li{padding:2px;cursor:default;}{/literal}
+  {literal}.cityselect li:hover{background:#319AFF;}{/literal}
+  {literal}#citysearch{position:absolute;top:0;left:18%;width:15%;padding:8px;display:none;}{/literal}
+  </style>
 <nav class="breadcrumb"><i class="iconfont">&#xf012b;</i>  护工管理 <span class="c-gray en">&gt;</span> <a href="{formatUrl('worker/index')}">护工信息管理</a> <span class="c-gray en">&gt;</span> {$typeMsg}</nav>
 <div class="pd-20">
 	<form class="Huiform" id="form-role-add" action="{formatUrl('worker/doAdd')}" method="post" enctype="multipart/form-data">
@@ -94,8 +100,12 @@
         		</tr>
         		<tr>
           		     <th class="text-r" width="80">*户籍地址：</th>
-          			 <td>
-          			 	<select target="worker_domicile_city" style="width:18%" class="select" id="worker_domicile_province" name="worker_domicile_province" nullmsg="省份不能为空！" datatype="*">
+          			 <td style="position:relative;">
+                        <div id="citysearch">
+                            <input id="getcity" type="text" class="input-text" style="width:98%;" placeholder="输入搜索或点右箭头选择">
+          			 	    <ul class="cityselect"></ul>
+          			 	</div>
+          			 	<select target="worker_domicile_city" style="width:18%" class="select-box" id="worker_domicile_province" name="worker_domicile_province" nullmsg="省份不能为空！" datatype="*">
           			 		<option value="">请选择</option>
           			 		{foreach $provinceInfo as $item}
       							<option value="{$item['area_id']}" {if isset($info) && $info['worker_domicile_province'] == $item['area_id']}selected{/if}>
@@ -104,7 +114,7 @@
       						{/foreach}
           			 	</select>
           			 	&nbsp;
-          			 	<select target="worker_domicile_district" style="width:18%" class="select" id="worker_domicile_city" name="worker_domicile_city" nullmsg="市不能为空！" datatype="*">
+          			 	<select target="worker_domicile_district" class="select-box" id="worker_domicile_city" name="worker_domicile_city" nullmsg="市不能为空！" datatype="*" style="width:18%;">
           			 		<option value="">请选择</option>
           			 		{foreach $cityInfo as $item}
       							<option value="{$item['area_id']}" {if isset($info) && $info['worker_domicile_city'] == $item['area_id']}selected{/if}>
@@ -113,7 +123,7 @@
       						{/foreach}
           			 	</select>
           			 	&nbsp;
-          			 	<select style="width:18%" class="select" id="worker_domicile_district" name="worker_domicile_district" nullmsg="区（县镇）不能为空！" datatype="*">
+          			 	<select style="width:18%" class="select-box" id="worker_domicile_district" name="worker_domicile_district" nullmsg="区（县镇）不能为空！" datatype="*">
           			 		<option value="">请选择</option>
           			 		{foreach $districtInfo as $item}
       							<option value="{$item['area_id']}" {if isset($info) && $info['worker_domicile_district'] == $item['area_id']}selected{/if}>
@@ -181,5 +191,6 @@
 </script>
 <input type="hidden" id="getAreasUrl" value="{formatUrl('areas/getAreas')}"></input>
 <input type="hidden" id="getHospitalsUrl" value="{formatUrl('hospital/getDepartment')}"></input>
+<input type="hidden" id="getCityUrl" value="{formatUrl('areas/getCity')}"></input>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
 <script type="text/javascript" src="/public/oa_admin/js/worker.js"></script>

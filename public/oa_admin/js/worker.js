@@ -11,6 +11,7 @@ var worker = function(){
         $('#worker_hospital').change(hospitalChange);
         $('.delsta').click(delsta);
         $('.addsta').click(addsta);
+        $("#getcity").keyup(getcity);
 	};
 
 	var del = function(event){
@@ -36,6 +37,12 @@ var worker = function(){
 	            success: function(data){
 	            	 var template = Hogan.compile($('#areaTpl').html(),{delimiters:'<% %>'});
 	            	 $('#'+changeTarget).html(template.render({areaList:data}));
+	            	 if(changeTarget=='worker_domicile_city'){
+	            	     $('#getcity').val('');
+	            	     $('.cityselect').hide();
+                         $('.cityselect li').remove();
+	            	     $('#citysearch').show();
+	            	 }
 	            }
 	        });
 		}
@@ -73,6 +80,42 @@ var worker = function(){
         $('.delsta').unbind('click');
         $('.delsta').click(delsta);
     };
+
+    var getcity = function(event){
+        if($(event.currentTarget).val().length==0){
+            $('.cityselect').hide();
+            $('.cityselect li').remove();
+			return;
+		}else{
+		    $('.cityselect').show();
+		    $('.cityselect li').remove();
+		    var getCityUrl = $('#getCityUrl').val()+'?pid='+$('#worker_domicile_province').val()+'&k='+$(event.currentTarget).val();
+			getCityUrl=encodeURI(getCityUrl);
+			$.ajax({
+	            type: "GET",
+	            url: getCityUrl,
+	            dataType: "json",
+	            success: function(data){
+	                 if(data.length>0){
+	            	     for(var i=0;i<data.length;i++){
+	            	         $('.cityselect').append('<li id="'+data[i]['area_id']+'">'+data[i]['area_name']+'</li>');
+	            	     }
+	            	     $('.cityselect li').click(goarea);
+	            	 }
+	            }
+	        });
+		    return;
+		}
+    };
+
+    var goarea = function(event){
+        var areaid = $(event.currentTarget).attr('id');
+        $('#worker_domicile_city').val(areaid);
+		$('#worker_domicile_city').trigger('change');
+		$('#citysearch').hide();
+		$('.cityselect').hide();
+        $('.cityselect li').remove();
+    }
 
 	init();
 }();
