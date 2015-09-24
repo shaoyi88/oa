@@ -66,7 +66,7 @@ class Wx extends OA_Controller
 			
             return Message::make('text')->content('亲，欢迎关注一家依，一家依致力于成为华南地区最受尊敬的居家养老、康复护理公司，提供居家照护、康复护理、医院陪护、月子照护等康复护理服务，如需预约，请点击“服务预约”。
 			
-一家依正在进行“最潮老爸老妈“评选活动，即将到来的重阳节，给老爸老妈送上一份大礼吧，除了能免费享受一家依一年的健康管理服务外，还能让老爸老妈享受一晚[四季酒店江景房]的尊贵服务哦。<a href="http://subcribe.ecare-easy.com/health/activity">去看看吧</a>！');
+一家依正在进行“最潮老爸老妈“评选活动，即将到来的重阳节，给老爸老妈送上一份大礼吧，除了能免费享受一家依一年的健康管理服务外，还能让老爸老妈享受一晚[四季酒店江景房]的尊贵服务哦。<a href="http://subcribe.ecare-easy.com/health/activity">        去看看吧！</a>');
         });
 
         $server->on('event','Click',function($click){//点击事件
