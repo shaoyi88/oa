@@ -39,13 +39,19 @@ class Wx extends OA_Controller
     public function index(){
 		$this->load->model('Oa_User');
         $server = new Server($this->appId,$this->token,$this->encodingAESKey);
-        $server->on('event', function($event) {
-			$up_data['wechat_openid']		=	$event['FromUserName'];
+        $server->on('event', function($event) { 
+		
+            log_message('info',$event);
+        });
+		
+		$server->on('event', 'unsubscribe', function($event){
+			
+			$up_data['user_weixin']			=	$event['FromUserName'];
 			$up_data['focus_status']		=	2;
 			$this->Oa_User->updateforopenid($up_data);
             log_message('info',$event);
-        });
-
+		});
+		
         $server->on('event', 'subscribe', function($event){//关注事件
 			//加入会员信息表操作，标示会员关注状态
 			$this->load->model('Oa_User');
@@ -58,8 +64,9 @@ class Wx extends OA_Controller
 			  $this->Oa_User->update($up_data);
 			}else{
 				   $data = array(
+						'user_weixin'	=> $event['FromUserName'],
 						'wechat_openid' => $event['FromUserName'],
-						'focus_status'=>1
+						'focus_status'	=>	1
 					);
 					$this->Oa_User->add($data);
 			}
