@@ -43,6 +43,9 @@ var worker = function(){
                          $('.cityselect li').remove();
 	            	     $('#citysearch').show();
 	            	 }
+	            	 if(changeTarget=='worker_domicile_district'){
+	            	     $('#citysearch').hide();
+	            	 }
 	            }
 	        });
 		}

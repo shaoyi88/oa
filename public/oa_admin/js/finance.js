@@ -53,7 +53,7 @@ var finance = function(){
 
 	var confirmbill = function(event){
 		var coid = $(event.currentTarget).attr('coid');
-		var billno = $("#bill_no").val();
+		var billno = $("#bill_no_input").val();
 		if(!billno){
 		    layer.alert('票据单号不能为空');
 		    return false;
