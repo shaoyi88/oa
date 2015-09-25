@@ -136,7 +136,7 @@ class OA_User extends CI_Model
 	 * @param str openid
 	 */	
 	public function selForwxid($openid){
-		$query = $this->db->get_where($this->_table, array('wechat_openid' => $openid));
+		$query = $this->db->get_where($this->_table, array('user_weixin' => $openid));
 		$info = array();
 		if($query){
 			$info = $query->row_array();
@@ -152,8 +152,7 @@ class OA_User extends CI_Model
 	 */	
 	public function updateforopenid($data)
 	{
-		
-        $this->db->where('wechat_openid', $data['wechat_openid']);
-		$this->db->update($this->_table, $data); 
+		$this->db->where('user_weixin', $data['user_weixin']);
+		$this->db->update($this->_table, array('focus_status'=>$data['focus_status'])); 
 	}
 }

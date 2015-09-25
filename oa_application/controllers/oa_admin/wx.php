@@ -45,11 +45,10 @@ class Wx extends OA_Controller
         });
 		
 		$server->on('event', 'unsubscribe', function($event){
-			
 			$up_data['user_weixin']			=	$event['FromUserName'];
 			$up_data['focus_status']		=	2;
 			$this->Oa_User->updateforopenid($up_data);
-            log_message('info',$event);
+			 log_message('info',$event);
 		});
 		
         $server->on('event', 'subscribe', function($event){//关注事件
