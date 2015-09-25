@@ -1,5 +1,4 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 //加载微信sdk
 define('WECHATSDK_PATH', THIRD_PATH.'wechat-master/');
 
@@ -45,6 +44,8 @@ class Wx extends OA_Controller
         });
 		
 		$server->on('event', 'unsubscribe', function($event){
+			$this->load->library('session');
+			$this->session->unset_userdata('logged_user');
 			$up_data['user_weixin']			=	$event['FromUserName'];
 			$up_data['focus_status']		=	2;
 			$this->Oa_User->updateforopenid($up_data);
