@@ -49,12 +49,10 @@ class Wx extends OA_Controller
 			$up_data['user_weixin']			=	$event['FromUserName'];
 			$up_data['focus_status']		=	2;
 			$this->Oa_User->updateforopenid($up_data);
-			 log_message('info',$event);
 		});
 		
         $server->on('event', 'subscribe', function($event){//关注事件
 			//加入会员信息表操作，标示会员关注状态
-			$this->load->model('Oa_User');
 			$result	=	$this->Oa_User->selForwxid($event['FromUserName']);
 
 			if($result){
