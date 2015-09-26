@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://master.ecare-easy.com/';
+$config['base_url']	= 'http://manager.ecare-easy.com/';
 
 /*
 |--------------------------------------------------------------------------
@@ -266,7 +266,7 @@ $config['sess_time_to_update']	= 300;
 |
 */
 $config['cookie_prefix']	= "";
-$config['cookie_domain']	= ".ecare-easy.com";
+$config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 $config['cookie_secure']	= FALSE;
 

@@ -66,18 +66,13 @@ $config['subcribe_menus'] = array(
 
         )
     ),
-    // array(
-        // 'name' => '健康知识',
-        // 'type' => 'view',
-        // 'key' => 'http://subcribe.ecare-easy.com/health/index/index',
-        // 'buttons' => null,
-    // ),
-	    array(
-        'name' => '潮爸潮妈',
+    array(
+        'name' => '健康知识',
         'type' => 'view',
-        'key' => 'http://subcribe.ecare-easy.com/health/activity/index',
+        'key' => 'http://subcribe.ecare-easy.com/health/index/index',
         'buttons' => null,
     ),
+	   
     array(
         'name'      => '我',
         'type'      => null,
@@ -234,12 +229,18 @@ $config['service_menus'] = array(
 
         )
     ),
-    array(
-        'name' => '健康知识',
+	 array(
+        'name' => '潮爸潮妈',
         'type' => 'view',
-        'key' => 'http://subcribe.ecare-easy.com/health/index/index',
+        'key' => 'http://subcribe.ecare-easy.com/health/activity/index',
         'buttons' => null,
     ),
+    // array(
+        // 'name' => '健康知识',
+        // 'type' => 'view',
+        // 'key' => 'http://subcribe.ecare-easy.com/health/index/index',
+        // 'buttons' => null,
+    // ),
     array(
         'name'      => '我',
         'type'      => null,
