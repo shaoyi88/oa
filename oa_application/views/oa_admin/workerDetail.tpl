@@ -81,7 +81,7 @@
         <td>
         {if !empty($comment)}
         {foreach $comment as $k=>$c}
-        <p>{$k+1}、{$c['comment_content']}&nbsp;&nbsp;<span style="color:#999;">{date('Y-m-d',$c['comment_time']+8*3600)}</span></p>
+        <p>{$k+1}、{$c['comment_content']}&nbsp;&nbsp;<span style="color:#999;">{date('Y-m-d',$c['comment_time'])}</span></p>
         {/foreach}
         {else}
         暂无

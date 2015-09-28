@@ -117,7 +117,7 @@
       		    </tr>
       		    <tr>
       		         <th class="text-r" width="80">记录时间：</th>
-      		         <td>{date('Y-m-d H:i:s',$info['added_time']+8*3600)}</td>
+      		         <td>{date('Y-m-d H:i:s',$info['added_time'])}</td>
       		    </tr>
         		{/if}
           		<tr>
