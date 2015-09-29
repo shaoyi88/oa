@@ -77,6 +77,7 @@ class OA_Controller extends CI_Controller
 		$this->userId = $this->session->userdata('admin_id');
 		$this->userName = $this->session->userdata('admin_name');
 		$this->userRights = $this->session->userdata('admin_rights');
+		$this->hospitalId = $this->session->userdata('hospital_id');
 	}
 	
 	/**

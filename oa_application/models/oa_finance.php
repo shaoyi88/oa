@@ -152,13 +152,17 @@ class OA_Finance extends CI_Model
 	 *
 	 * 获取收款数量
 	 */
-	public function getCollectCount()
+	public function getCollectCount($hospitalId = 0)
 	{
 		$info = array();
 		$this->db->select('a.*,b.order_status,c.customer_name');
 		$this->db->from('oa_order_collection as a');
 		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
         $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
+		if($hospitalId != 0){
+        	$this->db->where('c.customer_hospital', $hospitalId);
+			$this->db->where('c.customer_type', 2);
+        }
 		$query = $this->db->get();
 		$num = 0;
 		if($query){
@@ -172,13 +176,17 @@ class OA_Finance extends CI_Model
 	 *
 	 * 获取收款
 	 */
-	public function getCollect($offset, $limit)
+	public function getCollect($offset, $limit, $hospitalId = 0)
 	{
 		$info = array();
 		$this->db->select('a.*,b.order_status,c.customer_name');
 		$this->db->from('oa_order_collection as a');
 		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
         $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
+        if($hospitalId != 0){
+        	$this->db->where('c.customer_hospital', $hospitalId);
+			$this->db->where('c.customer_type', 2);
+        }
         $this->db->order_by('a.collection_id','DESC');
 		$query = $this->db->get('', $limit, $offset);
 		if($query){
@@ -192,11 +200,15 @@ class OA_Finance extends CI_Model
 	 * 搜索收款
 	 * @param unknown_type $keyword
 	 */
-	public function searchCollect($keyword)
+	public function searchCollect($keyword, $hospitalId = 0)
 	{
 		$this->db->select('a.*,b.order_status,c.customer_name');
 		$this->db->from('oa_order_collection as a');
 		$this->db->where('customer_name', $keyword);
+		if($hospitalId != 0){
+        	$this->db->where('c.customer_hospital', $hospitalId);
+			$this->db->where('c.customer_type', 2);
+        }
 		$this->db->join('oa_order as b', 'b.order_id = a.order_id');
         $this->db->join('oa_customer as c', 'c.customer_id = b.customer_id');
 		$query = $this->db->get();

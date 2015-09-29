@@ -44,10 +44,14 @@ class Login extends OA_Controller
 		);
 		if($adminInfo['admin_role'] == 0){
 			$info['admin_rights'] = 'all';
+			$info['hospital_id'] = 0;
 		}else{
 			$this->load->model('OA_Role');
 			$roleInfo = $this->OA_Role->getRoleInfo($adminInfo['admin_role']);
 			$info['admin_rights'] = $roleInfo['role_rights'];
+			$this->load->model('OA_Department');
+			$hospitalInfo = $this->OA_Department->getInfoById($adminInfo['admin_department']);
+			$info['hospital_id'] = $hospitalInfo['hospital_id'];
 		}
 		$this->session->set_userdata($info);
 		redirect(formatUrl('home/index'));

@@ -25,12 +25,12 @@ class Worker extends OA_Controller
 		}
 		$this->load->model('OA_Worker');
 		if($this->input->post('keyword')){
-			$dataList = $this->OA_Worker->searchWorker($this->input->post('keyword'));
+			$dataList = $this->OA_Worker->searchWorker($this->input->post('keyword'), $this->hospitalId);
 		}else{
 			$offset = 0;
 			$pageUrl = '';
-			page(formatUrl('worker/index').'?', $this->OA_Worker->getWorkerCount(), PER_COUNT, $offset, $pageUrl);
-			$dataList = $this->OA_Worker->getWorker($offset, PER_COUNT);
+			page(formatUrl('worker/index').'?', $this->OA_Worker->getWorkerCount($this->hospitalId), PER_COUNT, $offset, $pageUrl);
+			$dataList = $this->OA_Worker->getWorker($offset, PER_COUNT, $this->hospitalId);
 			$data['pageUrl'] = $pageUrl;
 		}
 		$this->load->model('OA_Areas');
@@ -79,6 +79,12 @@ class Worker extends OA_Controller
 				exit;
 			}
 			$data['typeMsg'] = '新增';
+		}
+		if($this->hospitalId != 0){
+			$hospitalName = $this->OA_Hospital->getNameList();
+			$data['curHospital'] = $this->hospitalId;
+			$data['curHospitalName'] = $hospitalName[$this->hospitalId];
+			$data['curNInfo'] = $this->OA_Hospital->queryByPid($this->hospitalId);
 		}
 		$data['provinceInfo'] = $provinceInfo;
 		$data['cityInfo'] = $cityInfo;

@@ -50,6 +50,22 @@ class OA_Department extends CI_Model
 		}
 		return $info;
 	}
+	
+	/**
+	 * 
+	 * 通过部门id获取信息
+	 * @param unknown_type $did
+	 */
+	public function getInfoById($did)
+	{
+		$this->db->where('id', $did);
+		$query = $this->db->get($this->_table);
+		$info = array();
+		if($query){
+			$info = $query->row_array();
+		}
+		return $info;
+	}
 
 	/**
 	 *

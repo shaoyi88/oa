@@ -54,7 +54,7 @@ class Hospital extends OA_Controller
 				$ninfo[$v['parent_id']] = $this->OA_Hospital->queryByPid($v['parent_id']);
 			}
 		}
-		$data['hospital'] = $this->OA_Hospital->getNameList();;
+		$data['hospital'] = $this->OA_Hospital->getNameList();
 		$data['dataList'] = $ninfo;
 		$this->showView('hospitalList', $data);
 	}

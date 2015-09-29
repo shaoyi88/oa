@@ -15,17 +15,45 @@ class Department extends OA_Controller
 	public function index()
 	{
 		$data = array();
-		if(checkRight('department_list') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
+		$this->load->model('OA_Department');
+		$data['dataList'] = $this->OA_Department->getListTree(0);
 		if($this->input->get('msg')){
 			$data['msg'] = $this->input->get('msg');
 		}
-		$this->load->model('OA_Department');
-		$data['dataList'] = $this->OA_Department->getListTree(0);
+		$this->load->model('OA_Hospital');
+		$data['hospital'] = $this->OA_Hospital->getNameList();
 		$this->showView('departmentList', $data);
 	} 	
+	
+	/**
+	 * 
+	 * 增加
+	 */
+	public function add()
+	{
+		$data = array();
+		if($this->input->get('did')){
+			if(checkRight('department_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$did = $this->input->get('did');
+			$this->load->model('OA_Department');
+			$data['info'] = $this->OA_Department->getInfoById($did);
+			$data['typeMsg'] = '编辑';
+		}else{
+			if(checkRight('department_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data['typeMsg'] = '新增';
+		}
+		$this->load->model('OA_Department');
+		$data['dataList'] = $this->OA_Department->getListTree(0);
+		$this->load->model('OA_Hospital');
+		$data['hospitalList'] = $this->OA_Hospital->queryByPid(0);
+		$this->showView('departmentAdd', $data);
+	}
 	
 	/**
 	 * 
@@ -34,40 +62,41 @@ class Department extends OA_Controller
 	public function doAdd()
 	{
 		$data = array();
-		if(checkRight('department_add') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
-		$data = $this->input->post();
-		$data['pid'] = $data['pid'] ? $data['pid'] : 0;
-		$this->load->model('OA_Department');
-		$msg = '';
-		$info = $this->OA_Department->getInfo($data['pid'], $data['department_name']);
-		if(!empty($info)){
-			$msg = '?msg='.urlencode('该部门下已存在同名子部门');
+		if($this->input->post('id')){
+			if(checkRight('department_edit') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data = $this->input->post();
+			$data['pid'] = $data['pid'] ? $data['pid'] : 0;
+			$data['hospital_id'] = $data['hospital_id'] ? $data['hospital_id'] : 0;
+			$this->load->model('OA_Department');
+			$msg = '';
+			$info = $this->OA_Department->getInfo($data['pid'], $data['department_name']);
+			if(!empty($info) && $info['id'] != $data['id']){
+				$msg = '?msg='.urlencode('该部门下已存在同名子部门');
+			}else{
+				$this->OA_Department->update($data);
+			}
 		}else{
-			if($this->OA_Department->add($data) === FALSE){
-				$msg = '?msg='.urlencode('创建失败');
+			if(checkRight('department_add') === FALSE){
+				$this->showView('denied', $data);
+				exit;
+			}
+			$data = $this->input->post();
+			$data['pid'] = $data['pid'] ? $data['pid'] : 0;
+			$this->load->model('OA_Department');
+			$msg = '';
+			$info = $this->OA_Department->getInfo($data['pid'], $data['department_name']);
+			if(!empty($info)){
+				$msg = '?msg='.urlencode('该部门下已存在同名子部门');
+			}else{
+				if($this->OA_Department->add($data) === FALSE){
+					$msg = '?msg='.urlencode('创建失败');
+				}
 			}
 		}
 		redirect(formatUrl('department/index'.$msg));
-	}
-	
-	/**
-	 * 
-	 * 编辑
-	 */
-	public function doEdit()
-	{
-		$data = array();
-		if(checkRight('department_edit') === FALSE){
-			$this->showView('denied', $data);
-			exit;
-		}
-		$data = $this->input->post();
-		$this->load->model('OA_Department');
-		$this->OA_Department->update($data);
-		redirect(formatUrl('department/index'));
 	}
 	
 	/**

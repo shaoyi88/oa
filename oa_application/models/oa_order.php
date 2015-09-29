@@ -23,10 +23,13 @@ class OA_Order extends CI_Model
 	 * 搜索订单
 	 * @param unknown_type $keyword
 	 */
-	public function searchOrder($keyword)
+	public function searchOrder($keyword, $hospitalId = 0)
 	{
-		$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id left join `oa_user` as u on o.user_id = u.user_id where ".
-				"o.order_no = '".$keyword."'".
+		$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id left join `oa_user` as u on o.user_id = u.user_id where ";
+		if($hospitalId != 0){
+			$sql .= "c.customer_type = 2 and c.customer_hospital = $hospitalId and ";
+		}
+		$sql .= "o.order_no = '".$keyword."'".
 				" or c.customer_name = '".$keyword."'".
 				" or u.user_name = '".$keyword."'";
 		$query = $this->db->query($sql);
@@ -56,10 +59,14 @@ class OA_Order extends CI_Model
 	 *
 	 * 获取订单
 	 */
-	public function getOrder($offset, $limit)
+	public function getOrder($offset, $limit, $hospitalId = 0)
 	{
 		$info = array();
-		$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id order by order_id desc limit $offset,$limit";
+		if($hospitalId != 0){
+			$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id where c.customer_type = 2 and c.customer_hospital = $hospitalId order by order_id desc limit $offset,$limit";
+		}else{
+			$sql = "select * from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id order by order_id desc limit $offset,$limit";
+		}
 		$query = $this->db->query($sql);
 		if($query){
 			$info = $query->result_array();
@@ -71,9 +78,16 @@ class OA_Order extends CI_Model
 	 *
 	 * 获取订单总数
 	 */
-	public function getOrderCount()
+	public function getOrderCount($hospitalId = 0)
 	{
-		return $this->db->count_all_results($this->_table);
+		if($hospitalId != 0){
+			$sql = "select count(*) as num from `oa_order` as o left join `oa_customer` as c on o.customer_id = c.customer_id where c.customer_type = 2 and c.customer_hospital = $hospitalId";
+			$query = $this->db->query($sql);
+			$info = $query->row_array();
+			return $info['num'];
+		}else{
+			return $this->db->count_all_results($this->_table);
+		}
 	}
 
 	/**

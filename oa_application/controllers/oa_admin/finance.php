@@ -24,12 +24,12 @@ class Finance extends OA_Controller
 		}
 		$this->load->model('OA_Finance');
 		if($this->input->post('keyword')){
-			$dataList = $this->OA_Finance->searchCollect($this->input->post('keyword'));
+			$dataList = $this->OA_Finance->searchCollect($this->input->post('keyword'), $this->hospitalId);
 		}else{
 			$offset = 0;
 			$pageUrl = '';
-			page(formatUrl('finance/collect').'?', $this->OA_Finance->getCollectCount(), PER_COUNT, $offset, $pageUrl);
-			$dataList = $this->OA_Finance->getCollect($offset, PER_COUNT);
+			page(formatUrl('finance/collect').'?', $this->OA_Finance->getCollectCount($this->hospitalId), PER_COUNT, $offset, $pageUrl);
+			$dataList = $this->OA_Finance->getCollect($offset, PER_COUNT, $this->hospitalId);
 			$data['pageUrl'] = $pageUrl;
 		}
 		$data['dataList'] = $dataList;
@@ -105,6 +105,8 @@ class Finance extends OA_Controller
 		$data = $this->input->post();
 		$this->load->model('OA_Finance');
 		$data['payment_time'] = strtotime('now');
+		//echo date('Y-m-d H:i:s', $data['payment_time']);
+		//exit;
 		$data['collection_status'] = 2;
 		$collectInfo = $this->OA_Finance->getCollectInfo($data['collection_id']);
 		$msg = '';

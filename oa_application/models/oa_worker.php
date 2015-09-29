@@ -24,10 +24,13 @@ class OA_Worker extends CI_Model
 	 *
 	 * 获取护工
 	 */
-	public function getWorker($offset, $limit)
+	public function getWorker($offset, $limit, $hospitalId = 0)
 	{
 		$info = array();
 		$this->db->order_by('worker_id', 'DESC');
+		if($hospitalId != 0){
+			$this->db->where('worker_hospital', $hospitalId);
+		}
 		$query = $this->db->get($this->_table, $limit, $offset);
 		if($query){
 			$info = $query->result_array();
@@ -39,8 +42,11 @@ class OA_Worker extends CI_Model
 	 *
 	 * 获取护工数
 	 */
-	public function getWorkerCount()
+	public function getWorkerCount($hospitalId = 0)
 	{
+		if($hospitalId != 0){
+			$this->db->where('worker_hospital', $hospitalId);
+		}
 		return $this->db->count_all_results($this->_table);
 	}
 
@@ -65,8 +71,11 @@ class OA_Worker extends CI_Model
 	 * 搜索护工
 	 * @param unknown_type $keyword
 	 */
-	public function searchWorker($keyword)
+	public function searchWorker($keyword, $hospitalId = 0)
 	{
+		if($hospitalId != 0){
+			$this->db->where('worker_hospital', $hospitalId);
+		} 
 		$this->db->where('worker_no', $keyword);
 		$this->db->or_where('worker_name', $keyword);
 		$this->db->or_where('worker_phone', $keyword);
@@ -195,11 +204,14 @@ class OA_Worker extends CI_Model
 	 * @param unknown_type $serverMode
 	 * @param unknown_type $status
 	 */
-	public function queryWorkerByInfo($serverType, $serverMode, $status)
+	public function queryWorkerByInfo($serverType, $serverMode, $status, $hospitalId = 0)
 	{
 		$this->db->where_in('worker_status', $status);
 		$this->db->where('worker_service', $serverType);
 		$this->db->where('worker_service_mode', $serverMode);
+		if($hospitalId != 0){
+			$this->db->where('worker_hospital', $hospitalId);
+		}
 		$query = $this->db->get($this->_table);
 		if($query){
 			$info = $query->result_array();

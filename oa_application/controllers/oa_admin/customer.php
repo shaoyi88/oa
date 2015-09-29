@@ -24,12 +24,12 @@ class Customer extends OA_Controller
 		}
 		$this->load->model('OA_Customer');
 		if($this->input->post('keyword')){
-			$dataList = $this->OA_Customer->queryCustomerByKey($this->input->post('keyword'));
+			$dataList = $this->OA_Customer->queryCustomerByKey($this->input->post('keyword'), $this->hospitalId);
 		}else{
 			$offset = 0;
 			$pageUrl = '';
-			page(formatUrl('customer/index').'?', $this->OA_Customer->getCustomerCount(), PER_COUNT, $offset, $pageUrl);
-			$dataList = $this->OA_Customer->getCustomer($offset, PER_COUNT);
+			page(formatUrl('customer/index').'?', $this->OA_Customer->getCustomerCount($this->hospitalId), PER_COUNT, $offset, $pageUrl);
+			$dataList = $this->OA_Customer->getCustomer($offset, PER_COUNT, $this->hospitalId);
 			$data['pageUrl'] = $pageUrl;
 		}
 		$data['dataList'] = $dataList;		
@@ -69,6 +69,12 @@ class Customer extends OA_Controller
 				exit;
 			}
 			$data['typeMsg'] = '新增';
+		}
+		if($this->hospitalId != 0){
+			$hospitalName = $this->OA_Hospital->getNameList();
+			$data['curHospital'] = $this->hospitalId;
+			$data['curHospitalName'] = $hospitalName[$this->hospitalId];
+			$data['curNInfo'] = $this->OA_Hospital->queryByPid($this->hospitalId);
 		}
 		$data['hospitalInfo'] = $hospitalInfo;
 		$data['departmentInfo'] = $departmentInfo;
@@ -159,7 +165,7 @@ class Customer extends OA_Controller
 			$key = $this->input->get('key');
 		}
 		$this->load->model('OA_Customer');
-		$customerList = $this->OA_Customer->queryCustomerByKey($key);	
+		$customerList = $this->OA_Customer->queryCustomerByKey($key, $this->hospitalId);	
 		if(empty($customerList)){			
 			$this->send_json(array('status'=>0));
 		}else{

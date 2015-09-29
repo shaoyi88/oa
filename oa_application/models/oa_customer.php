@@ -22,10 +22,14 @@ class OA_Customer extends CI_Model
 	 * 
 	 * 获取客户
 	 */
-	public function getCustomer($offset, $limit)
+	public function getCustomer($offset, $limit, $hospitalId = 0)
 	{
 		$info = array();
 		$this->db->order_by('customer_id','DESC');
+		if($hospitalId != 0){
+			$this->db->where('customer_hospital', $hospitalId);
+			$this->db->where('customer_type', 2);
+		}
 		$query = $this->db->get($this->_table, $limit, $offset);
 		if($query){
 			$info = $query->result_array();
@@ -37,8 +41,12 @@ class OA_Customer extends CI_Model
 	 * 
 	 * 获取客户数
 	 */
-	public function getCustomerCount()
+	public function getCustomerCount($hospitalId = 0)
 	{
+		if($hospitalId != 0){
+			$this->db->where('customer_hospital', $hospitalId);
+			$this->db->where('customer_type', 2);
+		}
 		return $this->db->count_all_results($this->_table);
 	}
 	
@@ -48,6 +56,7 @@ class OA_Customer extends CI_Model
 	 */
 	public function getCustomerCountByKey($query)
 	{
+		
 		$this->db->where($query);
 		return $this->db->count_all_results($this->_table);
 	}
@@ -57,8 +66,12 @@ class OA_Customer extends CI_Model
 	 * 通过id或名字查找客户
 	 * @param unknown_type $key
 	 */
-	public function queryCustomerByKey($key)
+	public function queryCustomerByKey($key, $hospitalId = 0)
 	{
+		if($hospitalId != 0){
+			$this->db->where('customer_hospital', $hospitalId);
+			$this->db->where('customer_type', 2);
+		}
 		$this->db->where('customer_id', $key);
 		$this->db->or_where('customer_name', $key);
 		$info = array();

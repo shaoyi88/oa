@@ -18,6 +18,24 @@
         		</tr>
       		    <tr>
           		     <th class="text-r" width="80">*归属：</th>
+          			 {if isset($curHospital)}
+          			 <td>
+          			 	<select style="width:30%" class="select" id="worker_hospital" name="worker_hospital">
+      							<option value="{$curHospital}">
+      								{$curHospitalName}
+      							</option>
+          			 	</select>
+          			 	&nbsp;
+          			 	<select style="width:30%" class="select" id="worker_stationary" name="worker_stationary" nullmsg="科室不能为空！" datatype="*">
+          			 		<option value="">请选择</option>
+          			 		{foreach $curNInfo as $item}
+      							<option value="{$item['wb_id']}" {if isset($info) && $info['worker_stationary'] == $item['wb_id']}selected{/if}>
+      								{$item['stationary_name']}
+      							</option>
+      						{/foreach}
+          			 	</select>
+          			 </td>
+          			 {else}
           			 <td>
           			 <select target="worker_stationary" style="width:30%" class="select" id="worker_hospital" name="worker_hospital" nullmsg="医院不能为空！" datatype="*">
           			 		<option value="">请选择</option>
@@ -39,6 +57,7 @@
           			 	&nbsp;&nbsp;&nbsp;&nbsp;
           			 	目标医院/科室不存在？<a href="{formatUrl('hospital/Add')}" style="color:#5A98DE;">前往添加</a>
           			 </td>
+          			 {/if}
         		</tr>
         		 <tr>
           		     <th class="text-r" width="80">头像：</th>

@@ -64,6 +64,13 @@
           			 <td>
           			 	<p>
           			 		<strong>医院:&nbsp;&nbsp;</strong>
+          			 		{if isset($curHospital)}
+          			 		<select style="width:50%" class="select" id="customer_hospital" name="customer_hospital">
+      							<option value="{$curHospital}">
+      								{$curHospitalName}
+      							</option>
+    						</select>
+          			 		{else}
           			 		<select  target="customer_hospital_department" style="width:50%" class="select" id="customer_hospital" name="customer_hospital" nullmsg="医院不能为空！" datatype="*">
       							<option value="">请选择医院</option>
       							{foreach $hospitalInfo as $item}
@@ -72,9 +79,20 @@
       							</option>
       							{/foreach}
     						</select>
+    						{/if}
     					</p>
     					<p>
     						<strong>科室:&nbsp;&nbsp;</strong>
+    						{if isset($curNInfo)}
+    						<select style="width:50%" class="select" id="customer_hospital_department" name="customer_hospital_department" nullmsg="科室不能为空！" datatype="s">
+      							<option value="">请选择科室</option>
+      							{foreach $curNInfo as $item}
+      							<option value="{$item['wb_id']}">
+      							{$item['stationary_name']}
+      							</option>
+      							{/foreach}
+    						</select>
+    						{else}
     						<select style="width:50%" class="select" id="customer_hospital_department" name="customer_hospital_department" nullmsg="科室不能为空！" datatype="s">
       							<option value="">请选择科室</option>
       							{foreach $departmentInfo as $item}
@@ -83,6 +101,7 @@
       							</option>
       							{/foreach}
     						</select>
+    						{/if}
     					</p>
     					<p>
     						<strong>床位:&nbsp;&nbsp;</strong>

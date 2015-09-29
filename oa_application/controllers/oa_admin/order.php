@@ -24,12 +24,12 @@ class Order extends OA_Controller
 		}
 		$this->load->model('OA_Order');
 		if($this->input->post('keyword')){
-			$dataList = $this->OA_Order->searchOrder($this->input->post('keyword'));
+			$dataList = $this->OA_Order->searchOrder($this->input->post('keyword'), $this->hospitalId);
 		}else{
 			$offset = 0;
 			$pageUrl = '';
-			page(formatUrl('order/index').'?', $this->OA_Order->getOrderCount(), PER_COUNT, $offset, $pageUrl);
-			$dataList = $this->OA_Order->getOrder($offset, PER_COUNT);
+			page(formatUrl('order/index').'?', $this->OA_Order->getOrderCount($this->hospitalId), PER_COUNT, $offset, $pageUrl);
+			$dataList = $this->OA_Order->getOrder($offset, PER_COUNT, $this->hospitalId);
 			$data['pageUrl'] = $pageUrl;
 		}
 		$data['serviceTypeInfo'] = $this->config->item('customer_service_type');
@@ -99,6 +99,12 @@ class Order extends OA_Controller
 		$data['groupInfo'] = $this->config->item('customer_group');
 		$this->load->model('OA_Hospital');	
 		$data['hospitalInfo'] = $this->OA_Hospital->queryByPid(0);	
+		if($this->hospitalId != 0){
+			$hospitalName = $this->OA_Hospital->getNameList();
+			$data['curHospital'] = $this->hospitalId;
+			$data['curHospitalName'] = $hospitalName[$this->hospitalId];
+			$data['curNInfo'] = $this->OA_Hospital->queryByPid($this->hospitalId);
+		}
 		//订单信息相关
 		$data['order_service_mode'] = $this->config->item('order_service_mode');
 		$data['order_fee_unit'] = $this->config->item('order_fee_unit');
@@ -353,7 +359,7 @@ class Order extends OA_Controller
 		}
 		$order_service_mode = $this->config->item('order_service_mode');
 		$this->load->model('OA_Worker');
-		$data['workerList'] = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2]);
+		$data['workerList'] = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2], $this->hospitalId);
 		$data['isMult'] = $order_service_mode[$orderInfo['service_mode']][3];
 		$data['orderInfo'] = $orderInfo;
 		$data['sexInfo'] = $this->config->item('sex');
@@ -423,7 +429,7 @@ class Order extends OA_Controller
 		}
 		$order_service_mode = $this->config->item('order_service_mode');
 		$this->load->model('OA_Worker');
-		$workerList = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2]);
+		$workerList = $this->OA_Worker->queryWorkerByInfo($orderInfo['service_type'], $order_service_mode[$orderInfo['service_mode']][1], $order_service_mode[$orderInfo['service_mode']][2], $this->hospitalId);
 		foreach($workerList as $worker){
 			if(!in_array($worker['worker_id'], $curWorkerIds)){
 				$data['workerList'][] = $worker;
