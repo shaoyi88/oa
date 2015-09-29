@@ -67,12 +67,12 @@
         <td>{$nInfo[$item['hospital_id']]}</td>
         <td>{$nInfo[$item['stationary_id']]}</td>
         <td>{$item['admin_name']}</td>
-        <td>{date('Y-m-d H:i:s',$item['added_time']+28800)}</td>
+        <td>{date('Y-m-d H:i:s',$item['added_time'])}</td>
         <td>{$item['advice_content']}</td>
         <td>{$item['appointed']}</td>
         <td>{$item['feedback_content']}</td>
         <td>{$hpstatus[$item['advice_status']]}</td>
-        <td>{if $item['advice_status']==3}{date('Y-m-d H:i:s',$item['feedback_time']+28800)}{/if}</td>
+        <td>{if $item['advice_status']==3}{date('Y-m-d H:i:s',$item['feedback_time'])}{/if}</td>
         <td class="f-14">
         	 {if $item['advice_status']==1}
         	     {if $adminid==$item['added_by']}

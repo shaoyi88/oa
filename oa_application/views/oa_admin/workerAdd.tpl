@@ -212,4 +212,4 @@
 <input type="hidden" id="getHospitalsUrl" value="{formatUrl('hospital/getDepartment')}"></input>
 <input type="hidden" id="getCityUrl" value="{formatUrl('areas/getCity')}"></input>
 <script type="text/javascript" src="/public/common/js/hogan-2.0.0.min.js"></script>
-<script type="text/javascript" src="/public/oa_admin/js/worker.js?v=150923"></script>
+<script type="text/javascript" src="/public/oa_admin/js/worker.js?v=150924"></script>

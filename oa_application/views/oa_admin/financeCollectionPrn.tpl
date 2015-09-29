@@ -66,4 +66,4 @@
 </div>
 <input type="hidden" id="billConfirm" value="{formatUrl('finance/confirmBill')}"></input>
 <script type="text/javascript" src="/public/common/js/jquery.jPrintArea.js?v=102"></script>
-<script type="text/javascript" src="/public/oa_admin/js/finance.js?v=103"></script>
+<script type="text/javascript" src="/public/oa_admin/js/finance.js?v=104"></script>

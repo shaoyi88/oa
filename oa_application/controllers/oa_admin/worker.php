@@ -364,7 +364,11 @@ class Worker extends OA_Controller
 		$data['stahos'] = $stahos;
 		$data['comn'] = $comn;
 		$data['comh'] = $comh;
-		$data['totalcom'] = sprintf("%.2f",$totalcom/(3*$totaln));
+		if($totaln>0){
+			$data['totalcom'] = sprintf("%.2f",$totalcom/(3*$totaln));
+		}else{
+			$data['totalcom'] = '-';
+		}
 	    $this->showView('workerComment', $data);
 	   }
 }

@@ -129,4 +129,30 @@ class OA_User extends CI_Model
 		$this->db->where('user_id', $user_id);
 		$this->db->delete($this->_table); 
 	} 
+	
+	/**
+	 * 
+	 * 查询
+	 * @param str openid
+	 */	
+	public function selForwxid($openid){
+		$query = $this->db->get_where($this->_table, array('user_weixin' => $openid));
+		$info = array();
+		if($query){
+			$info = $query->row_array();
+		}
+			
+		return $info;
+	}
+	
+	/**
+	 * 
+	 * 修改
+	 * @param arr (openid,status)
+	 */	
+	public function updateforopenid($data)
+	{
+		$this->db->where('user_weixin', $data['user_weixin']);
+		$this->db->update($this->_table, array('focus_status'=>$data['focus_status'])); 
+	}
 }
