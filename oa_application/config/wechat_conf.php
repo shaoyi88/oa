@@ -230,7 +230,7 @@ $config['service_menus'] = array(
         )
     ),
 	 array(
-        'name' => '潮爸潮妈',
+        'name' => '感恩父母',
         'type' => 'view',
         'key' => 'http://subcribe.ecare-easy.com/health/activity/index',
         'buttons' => null,
