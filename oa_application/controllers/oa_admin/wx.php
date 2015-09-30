@@ -36,7 +36,7 @@ class Wx extends OA_Controller
 
     //微信接入，信息处理
     public function index(){
-		$this->load->model('Oa_User');
+		$this->load->model('Oa_User_Yijianyi','Oa_User');
         $server = new Server($this->appId,$this->token,$this->encodingAESKey);
         $server->on('event', function($event) { 
 		
